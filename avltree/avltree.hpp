@@ -849,18 +849,15 @@ template <
 		}
 
 		//used in the delete method to swap nodes
-		void replace( AvlNode* target, AvlNode* source )
-		{
+		void replace( AvlNode* target, AvlNode* source ) {
 			AvlNode* left = source->getLeft();
 			AvlNode* right = source->getRight();
 
 			target = source;
-			if( left != NULL )
-			{
+			if( left != NULL ) {
 				left->setParent( target );
 			}
-			if( right != NULL )
-			{
+			if( right != NULL ) {
 				right->setParent( target );
 			}
 			//source->destroyNode();
