@@ -319,6 +319,7 @@ template <
 			return removedNodes;
 		}
 
+		/*----------------------------Insert-------------------------------------*/
 		std::pair<iterator,bool> insert( std::pair<Key,Type> value ) {
 			iterator it = find( value.first);
 			if ( it != end() ) {
