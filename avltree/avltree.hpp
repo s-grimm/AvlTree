@@ -322,7 +322,7 @@ template <
 			AvlNode* node = _firstNode;
 			AvlNode* right = node;
 			AvlNode* previous;
-			bool doEnd = true;
+			bool endTraversal = true;
 
 			while ( node != NULL ) {
 				doEnd = true;
@@ -382,7 +382,7 @@ template <
 
 				case Parent:
 					if( node->hasRight() ) {
-						doEnd = false;
+						endTraversal = false;
 					}
 					while ( node->hasParent() ) {
 						previous = node;
@@ -400,12 +400,12 @@ template <
 							}
 							right = node->getRight();
 							_action = right != NULL ? Right : Parent;
-							doEnd = false;
+							endTraversal = false;
 							break;
 						}
 					}
 
-					if( doEnd ) {
+					if( endTraversal ) {
 						if( node->hasRight() ) {
 							right = node->getRight();
 							_action = Begin;
