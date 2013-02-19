@@ -467,100 +467,80 @@ template <
 			choice _action = Begin;
 			AvlNode* node = _firstNode;
 			AvlNode* right = node;
-			AvlNode* prev;
+			AvlNode* previous;
 			bool doEnd = true;
-			while(node != NULL)
-			{
+
+			while ( node != NULL ) {
 				doEnd = true;
-				switch(_action)
-				{
+				switch( _action ) {
 				case Begin:
 					node = right;
-
-					while( node->hasLeft() )
-					{
+					while( node->hasLeft() ) {
 						node = node->getLeft();
 					}
 
 					right = node->getRight();
 					_action = right != NULL ? Right : Parent;
 
-					if(_action == Parent )
-					{
-						if(node->getParent()->getRight() == node)
-						{
+					if ( _action == Parent ) {
+						if ( node->getParent()->getRight() == node ) {
 							node->getParent()->destroyNode();
 							node->setParent( NULL );
 							_action = End;
 							break;
-						}
-						else
-						{
+						} else {
 							node = node->getParent();
 						}
-					}
-					else
-					{
+					} else {
 						node = node->getRight();
 					}
 
 					right = node->getRight();
 					_action = right != NULL ? Right : Parent;
 
-					if( node->hasLeft() )
-					{
+					if( node->hasLeft() ) {
 						node->getLeft()->destroyNode();
 						node->setLeft( NULL );
 					}
-
 					break;
+
 				case Right:
-					prev = node;
+					previous = node;
 					node = right;
 
-					while( node->hasLeft() )
-					{
+					while( node->hasLeft() ) {
 						node = node->getLeft();
 					}
 
 					right = node->getRight();
 					_action = right != NULL ? Right : Parent;
-					if( _action == Parent )
-					{
-						if( node->getParent()->getParent() == NULL && node->getParent() == prev )
-						{
+					if( _action == Parent ) {
+						if( node->getParent()->getParent() == NULL && node->getParent() == previous ) {
 							node->getParent()->destroyNode();
 							node->setParent( NULL );
 						}
 					}
-					if( node->hasLeft() )
-					{
+					if( node->hasLeft() ) {
 						node->getLeft()->destroyNode();
 						node->setLeft( NULL );
 					}
-
 					break;
 
 				case Parent:
-					if(node->hasRight())
-					{
+					if( node->hasRight() ) {
 						doEnd = false;
 					}
-					while ( node->hasParent() )
-					{
-						prev = node;
+					while ( node->hasParent() ) {
+						previous = node;
 						node = node->getParent();
 
-						if( prev->hasRight() )
-						{
-							prev->getRight()->destroyNode();
-							prev->setRight( NULL );
+						if( previous->hasRight() ) {
+							previous->getRight()->destroyNode();
+							previous->setRight( NULL );
 						}
 
-						if( node->getLeft() == prev )
-						{
-							if( node->hasLeft() )
-							{
+						if( node->getLeft() == previous ) {
+							if( node->hasLeft() ) {
 								node->getLeft()->destroyNode();
 								node->setLeft( NULL );
 							}
@@ -570,15 +550,13 @@ template <
 							break;
 						}
 					}
-					if( doEnd )
-					{
-						if(node->hasRight())
-						{
+
+					if( doEnd ) {
+						if( node->hasRight() ) {
 							right = node->getRight();
 							_action = Begin;
 						}
-						else
-						{
+						else {
 							_action = End;
 							node->destroyNode();
 							node = NULL;
@@ -641,54 +619,39 @@ template <
 		\param balance int +1 if deleting a left node / -1 if deleting a right node.
 		\return void
 		*/
-		void deleteBalance( AvlNode* node, int balance )
-		{
-			while (node != null)
-			{
+		void deleteBalance( AvlNode* node, int balance ) {
+			while (node != null) {
 				node->setBalance( node->getBalance() + balance );
 				balance = node->getBalance();
 
-				if (balance == 2)
-				{
-					if (node->hasLeft() && node->getLeft()->getBalance() >= 0)
-					{
+				if (balance == 2) {
+					if (node->hasLeft() && node->getLeft()->getBalance() >= 0) {
 						node = rotateRight(node);
 
-						if ( node->getBalance() == -1 )
-						{
+						if ( node->getBalance() == -1 ) {
 							return;
 						}
-					}
-					else
-					{
+					} else {
 						node = rotateLeftRight(node);
 					}
 				}
-				else if (balance == -2)
-				{
-					if (node->hasRight() && node->getRight()->getBalance() <= 0)
-					{
+				else if (balance == -2) {
+					if ( node->hasRight() && node->getRight()->getBalance() <= 0) {
 						node = rotateLeft(node);
 
-						if (node->getBalance() == 1)
-						{
+						if (node->getBalance() == 1) {
 							return;
 						}
-					}
-					else
-					{
+					} else {
 						node = rotateRightLeft(node);
 					}
 				}
-				else if (balance != 0)
-				{
+				else if (balance != 0) {
 					return;
 				}
 
 				AvlNode* parent = node->getParent();
-
-				if (parent != NULL)
-				{
+				if (parent != NULL) {
 					balance = parent->getLeft() == node ? -1 : 1;
 				}
 
