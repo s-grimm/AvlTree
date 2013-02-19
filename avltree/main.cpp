@@ -46,7 +46,6 @@ int main ( int argc, const char* argv[] )
 		it--;
 		it--;
 
-
 		int count = 0;
 		for (int i = 0; i < 50; ++i)
 		{

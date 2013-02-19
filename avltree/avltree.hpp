@@ -197,6 +197,7 @@ template <
 				--(*this);
 				return(temp);
 			}
+
 			std::pair<Key,Type>& operator * () {
 				return std::pair<Key,Type>( node->first(), node->second() );
 			}
@@ -311,9 +312,9 @@ template <
 		}
 
 		iterator lower_bound( const Key& _Key ) { }
-		const_iterator lower_bound( const Key& _Key ) { }
+		const_iterator lower_bound( const Key& _Key ) const { }
 		iterator upper_bound( const Key& _Key ) { }
-		const_iterator upper_bound( const Key& _Key ) { }
+		const_iterator upper_bound( const Key& _Key ) const { }
 
 		void clear() {
 			enum choice { Begin, End, Right, Parent };
@@ -574,9 +575,6 @@ template <
 		template<class ValTy> std::pair<iterator,bool> insert( const_iterator _Hint, ValTy&& ValTy ) { }
 
 		key_compare key_comp() const { }
-
-		Type& operator[]( const Key& _Key ) { }
-		Type& operator[]( Key&& _Key ) { }
 
 		size_type max_size() const { }
 		size_type size() const { return _size; }
@@ -840,6 +838,11 @@ template <
 				right->setParent( target );
 			}
 			//source->destroyNode();
+		}
+
+		AvlNode* createEndNode()
+		{
+			return AvlNode* endNode( NULL );
 		}
 	};
 #endif
