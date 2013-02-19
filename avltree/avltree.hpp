@@ -34,7 +34,7 @@ template <
 		Class for storing data in the AvlTree class.
 		*/
 		class AvlNode {
-		// private members
+			// private members
 		private:
 			Key			_key;
 			Type		_value;
@@ -68,7 +68,6 @@ template <
 				_value = NULL;
 				_balance = NULL;
 			}
-
 			AvlNode& operator=( AvlNode& rhs ) {
 				_balance = rhs._balance;
 				_data = rhs._value;
@@ -80,7 +79,6 @@ template <
 
 			bool operator == ( AvlNode& rhs ) { return ( _key == rhs._key ); }
 			bool operator != ( AvlNode& rhs ) { return ( _key != rhs._key ); }
-
 		};
 
 	public:
@@ -202,7 +200,7 @@ template <
 			std::pair<Key,Type>& operator * () {
 				return std::pair<Key,Type>( node->first(), node->second() );
 			}
-			
+
 			AvlNode* operator -> () const {
 				return _node;
 			}
@@ -305,163 +303,18 @@ template <
 		const_reverse_iterator	rend() const { return const_reverse_iterator( begin() ); }
 		const_iterator			crend() const { return const_reverse_iterator( begin() ); }
 
-		/*-------------------------------Functions----------------------------------*/
-		iterator erase ( iterator where ) {
-		}
-		iterator erase ( iterator first, iterator last ) {
-		}
-		size_type erase ( const Key& key ) {
-			size_type removedNodes = 0;
-			iterator it = find( key );
-			if ( it == end() ) {
-				return removedNodes;
-			}
-			return removedNodes;
-		}
-
-		/*----------------------------Insert-------------------------------------*/
-		std::pair<iterator,bool> insert( std::pair<Key,Type> value ) {
-			iterator it = find( value.first);
-			if ( it != end() ) {
-				return std::pair<iterator, bool>( it, false );
-			}
-
-			AvlNode* newNode = new AvlNode( value.first, value.second );
-
-			if ( _rootNode == NULL ) {
-				_rootNode = _firstNode = _lastNode = newNode;
-				_size++;
-			} else {
-				AvlNode* currentNode = _rootNode;
-
-				while ( currentNode != NULL ) {
-					bool compare = _comparer( currentNode->first(), newNode->first() );
-
-					if ( compare ) {
-						AvlNode* right = currentNode->getRight();
-						if( right == NULL) {
-							newNode->setParent( currentNode ); 
-							currentNode->setRight( newNode );
-							_size++;
-
-							if ( _comparer( newNode->first(), _firstNode->first() ) ) {
-								_firstNode = newNode;
-							} else if ( !_comparer( newNode->first(), _lastNode->first() ) ) {
-								_lastNode = newNode;
-							}
-
-							insertBalance( currentNode, -1 );
-
-							return std::pair<iterator,bool>( iterator( newNode ), true );
-						} else {
-							currentNode = right;
-						}
-					} else {
-						AvlNode* left = currentNode->getLeft();
-						if ( left == NULL ) {
-							newNode->setParent( currentNode );
-							currentNode->setLeft( newNode );
-							_size++;
-
-							if ( _comparer( newNode->first() , _firstNode->first() ) ) {
-								_firstNode = currentNode;
-							} else if ( !_comparer(  newNode->first(), _lastNode->first() ) ) {
-								_lastNode = newNode;
-							}
-
-							insertBalance( currentNode, +1 );
-
-							return std::pair<iterator,bool>( iterator( newNode ), true );
-						} else {
-							currentNode = left;
-						}
-					}
-				}
-			}
-		}
-
-		size_type max_size() { return 0; } //todo
-
-		size_type size() { return _size; }
-
-
-		/*------------------------Find---------------------------*/
 		Type at (const Key& _Key) {
 			return this->find(_Key)->second();
 		}
-		//! Find Node at Key.
 		const Type at (const Key& _Key) const {
 			return this->find(_Key)->second();
 		}
 
-		size_type count (const Key& _Key) {
-			return this->find(_Key) == NULL ? 0 : 1;
-		}
-		template<class ValTy>
-		std::pair<iterator,bool> emplace (ValTy&& _ValTy) {
-			return this->insert(_ValTy);
-		}
+		iterator lower_bound( const Key& _Key ) { }
+		const_iterator lower_bound( const Key& _Key ) { }
+		iterator upper_bound( const Key& _Key ) { }
+		const_iterator upper_bound( const Key& _Key ) { }
 
-		iterator find ( const Key& key ) {
-			AvlNode* currentNode = _rootNode;
-
-			while ( currentNode != NULL ) {
-				if ( key == currentNode->first() ) {
-					return iterator( currentNode );
-				}
-
-				bool compare = _comparer( currentNode->first(), key );
-				if ( compare ) {
-					AvlNode* right = currentNode->getRight();
-					if ( right == NULL ) {
-						return iterator( NULL );
-					} else {
-						currentNode = right;
-					}
-				} else {
-					AvlNode* left = currentNode->getLeft();
-					if ( left == NULL ) {
-						return iterator( NULL );
-					} else {
-						currentNode = left;
-					}
-				}
-			}
-			return iterator( NULL );
-		}
-
-		const_iterator find ( const Key& key ) const {
-			AvlNode* currentNode = _rootNode;
-
-			while ( currentNode != NULL ) {
-				if ( key == currentNode->first() ) {
-					return iterator( currentNode );
-				}
-			}
-
-			bool compare = _comparer( currentNode->first(), key );
-			if ( compare ) {
-				AvlNode* right = currentNode->getRight();
-				if ( right == NULL ) {
-					return iterator( NULL );
-				} else {
-					currentNode = right;
-				} 
-			} else {
-				AvlNode* left = currentNode->getLeft();
-				if( left == NULL ) {
-					return iterator( NULL );
-				} else {
-					currentNode = left;
-				}
-			}
-			return iterator( NULL );
-		}
-		/*----------------------Clear------------------------*/
-		//! Clears all the nodes of the AvlTree.
-		/*!
-		\return void
-		*/
 		void clear() {
 			enum choice { Begin, End, Right, Parent };
 			choice _action = Begin;
@@ -571,6 +424,168 @@ template <
 				}
 			}
 		}
+
+		size_type count( const Key& _Key ) const {
+			return this->find(_Key) == NULL ? 0 : 1;
+		}
+
+		template<class ValTy>
+		std::pair<iterator,bool> emplace (ValTy&& _ValTy) {
+			return this->insert(_ValTy);
+		}
+		template<class ValTy> std::pair<iterator,bool> emplace_hint( const_iterator _Hint, ValTy&& _ValTy ) { }
+
+		bool empty() { }
+
+		std::pair<iterator,iterator> equal_range ( const Key& _Key ) {
+			return std::pair<iterator,iterator>(this.lower_bound(_Key),this.upper_bound(_Key));
+		}
+
+		iterator erase( iterator _It ) { }
+		iterator erase( iterator _Begin, iterator _End ) { }
+		size_type erase( const Key& _Key ) {
+			size_type removedNodes = 0;
+			iterator it = find( key );
+			if ( it == end() ) {
+				return removedNodes;
+			}
+			return removedNodes;
+		}
+
+		iterator find ( const Key& key ) {
+			AvlNode* currentNode = _rootNode;
+
+			while ( currentNode != NULL ) {
+				if ( key == currentNode->first() ) {
+					return iterator( currentNode );
+				}
+
+				bool compare = _comparer( currentNode->first(), key );
+				if ( compare ) {
+					AvlNode* right = currentNode->getRight();
+					if ( right == NULL ) {
+						return iterator( NULL );
+					} else {
+						currentNode = right;
+					}
+				} else {
+					AvlNode* left = currentNode->getLeft();
+					if ( left == NULL ) {
+						return iterator( NULL );
+					} else {
+						currentNode = left;
+					}
+				}
+			}
+			return iterator( NULL );
+		}
+		const_iterator find ( const Key& key ) const {
+			AvlNode* currentNode = _rootNode;
+
+			while ( currentNode != NULL ) {
+				if ( key == currentNode->first() ) {
+					return iterator( currentNode );
+				}
+			}
+
+			bool compare = _comparer( currentNode->first(), key );
+			if ( compare ) {
+				AvlNode* right = currentNode->getRight();
+				if ( right == NULL ) {
+					return iterator( NULL );
+				} else {
+					currentNode = right;
+				}
+			} else {
+				AvlNode* left = currentNode->getLeft();
+				if( left == NULL ) {
+					return iterator( NULL );
+				} else {
+					currentNode = left;
+				}
+			}
+			return iterator( NULL );
+		}
+
+		allocator_type get_allocator() const { }
+
+		std::pair<iterator,bool> insert( std::pair<Key,Type> value ) {
+			iterator it = find( value.first);
+			if ( it != end() ) {
+				return std::pair<iterator, bool>( it, false );
+			}
+
+			AvlNode* newNode = new AvlNode( value.first, value.second );
+
+			if ( _rootNode == NULL ) {
+				_rootNode = _firstNode = _lastNode = newNode;
+				_size++;
+			} else {
+				AvlNode* currentNode = _rootNode;
+
+				while ( currentNode != NULL ) {
+					bool compare = _comparer( currentNode->first(), newNode->first() );
+
+					if ( compare ) {
+						AvlNode* right = currentNode->getRight();
+						if( right == NULL) {
+							newNode->setParent( currentNode );
+							currentNode->setRight( newNode );
+							_size++;
+
+							if ( _comparer( newNode->first(), _firstNode->first() ) ) {
+								_firstNode = newNode;
+							} else if ( !_comparer( newNode->first(), _lastNode->first() ) ) {
+								_lastNode = newNode;
+							}
+
+							insertBalance( currentNode, -1 );
+
+							return std::pair<iterator,bool>( iterator( newNode ), true );
+						} else {
+							currentNode = right;
+						}
+					} else {
+						AvlNode* left = currentNode->getLeft();
+						if ( left == NULL ) {
+							newNode->setParent( currentNode );
+							currentNode->setLeft( newNode );
+							_size++;
+
+							if ( _comparer( newNode->first() , _firstNode->first() ) ) {
+								_firstNode = currentNode;
+							} else if ( !_comparer(  newNode->first(), _lastNode->first() ) ) {
+								_lastNode = newNode;
+							}
+
+							insertBalance( currentNode, +1 );
+
+							return std::pair<iterator,bool>( iterator( newNode ), true );
+						} else {
+							currentNode = left;
+						}
+					}
+				}
+			}
+		}
+		iterator insert( iterator _Hint, const value_type& _ValTy ) { }
+		template<class InputIterator> void insert( InputIterator _First, InputIterator _Last ) { }
+		template<class ValTy> std::pair<iterator,bool> insert( ValTy&& _ValTy) { }
+		template<class ValTy> std::pair<iterator,bool> insert( const_iterator _Hint, ValTy&& ValTy ) { }
+
+		key_compare key_comp() const { }
+
+		Type& operator[]( const Key& _Key ) { }
+		Type& operator[]( Key&& _Key ) { }
+
+		size_type max_size() const { }
+		size_type size() const { return _size; }
+
+		void swap( avltree<Key,Type,Traits,Allocator>& _Tree ) { }
+		void swap( avltree<Key,Type,Traits,Allocator>& _Tree, avltree<Key,Type,Traits,Allocator>& _Tree2 ) { }
+
+		value_compare value_comp() const { }
+
 	private:
 		/*-----------------------------------------Balancing Methods------------------------------------*/
 		//! Balances the AvlTree after an insert.
@@ -671,7 +686,7 @@ template <
 
 			if ( rightLeft != NULL ) {
 				rightLeft->setParent( node );
-			} 
+			}
 
 			if ( node == _rootNode ) {
 				_rootNode = right;
