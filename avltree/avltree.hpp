@@ -34,19 +34,29 @@ template <
 		Class for storing data in the AvlTree class.
 		*/
 		class AvlNode {
+		// private members
+		private:
+			Key			_key;
+			Type		_value;
+			int			_balance;
+			AvlNode*	_parent;
+			AvlNode*	_left;
+			AvlNode*	_right;
 		public:
-			AvlNode(const Key& key, const Type& val) : _parent(0), _left(0), _right(0), balance(0), key(key), data(val) {};
-			AvlNode(const std::pair<Key, Type>& kp) : _parent(0), _left(0), _right(0), balance(0), key(kp.first), data(kp.second) {};
-			Key first() { return key; }
-			Type second() { return data; }
+			AvlNode( const Key& key, const Type& value ) : _parent(0), _left(0), _right(0), _balance(0), _key(key), _value(value) {};
+			AvlNode( const std::pair<Key, Type>& keyValuePair ) : _parent(0), _left(0), _right(0), _balance(0), _key( keyValuePair.first ), _value( keyValuePair.second ) {};
+			Key first()						{ return _key; }
+			Type second()					{ return _value; }
 			AvlNode* getParent()			{ return _parent; }
 			AvlNode* getRight()				{ return _right; }
 			AvlNode* getLeft()				{ return _left;	}
-			int getBalance()				{ return balance; }
+			int getBalance()				{ return _balance; }
 			void setRight(AvlNode* node)	{ _right = node; }
 			void setLeft(AvlNode* node)		{ _left = node; }
 			void setParent(AvlNode* node)	{ _parent = node; }
-			void setBalance( int bal )		{ balance = bal; }
+			void setBalance(int balance)	{ _balance = balance; }
+			void setKey( Key key )			{ _key = key; }
+			void setValue( Type value )		{ _value = value; }
 
 			bool hasLeft() { return _left != NULL; }
 			bool hasRight() { return _right != NULL; }
@@ -54,30 +64,23 @@ template <
 
 			void destroyNode() {
 				_parent = _left = _right = NULL;
-				key = NULL;
-				data = NULL;
-				balance = NULL;
+				_key = NULL;
+				_value = NULL;
+				_balance = NULL;
 			}
 
 			AvlNode& operator=( AvlNode& rhs ) {
-				balance = rhs.balance;
-				data = rhs.data;
-				key = rhs.key;
+				_balance = rhs._balance;
+				_data = rhs._value;
+				_key = rhs._key;
 				_parent = rhs._parent;
 				_left = rhs._left;
 				_right = rhs._right;
 			}
 
-			bool operator== ( AvlNode& rhs ) { return ( key == rhs.key ); }
-			bool operator!= ( AvlNode& rhs ) { return ( key != rhs.key ); }
+			bool operator == ( AvlNode& rhs ) { return ( _key == rhs._key ); }
+			bool operator != ( AvlNode& rhs ) { return ( _key != rhs._key ); }
 
-		protected:
-			Key key;
-			Type data;
-			int balance;
-			AvlNode* _parent;
-			AvlNode* _left;
-			AvlNode* _right;
 		};
 
 	public:
@@ -87,142 +90,140 @@ template <
 		*/
 		class Iterator {
 		protected:
-			AvlNode* node;
+			AvlNode* _node;
 		private:
-			AvlNode* right;
 			/*key_compare comparer;*/
-			enum TraversalDirection { Right, Left, Parent, End, Begin };
-			TraversalDirection _action;
+			enum TraversalAction { Right, Left, Parent, End, Begin };
+			TraversalAction _action;
+			AvlNode* _right;
 
 		public:
-			Iterator(AvlNode* p) : node(p) {
-				right = p;
-				_action = p == NULL ? End : Begin;
+			Iterator( AvlNode* node ) : _node( node ) {
+				_right = _node;
+				_action = _node == NULL ? End : Begin;
 			}
-			Iterator() : node( NULL ) {
+			Iterator() : _node( NULL ) {
 				_action = End;
 			}
-			~Iterator()	{ node = nullptr; }
+			~Iterator()	{ _node = nullptr; }
 			Iterator& operator=(const Iterator& rhs) {
-				node = rhs.node;
-				right = node;
-				_action = node == NULL ? End : Begin;
+				_node = rhs._node;
+				_right = _node;
+				_action = _node == NULL ? End : Begin;
 				return (*this);
 			}
-			bool operator==(const Iterator& rhs) { return (node == rhs.node); }
-			bool operator!=(const Iterator& rhs) { return (node != rhs.node); }
+			bool operator == ( const Iterator& rhs ) { return ( _node == rhs._node); }
+			bool operator != ( const Iterator& rhs ) { return ( _node != rhs._node); }
 
-			Iterator& operator++()
-			{
-				bool doEnd = true;
-				if( !node->hasRight() && !node->hasLeft() && !node->hasParent() ) //this is the only node.
-				{
+			Iterator& operator ++ () {
+				bool endTraversal = true;
+				if ( !_node->hasRight() && !_node->hasLeft() && !_node->hasParent() ) { // this is the only node.
 					_action = End;
-					node = NULL;
+					_node = NULL;
 				}
-				switch(_action)
-				{
+				switch ( _action ) {
 				case Begin:
-					node = right;
+					_node = _right;
 
-					right = node->getRight();
-					_action = right != NULL ? Right : Parent;
+					_right = _node->getRight();
+					_action = _right != NULL ? Right : Parent;
 
-					if(_action == Parent )
-					{
-						if( node->hasParent() && node->getParent()->getRight() == node ) {
-							if( node->getParent()->hasParent() ) {
-								node = node->getParent()->getParent();
+					if ( _action == Parent ) {
+						if ( _node->hasParent() && _node->getParent()->getRight() == _node ) {
+							if ( _node->getParent()->hasParent() ) {
+								_node = _node->getParent()->getParent();
 							} else {
 								_action = End;
-								node = NULL;
+								_node = NULL;
 								break;
 							}
 						} else {
-							node = node->getParent();
+							_node = _node->getParent();
 						}
 					} else {
-						node = node->getRight();
+						_node = _node->getRight();
 					}
 
-					right = node->getRight();
-					_action = right != NULL ? Right : Parent;
+					_right = _node->getRight();
+					_action = _right != NULL ? Right : Parent;
 
 					break;
 				case Right:
-					node = right;
+					_node = _right;
 
-					while( node->hasLeft() ) {
-						node = node->getLeft();
+					while ( _node->hasLeft() ) {
+						_node = _node->getLeft();
 					}
 
-					right = node->getRight();
-					_action = right != NULL ? Right : Parent;
+					_right = _node->getRight();
+					_action = _right != NULL ? Right : Parent;
 
 					break;
 
 				case Parent:
-					while ( node->hasParent() )	{
-						AvlNode* prev = node;
-						node = node->getParent();
-						if( node->getLeft() == prev ) {
-							right = node->getRight();
-							_action = right != NULL ? Right : Parent;
-							doEnd = false;
+					while ( _node->hasParent() ) {
+						AvlNode* previousNode = _node;
+						_node = _node->getParent();
+						if ( _node->getLeft() == previousNode ) {
+							_right = _node->getRight();
+							_action = _right != NULL ? Right : Parent;
+							endTraversal = false;
 							break;
 						}
 					}
-					if( doEnd )	{
+					if ( endTraversal ) {
 						_action = End;
-						node = NULL;
+						_node = NULL;
 					}
 					break;
 
 				default:
-					node = NULL;
+					_node = NULL;
 					break;
 				}
 				return (*this);
 			}
 
-			Iterator& operator++(int) {
-				Iterator tmp(*this);
+			Iterator& operator ++( int ) {
+				Iterator temp(*this);
 				++(*this);
-				return(tmp);
+				return(temp);
 			}
 
-			Iterator& operator--() {
+			Iterator& operator -- () {
 				return (*this);
 			}
 
-			Iterator& operator--(int) {
-				Iterator tmp(*this);
+			Iterator& operator -- ( int ) {
+				Iterator temp(*this);
 				--(*this);
-				return(tmp);
+				return(temp);
 			}
-			std::pair<Key,Type>& operator*() {
-				return std::pair<Key,Type>(node->first(), node->second());
+			std::pair<Key,Type>& operator * () {
+				return std::pair<Key,Type>( node->first(), node->second() );
 			}
-			AvlNode* operator->() const	{
-				return node;
+			
+			AvlNode* operator -> () const {
+				return _node;
 			}
 		};
-	private:
-		AvlNode* _root;
-		AvlNode* _first;
-		AvlNode* _last;
-		std::size_t _size;
-		key_compare comparer;
+
 		//typedefs
 	public:
 		typedef Iterator									iterator;
 		typedef Iterator const								const_iterator;
 		typedef std::reverse_iterator<iterator>				reverse_iterator;
 		typedef std::reverse_iterator<const_iterator>		const_reverse_iterator;
+	private:
+		AvlNode*	_rootNode;
+		AvlNode*	_firstNode;
+		AvlNode*	_lastNode;
+		std::size_t _size;
+		key_compare	_comparer;
 	public:
 		/******************************************** Constructors *******************************************/
 		avltree() : map() {
-			_root = _first = _last = NULL;
+			_rootNode = _firstNode = _lastNode = NULL;
 			_size = 0;
 		}
 
@@ -245,9 +246,9 @@ template <
 
 		~avltree() {
 			clear();
-			_first = NULL;
-			_last = NULL;
-			_root = NULL;
+			_firstNode = NULL;
+			_lastNode = NULL;
+			_rootNode = NULL;
 		}
 
 		/******************************************** Operators ********************************************/
@@ -290,9 +291,9 @@ template <
 		}
 
 		// iterator
-		iterator				begin() { return Iterator(_first); }
-		const_iterator			begin() const { return Iterator(_first); }
-		const_iterator			cbegin() const { return Iterator(_first); }
+		iterator				begin() { return Iterator( _firstNode ); }
+		const_iterator			begin() const { return Iterator( _firstNode ); }
+		const_iterator			cbegin() const { return Iterator( _firstNode ); }
 		iterator				end() { return Iterator(NULL); }
 		const_iterator			end() const { return Iterator(NULL); }
 		const_iterator			cend() const { return Iterator(NULL); }
@@ -305,67 +306,73 @@ template <
 		const_iterator			crend() const { return const_reverse_iterator( begin() ); }
 
 		/*-------------------------------Functions----------------------------------*/
-		std::pair<iterator, bool> insert(std::pair<Key,Type> val) {
-			iterator it = find(val.first);
-			if( it != end() ) {
-				return std::pair<iterator, bool>(it, false);
+		iterator erase ( iterator where ) {
+		}
+		iterator erase ( iterator first, iterator last ) {
+		}
+		size_type erase ( const Key& key ) {
+			size_type removedNodes = 0;
+			iterator it = find( key );
+			if ( it == end() ) {
+				return removedNodes;
+			}
+			return removedNodes;
+		}
+
+		std::pair<iterator,bool> insert( std::pair<Key,Type> value ) {
+			iterator it = find( value.first);
+			if ( it != end() ) {
+				return std::pair<iterator, bool>( it, false );
 			}
 
-			AvlNode* n = new AvlNode(val.first,val.second);
-			if( _root == NULL ) {
-				_root = n;
-				_first = n;
-				_last = n;
+			AvlNode* newNode = new AvlNode( value.first, value.second );
+
+			if ( _rootNode == NULL ) {
+				_rootNode = _firstNode = _lastNode = newNode;
 				_size++;
-				return std::pair<iterator, bool>( iterator( n ), true );
-			}
-			else {
-				AvlNode* rNode = _root;
-				while ( rNode != NULL ) {
-					bool compare = comparer( rNode->first(), n->first() );
+			} else {
+				AvlNode* currentNode = _rootNode;
 
-					if(compare) { // Go Right
-						AvlNode* right = rNode->getRight();
+				while ( currentNode != NULL ) {
+					bool compare = _comparer( currentNode->first(), newNode->first() );
+
+					if ( compare ) {
+						AvlNode* right = currentNode->getRight();
 						if( right == NULL) {
-							n->setParent(rNode);
-							rNode->setRight(n);
-							_size ++;
+							newNode->setParent( currentNode ); 
+							currentNode->setRight( newNode );
+							_size++;
 
-							if( comparer( n->first(), _first->first() ) ) {
-								_first = n;
+							if ( _comparer( newNode->first(), _firstNode->first() ) ) {
+								_firstNode = newNode;
+							} else if ( !_comparer( newNode->first(), _lastNode->first() ) ) {
+								_lastNode = newNode;
 							}
-							else if( !comparer(  n->first(), _last->first() ) ) {
-								_last = n;
-							}
 
-							insertBalance( rNode, -1 );
+							insertBalance( currentNode, -1 );
 
-							return std::pair<iterator, bool>( iterator( n ), true );
+							return std::pair<iterator,bool>( iterator( newNode ), true );
+						} else {
+							currentNode = right;
 						}
-						else {
-							rNode = right;
-						}
-					}
-					else { // Go Left
-						AvlNode* left = rNode->getLeft();
-						if( left == NULL ) {
-							n->setParent(rNode);
-							rNode->setLeft(n);
-							_size ++;
+					} else {
+						AvlNode* left = currentNode->getLeft();
+						if ( left == NULL ) {
+							newNode->setParent( currentNode );
+							currentNode->setLeft( newNode );
+							_size++;
 
-							if(comparer( n->first(), _first->first() ) ) {
-								_first = n;
-							}
-							else if( !comparer( n->first(), _last->first() ) ) {
-								_last = n;
+							if ( _comparer( newNode->first() , _firstNode->first() ) ) {
+								_firstNode = currentNode;
+							} else if ( !_comparer(  newNode->first(), _lastNode->first() ) ) {
+								_lastNode = newNode;
 							}
 
-							insertBalance( rNode, 1 );
+							insertBalance( currentNode, +1 );
 
-							return std::pair<iterator, bool>( iterator( n ), true );
-						}
-						else {
-							rNode = left;
+							return std::pair<iterator,bool>( iterator( newNode ), true );
+						} else {
+							currentNode = left;
 						}
 					}
 				}
@@ -394,68 +401,60 @@ template <
 			return this->insert(_ValTy);
 		}
 
-		iterator find (const Key& _Key) {
-			AvlNode* rNode = _root;
+		iterator find ( const Key& key ) {
+			AvlNode* currentNode = _rootNode;
 
-			while (rNode != NULL) {
-				if (_Key == rNode->first()) {
-					return Iterator(rNode);
+			while ( currentNode != NULL ) {
+				if ( key == currentNode->first() ) {
+					return iterator( currentNode );
 				}
 
-				bool compare = comparer(rNode->first(), _Key);
-
-				if (compare) {
-					AvlNode* right = rNode->getRight();
-					if( right == NULL) {
-						return iterator(NULL);
+				bool compare = _comparer( currentNode->first(), key );
+				if ( compare ) {
+					AvlNode* right = currentNode->getRight();
+					if ( right == NULL ) {
+						return iterator( NULL );
+					} else {
+						currentNode = right;
 					}
-					else {
-						rNode = right;
-					}
-				}
-				else {
-					AvlNode* left = rNode->getLeft();
-					if( left == NULL) {
-						return iterator(NULL);
-					}
-					else {
-						rNode = left;
+				} else {
+					AvlNode* left = currentNode->getLeft();
+					if ( left == NULL ) {
+						return iterator( NULL );
+					} else {
+						currentNode = left;
 					}
 				}
 			}
-			return iterator(NULL);
+			return iterator( NULL );
 		}
 
-		const_iterator find (const Key& _Key) const {
-			AvlNode* rNode = _root;
+		const_iterator find ( const Key& key ) const {
+			AvlNode* currentNode = _rootNode;
 
-			while (rNode != NULL) {
-				if (_Key == rNode->first()) {
-					return Iterator(rNode);
-				}
-
-				bool compare = comparer(rNode->first(), _Key);
-
-				if (compare) {
-					AvlNode* right = rNode->getRight();
-					if( right == NULL) {
-						return iterator(NULL);
-					}
-					else {
-						rNode = right;
-					}
-				}
-				else {
-					AvlNode* left = rNode->getLeft();
-					if( left == NULL) {
-						return iterator(NULL);
-					}
-					else {
-						rNode = left;
-					}
+			while ( currentNode != NULL ) {
+				if ( key == currentNode->first() ) {
+					return iterator( currentNode );
 				}
 			}
-			return iterator(NULL);
+
+			bool compare = _comparer( currentNode->first(), key );
+			if ( compare ) {
+				AvlNode* right = currentNode->getRight();
+				if ( right == NULL ) {
+					return iterator( NULL );
+				} else {
+					currentNode = right;
+				} 
+			} else {
+				AvlNode* left = currentNode->getLeft();
+				if( left == NULL ) {
+					return iterator( NULL );
+				} else {
+					currentNode = left;
+				}
+			}
+			return iterator( NULL );
 		}
 		/*----------------------Clear------------------------*/
 		//! Clears all the nodes of the AvlTree.
@@ -465,7 +464,7 @@ template <
 		void clear() {
 			enum choice { Begin, End, Right, Parent };
 			choice _action = Begin;
-			AvlNode* node = _first;
+			AvlNode* node = _firstNode;
 			AvlNode* right = node;
 			AvlNode* prev;
 			bool doEnd = true;
@@ -601,48 +600,38 @@ template <
 		\param balance int +1 if adding a left node / -1 if adding a right node.
 		\return void
 		*/
-		void insertBalance( AvlNode* node, int balance )
-		{
-			while ( node != NULL )
-			{
+		void insertBalance( AvlNode* node, int balance ) {
+			while ( node != NULL ) {
 				node->setBalance( node->getBalance() + balance );
 				balance = node->getBalance();
 
-				if ( balance == 0 ) return;
-				else if ( balance == 2 )
-				{
-					if ( node->getLeft()->getBalance() == 1 )
-					{
+				if ( balance == 0 ) {
+					return;
+				} else if ( balance == 2 ) {
+					if ( node->getLeft()->getBalance() == 1 ) {
 						rotateRight( node );
-					}
-					else
-					{
+					} else {
 						rotateLeftRight( node );
 					}
 
 					return;
-				}
-				else if ( balance == -2 )
-				{
-					if ( node->getRight()->getBalance() == -1 )
-					{
+				} else if ( balance == -2 ) {
+					if ( node->getRight()->getBalance() == -1 ) {
 						rotateLeft( node );
-					}
-					else
-					{
+					} else {
 						rotateRightLeft( node );
 					}
 
 					return;
-				} // end of rotating
-
-				AvlNode* parent = node->getParent();
-				if ( parent != NULL )
-				{
-					balance = parent->getLeft() == node ? 1 : -1;
 				}
 
-				node = parent;
+				AvlNode* parentNode = node->getParent();
+
+				if ( parentNode != NULL ) {
+					balance = parentNode->getLeft() == node ? 1 : -1;
+				}
+
+				node = parentNode;
 			}
 		}
 		//! Balances the AvlTree after deletion.
@@ -706,8 +695,7 @@ template <
 			}
 		}
 		//For rotating the tree left to balance
-		AvlNode* rotateLeft( AvlNode* node )
-		{
+		AvlNode* rotateLeft( AvlNode* node ) {
 			AvlNode* right = node->getRight();
 			AvlNode* rightLeft = right->getLeft();
 			AvlNode* parent = node->getParent();
@@ -717,29 +705,26 @@ template <
 			node->setRight( rightLeft );
 			node->setParent( right );
 
-			if( rightLeft != NULL )
-			{
+			if ( rightLeft != NULL ) {
 				rightLeft->setParent( node );
-			}
-			if ( node == _root )
-			{
-				_root = right;
-			}
-			else if ( parent->getRight() == node )
-			{
+			} 
+
+			if ( node == _rootNode ) {
+				_rootNode = right;
+			} else if ( parent->getRight() == node ) {
 				parent->setRight( right );
-			}
-			else
-			{
+			} else {
 				parent->setLeft( right );
 			}
-			right->setBalance( right-> getBalance() + 1 );
-			node->setBalance( -right->getBalance() );
+
+			right->setBalance( right->getBalance() + 1 );
+			node->setBalance( -( right->getBalance() ) );
+
 			return right;
 		}
+
 		//For rotating the tree right to balance
-		AvlNode* rotateRight( AvlNode* node )
-		{
+		AvlNode* rotateRight( AvlNode* node ) {
 			AvlNode* left = node->getLeft();
 			AvlNode* leftRight = left->getRight();
 			AvlNode* parent = node->getParent();
@@ -749,29 +734,26 @@ template <
 			node->setLeft( leftRight );
 			node->setParent( left );
 
-			if( leftRight != NULL )
-			{
+			if ( leftRight != NULL ) {
 				leftRight->setParent( node );
 			}
-			if ( node == _root )
-			{
-				_root = left;
-			}
-			else if ( parent->getLeft() == node )
-			{
+
+			if ( node == _rootNode ) {
+				_rootNode = left;
+			} else if ( parent->getLeft() == node ) {
 				parent->setLeft( left );
-			}
-			else
-			{
+			} else {
 				parent->setRight( left );
 			}
-			left->setBalance( left-> getBalance() - 1 );
-			node->setBalance( -left->getBalance() );
+
+			left->setBalance( left->getBalance() - 1 );
+			node->setBalance( -( left->getBalance() ) );
+
 			return left;
 		}
+
 		//For rotating the tree left then right to balance
-		AvlNode* rotateLeftRight( AvlNode* node )
-		{
+		AvlNode* rotateLeftRight( AvlNode* node ) {
 			AvlNode* left = node->getLeft();
 			AvlNode* leftRight = left->getRight();
 			AvlNode* parent = node->getParent();
@@ -786,39 +768,29 @@ template <
 			left->setParent( leftRight );
 			node->setParent( leftRight );
 
-			if( leftRightRight != NULL )
-			{
+			if ( leftRightRight != NULL ) {
 				leftRightRight->setParent( node );
 			}
-			if( leftRightLeft != NULL )
-			{
+
+			if ( leftRightLeft != NULL ) {
 				leftRightLeft->setParent( left );
 			}
-			if( node == _root )
-			{
-				_root = leftRight;
-			}
-			else if( parent->getLeft() == node )
-			{
+
+			if ( node == _rootNode ) {
+				_rootNode = leftRight;
+			} else if ( parent->getLeft() == node ) {
 				parent->setLeft( leftRight );
-			}
-			else
-			{
+			} else {
 				parent->setRight( leftRight );
 			}
 
-			if( leftRight->getBalance() == -1 )
-			{
+			if ( leftRight->getBalance() == -1 ) {
 				node->setBalance( 0 );
 				left->setBalance( 1 );
-			}
-			else if( leftRight->getBalance() == 0 )
-			{
+			} else if ( leftRight->getBalance() == 0 ) {
 				node->setBalance( 0 );
 				left->setBalance( 0 );
-			}
-			else
-			{
+			} else {
 				node->setBalance( -1 );
 				left->setBalance( 0 );
 			}
@@ -827,9 +799,9 @@ template <
 
 			return leftRight;
 		}
+
 		//For rotating the tree right then left to balance
-		AvlNode* rotateRightLeft( AvlNode* node )
-		{
+		AvlNode* rotateRightLeft( AvlNode* node ) {
 			AvlNode* right = node->getRight();
 			AvlNode* rightLeft = right->getLeft();
 			AvlNode* parent = node->getParent();
@@ -844,41 +816,29 @@ template <
 			right->setParent( rightLeft );
 			node->setParent( rightLeft );
 
-			if ( rightLeftLeft != NULL )
-			{
+			if ( rightLeftLeft != NULL ) {
 				rightLeftLeft->setParent( node );
 			}
 
-			if ( rightLeftRight != NULL )
-			{
+			if ( rightLeftRight != NULL ) {
 				rightLeftRight->setParent( right );
 			}
 
-			if ( node == _root )
-			{
-				_root = rightLeft;
-			}
-			else if ( parent->getRight() == node )
-			{
+			if ( node == _rootNode ) {
+				_rootNode = rightLeft;
+			} else if ( parent->getRight() == node ) {
 				parent->setRight( rightLeft );
-			}
-			else
-			{
+			} else {
 				parent->setLeft( rightLeft );
 			}
 
-			if( rightLeft->getBalance() == 1 )
-			{
+			if( rightLeft->getBalance() == 1 ) {
 				node->setBalance( 0 );
 				right->setBalance( -1 );
-			}
-			else if ( rightLeft->getBalance() == 0 )
-			{
+			} else if ( rightLeft->getBalance() == 0 ) {
 				node->setBalance( 0 );
 				right->setBalance( 0 );
-			}
-			else
-			{
+			} else {
 				node->setBalance( 1 );
 				right->setBalance( 0 );
 			}
@@ -887,6 +847,7 @@ template <
 
 			return rightLeft;
 		}
+
 		//used in the delete method to swap nodes
 		void replace( AvlNode* target, AvlNode* source )
 		{
