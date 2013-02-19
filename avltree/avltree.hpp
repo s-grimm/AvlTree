@@ -325,7 +325,7 @@ template <
 			bool endTraversal = true;
 
 			while ( node != NULL ) {
-				doEnd = true;
+				endTraversal = true;
 				switch( _action ) {
 				case Begin:
 					node = right;
