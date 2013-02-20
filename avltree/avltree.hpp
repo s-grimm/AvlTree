@@ -55,15 +55,15 @@ template <
 			void setLeft(AvlNode* node)		{ _left = node; }
 			void setParent(AvlNode* node)	{ _parent = node; }
 			void setBalance(int balance)	{ _balance = balance; }
-			void setKey( Key key )			{ _key = key; }
-			void setValue( Type value )		{ _value = value; }
+			void setKey( Key& key )			{ _key = key; }
+			void setValue( Type& value )		{ _value = value; }
 
 			bool hasLeft() { return _left != NULL; }
 			bool hasRight() { return _right != NULL; }
 			bool hasParent() { return _parent != NULL; }
 
 			void destroyNode() {
-				_parent = _left = _right = NULL;
+				_parent = _left = _right = nullptr;
 				_key = NULL;
 				_value = NULL;
 				_balance = NULL;
@@ -103,7 +103,12 @@ template <
 			Iterator() : _node( NULL ) {
 				_action = End;
 			}
-			~Iterator()	{ _node = nullptr; }
+			~Iterator()	{
+				if( _node != NULL ){
+					//_node->destroyNode();
+					_node=nullptr;
+				}
+			}
 			Iterator& operator=(const Iterator& rhs) {
 				_node = rhs._node;
 				_right = _node;
@@ -348,31 +353,31 @@ template <
 		}
 
 		iterator find ( const Key& key ) {
-			AvlNode* currentNode = _rootNode;
+			if( _rootNode != NULL ){
+				AvlNode* currentNode = _rootNode;
 
-			while ( currentNode != NULL ) {
-				if ( key == currentNode->first() ) {
-					return iterator( currentNode );
-				}
-
-				bool compare = _comparer( currentNode->first(), key );
-				if ( compare ) {
-					AvlNode* right = currentNode->getRight();
-					if ( right == NULL ) {
-						return iterator( NULL );
-					} else {
-						currentNode = right;
+				while ( currentNode != NULL ) {
+					if ( key == currentNode->first() ) {
+						return iterator( currentNode );
 					}
-				} else {
-					AvlNode* left = currentNode->getLeft();
-					if ( left == NULL ) {
-						return iterator( NULL );
+
+					bool compare = _comparer( currentNode->first(), key );
+					if ( compare ) {
+						if ( !currentNode->hasRight() ) {
+							break;
+						} else {
+							currentNode = currentNode->getRight();
+						}
 					} else {
-						currentNode = left;
+						if ( !currentNode->hasLeft() ) {
+							break;
+						} else {
+							currentNode = currentNode->getLeft();
+						}
 					}
 				}
 			}
-			return iterator( NULL );
+			return end();
 		}
 		const_iterator find ( const Key& key ) const {
 			AvlNode* currentNode = _rootNode;
@@ -422,8 +427,7 @@ template <
 					bool compare = _comparer( currentNode->first(), newNode->first() );
 
 					if ( compare ) {
-						AvlNode* right = currentNode->getRight();
-						if( right == NULL) {
+						if( !currentNode->hasRight() ) {
 							newNode->setParent( currentNode );
 							currentNode->setRight( newNode );
 							_size++;
@@ -438,11 +442,10 @@ template <
 
 							return std::pair<iterator,bool>( iterator( newNode ), true );
 						} else {
-							currentNode = right;
+							currentNode = currentNode->getRight();
 						}
 					} else {
-						AvlNode* left = currentNode->getLeft();
-						if ( left == NULL ) {
+						if ( !currentNode->hasLeft() ) {
 							newNode->setParent( currentNode );
 							currentNode->setLeft( newNode );
 							_size++;
@@ -457,7 +460,7 @@ template <
 
 							return std::pair<iterator,bool>( iterator( newNode ), true );
 						} else {
-							currentNode = left;
+							currentNode = currentNode->getLeft();
 						}
 					}
 				}
@@ -734,12 +737,17 @@ template <
 			//source->destroyNode();
 		}
 
-		void clearHelper (AvlNode* node) {
-			if (node->hasLeft())
-				clearHelper(node->getLeft());
-			if (node->hasRight())
-				clearHelper(node->getRight());
-			node->destroyNode();
+		void clearHelper ( AvlNode* node ) {
+			if( node != NULL ){
+				if ( node->hasLeft() ) {
+					clearHelper( node->getLeft() );
+				}
+				if ( node->hasRight() ) {
+					clearHelper( node->getRight() );
+				}
+				node->destroyNode();
+				delete( node );
+			}
 		}
 	};
 #endif
