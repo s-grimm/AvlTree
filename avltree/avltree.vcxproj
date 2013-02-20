@@ -84,7 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ut_avltree.cpp" />
-    <ClCompile Include="ut_avltree_at.cpp" />
+    <ClCompile Include="ut_avltree_iterator_operators.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

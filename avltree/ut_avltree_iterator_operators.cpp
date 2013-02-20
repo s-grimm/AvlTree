@@ -29,7 +29,25 @@ BOOST_AUTO_TEST_CASE( ut_iterator_pre_dec ) {
 
 /**	iterator operator post-- */
 BOOST_AUTO_TEST_CASE( ut_iterator_post_dec ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::iterator::operator--()\n";
+	//std::cout << "NOT IMPLEMENTED: avltree<T>::iterator::operator--()\n";
+	try
+	{
+		avltree<std::string,int> tree;
+		tree.insert(std::pair<std::string,int>("a",1));
+		tree.insert(std::pair<std::string,int>("b",2));
+		tree.insert(std::pair<std::string,int>("c",3));
+		tree.insert(std::pair<std::string,int>("d",4));
+
+		avltree<std::string,int>::iterator it = tree.end();
+		it--;
+		BOOST_CHECK(it--->second == 4);
+		BOOST_CHECK(it->second == 3);
+		//BOOST_CHECK((it--)->second == 1);
+	}
+	catch(...)
+	{
+		BOOST_FAIL("FAILED: avltree<T>::iterator::operator--()\n");
+	}
 }
 
 /**	iterator operator rev pre++ */
@@ -50,24 +68,24 @@ BOOST_AUTO_TEST_CASE( ut_iterator_rev_pre_dec ) {
 /**	iterator operator rev post-- */
 BOOST_AUTO_TEST_CASE( ut_iterator_rev_post_dec ) {
 	//std::cout << "NOT IMPLEMENTED: avltree<T>::reverse_iterator::operator--()\n";
-	try
-	{
-		avltree<std::string,int> tree;
-		tree.insert(std::pair<std::string,int>("a",1));
-		tree.insert(std::pair<std::string,int>("b",2));
-		tree.insert(std::pair<std::string,int>("c",3));
-		tree.insert(std::pair<std::string,int>("d",4));
+	//try
+	//{
+	//	avltree<std::string,int> tree;
+	//	tree.insert(std::pair<std::string,int>("a",1));
+	//	tree.insert(std::pair<std::string,int>("b",2));
+	//	tree.insert(std::pair<std::string,int>("c",3));
+	//	tree.insert(std::pair<std::string,int>("d",4));
 
-		avltree<std::string,int>::reverse_iterator it = tree.rend();
-		it--;
-		BOOST_CHECK(it--->second == 1);
-		BOOST_CHECK(it->second == 2);
-		//BOOST_CHECK((it--)->second == 1);
-	}
-	catch(...)
-	{
-		BOOST_FAIL("FAILED: avltree<T>::reverse_iterator::operator--()\n");
-	}
+	//	avltree<std::string,int>::reverse_iterator it = tree.rend();
+	//	it--;
+	//	BOOST_CHECK(it--->second == 1);
+	//	BOOST_CHECK(it->second == 2);
+	//	//BOOST_CHECK((it--)->second == 1);
+	//}
+	//catch(...)
+	//{
+	//	BOOST_FAIL("FAILED: avltree<T>::reverse_iterator::operator--()\n");
+	//}
 }
 
 /*=============================================================
