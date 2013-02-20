@@ -323,6 +323,8 @@ template <
 
 		void clear() {
 			clearHelper( _rootNode );
+			_size = 0;
+			_rootNode = _lastNode = _firstNode = NULL;
 		}
 
 		size_type count( const Key& _Key ) const {
@@ -335,7 +337,7 @@ template <
 		}
 		template<class ValTy> std::pair<iterator,bool> emplace_hint( const_iterator _Hint, ValTy&& _ValTy ) { }
 
-		bool empty() { }
+		bool empty() { return _size == 0; }
 
 		std::pair<iterator,iterator> equal_range ( const Key& _Key ) {
 			return std::pair<iterator,iterator>(this.lower_bound(_Key),this.upper_bound(_Key));
