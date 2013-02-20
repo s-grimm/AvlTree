@@ -45,7 +45,7 @@ template <
 		public:
 			AvlNode( const Key& key, const Type& value ) : _parent(0), _left(0), _right(0), _balance(0), _key(key), _value(value) {};
 			AvlNode( const std::pair<Key, Type>& keyValuePair ) : _parent(0), _left(0), _right(0), _balance(0), _key( keyValuePair.first ), _value( keyValuePair.second ) {};
-			Key& first()						{ return _key; }
+			Key& first()					{ return _key; }
 			Type& second()					{ return _value; }
 			AvlNode* getParent()			{ return _parent; }
 			AvlNode* getRight()				{ return _right; }
@@ -270,39 +270,39 @@ template <
 		}
 
 		// relational operators
-		bool avltree::operator==(const avltree &rhs) const {
+		bool avltree::operator == ( const avltree &rhs ) const {
 			return *(std::map<Key,Type,Traits,Allocator>*)this == *(std::map<Key,Type,Traits,Allocator>*) &rhs;
 		}
-		bool avltree::operator!=(const avltree &rhs) const {
+		bool avltree::operator != ( const avltree &rhs ) const {
 			return *(std::map<Key,Type,Traits,Allocator>*)this != *(std::map<Key,Type,Traits,Allocator>*) &rhs;
 		}
-		bool avltree::operator<(const avltree &rhs) const {
+		bool avltree::operator < ( const avltree &rhs ) const {
 			return *(std::map<Key,Type,Traits,Allocator>*)this < *(std::map<Key,Type,Traits,Allocator>*) &rhs;
 		}
-		bool avltree::operator>(const avltree &rhs) const {
+		bool avltree::operator > ( const avltree &rhs ) const {
 			return *(std::map<Key,Type,Traits,Allocator>*)this > *(std::map<Key,Type,Traits,Allocator>*) &rhs;
 		}
-		bool avltree::operator<=(const avltree &rhs) const {
+		bool avltree::operator <= ( const avltree &rhs ) const {
 			return *(std::map<Key,Type,Traits,Allocator>*)this <= *(std::map<Key,Type,Traits,Allocator>*) &rhs;
 		}
-		bool avltree::operator>=(const avltree &rhs) const {
+		bool avltree::operator >= ( const avltree &rhs ) const {
 			return *(std::map<Key,Type,Traits,Allocator>*)this >= *(std::map<Key,Type,Traits,Allocator>*) &rhs;
 		}
 
 		// iterator
-		iterator				begin() { return Iterator( _firstNode ); }
-		const_iterator			begin() const { return Iterator( _firstNode ); }
-		const_iterator			cbegin() const { return Iterator( _firstNode ); }
-		iterator				end() { return Iterator(NULL); }
-		const_iterator			end() const { return Iterator(NULL); }
-		const_iterator			cend() const { return Iterator(NULL); }
+		iterator				begin()			{ return Iterator( _firstNode ); }
+		const_iterator			begin() const	{ return Iterator( _firstNode ); }
+		const_iterator			cbegin() const	{ return Iterator( _firstNode ); }
+		iterator				end()			{ return Iterator( NULL ); }
+		const_iterator			end() const		{ return Iterator( NULL ); }
+		const_iterator			cend() const	{ return Iterator( NULL ); }
 
-		reverse_iterator		rbegin() { return reverse_iterator( end() ); }
-		const_reverse_iterator	rbegin() const { return const_reverse_iterator( end() ); }
+		reverse_iterator		rbegin()		{ return reverse_iterator( end() ); }
+		const_reverse_iterator	rbegin() const	{ return const_reverse_iterator( end() ); }
 		const_iterator			crbegin() const { return const_reverse_iterator( end() ); }
-		reverse_iterator		rend() { return reverse_iterator( begin() ); }
-		const_reverse_iterator	rend() const { return const_reverse_iterator( begin() ); }
-		const_iterator			crend() const { return const_reverse_iterator( begin() ); }
+		reverse_iterator		rend()			{ return reverse_iterator( begin() ); }
+		const_reverse_iterator	rend() const	{ return const_reverse_iterator( begin() ); }
+		const_iterator			crend() const	{ return const_reverse_iterator( begin() ); }
 
 		Type& at (const Key& _Key) {
 			return this->find(_Key)->second();
