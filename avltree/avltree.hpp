@@ -45,8 +45,8 @@ template <
 		public:
 			AvlNode( const Key& key, const Type& value ) : _parent(0), _left(0), _right(0), _balance(0), _key(key), _value(value) {};
 			AvlNode( const std::pair<Key, Type>& keyValuePair ) : _parent(0), _left(0), _right(0), _balance(0), _key( keyValuePair.first ), _value( keyValuePair.second ) {};
-			Key first()						{ return _key; }
-			Type second()					{ return _value; }
+			Key& first()						{ return _key; }
+			Type& second()					{ return _value; }
 			AvlNode* getParent()			{ return _parent; }
 			AvlNode* getRight()				{ return _right; }
 			AvlNode* getLeft()				{ return _left;	}
@@ -304,10 +304,10 @@ template <
 		const_reverse_iterator	rend() const { return const_reverse_iterator( begin() ); }
 		const_iterator			crend() const { return const_reverse_iterator( begin() ); }
 
-		Type at (const Key& _Key) {
+		Type& at (const Key& _Key) {
 			return this->find(_Key)->second();
 		}
-		const Type at (const Key& _Key) const {
+		const Type& at (const Key& _Key) const {
 			return this->find(_Key)->second();
 		}
 
@@ -317,113 +317,7 @@ template <
 		const_iterator upper_bound( const Key& _Key ) const { }
 
 		void clear() {
-			enum choice { Begin, End, Right, Parent };
-			choice _action = Begin;
-			AvlNode* node = _firstNode;
-			AvlNode* right = node;
-			AvlNode* previous;
-			bool endTraversal = true;
-
-			while ( node != NULL ) {
-				endTraversal = true;
-				switch( _action ) {
-				case Begin:
-					node = right;
-					while( node->hasLeft() ) {
-						node = node->getLeft();
-					}
-
-					right = node->getRight();
-					_action = right != NULL ? Right : Parent;
-
-					if ( _action == Parent ) {
-						if ( node->getParent()->getRight() == node ) {
-							node->getParent()->destroyNode();
-							node->setParent( NULL );
-							_action = End;
-							break;
-						} else {
-							node = node->getParent();
-						}
-					} else {
-						node = node->getRight();
-					}
-
-					right = node->getRight();
-					_action = right != NULL ? Right : Parent;
-
-					if( node->hasLeft() ) {
-						node->getLeft()->destroyNode();
-						node->setLeft( NULL );
-					}
-					break;
-
-				case Right:
-					previous = node;
-					node = right;
-
-					while( node->hasLeft() ) {
-						node = node->getLeft();
-					}
-
-					right = node->getRight();
-					_action = right != NULL ? Right : Parent;
-					if( _action == Parent ) {
-						if( node->getParent()->getParent() == NULL && node->getParent() == previous ) {
-							node->getParent()->destroyNode();
-							node->setParent( NULL );
-						}
-					}
-					if( node->hasLeft() ) {
-						node->getLeft()->destroyNode();
-						node->setLeft( NULL );
-					}
-					break;
-
-				case Parent:
-					if( node->hasRight() ) {
-						endTraversal = false;
-					}
-					while ( node->hasParent() ) {
-						previous = node;
-						node = node->getParent();
-
-						if( previous->hasRight() ) {
-							previous->getRight()->destroyNode();
-							previous->setRight( NULL );
-						}
-
-						if( node->getLeft() == previous ) {
-							if( node->hasLeft() ) {
-								node->getLeft()->destroyNode();
-								node->setLeft( NULL );
-							}
-							right = node->getRight();
-							_action = right != NULL ? Right : Parent;
-							endTraversal = false;
-							break;
-						}
-					}
-
-					if( endTraversal ) {
-						if( node->hasRight() ) {
-							right = node->getRight();
-							_action = Begin;
-						}
-						else {
-							_action = End;
-							node->destroyNode();
-							node = NULL;
-						}
-					}
-					break;
-
-				default:
-					node->destroyNode();
-					node = NULL;
-					break;
-				}
-			}
+			clearHelper( _rootNode );
 		}
 
 		size_type count( const Key& _Key ) const {
@@ -840,9 +734,12 @@ template <
 			//source->destroyNode();
 		}
 
-		AvlNode* createEndNode()
-		{
-			return AvlNode* endNode( NULL );
+		void clearHelper (AvlNode* node) {
+			if (node->hasLeft())
+				clearHelper(node->getLeft());
+			if (node->hasRight())
+				clearHelper(node->getRight());
+			node->destroyNode();
 		}
 	};
 #endif
