@@ -465,6 +465,8 @@ template <
 					}
 				}
 			}
+			//should never hit this, but just incase it is here;
+			return std::pair<iterator, bool>(iterator( NULL ), false );
 		}
 		iterator insert( iterator _Hint, const value_type& _ValTy ) { }
 		template<class InputIterator> void insert( InputIterator _First, InputIterator _Last ) { }
