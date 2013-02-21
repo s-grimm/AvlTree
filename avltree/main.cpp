@@ -7,7 +7,7 @@ int main ( int argc, const char* argv[] )
 	try{
 		
 		using namespace avl;
-		avltree<std::string,int> tree;
+		avltree<int,int> tree;
 	}
 	catch(...)
 	{

@@ -27,6 +27,9 @@
     <ClInclude Include="avl_tree.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="avl_utilities.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

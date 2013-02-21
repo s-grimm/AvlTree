@@ -84,6 +84,7 @@
     <ClInclude Include="avl_iterator.hpp" />
     <ClInclude Include="avl_node.hpp" />
     <ClInclude Include="avl_tree.hpp" />
+    <ClInclude Include="avl_utilities.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

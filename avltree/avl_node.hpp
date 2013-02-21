@@ -3,8 +3,11 @@
 namespace avl{
 	template <class tree>
 	struct avl_node {
+	private:
 		typedef typename tree::key_type			Key;
 		typedef typename tree::mapped_type		Type;
+		typedef typename tree::value_type		value_type;
+	public:
 		typedef avl_node*						node_ptr;
 		typedef const avl_node*					const_node_ptr;
 		node_ptr _parentNode, _leftNode, _rightNode;
@@ -14,7 +17,7 @@ namespace avl{
 		//c'tors
 		avl_node(): _balance(0), _parentNode(NULL), _leftNode(NULL), _rightNode(NULL) {} //header node c'tor
 		avl_node( const Key& key, const Type& value ) : first(key), second(value), _balance(0), _parentNode(NULL), _leftNode(NULL), _rightNode(NULL) { }
-		avl_node( const std::pair<Key,Type>& data ) : first(data.first), second(data.second), _balance(0), _parentNode(NULL), _leftNode(NULL), _rightNode(NULL) { }
+		avl_node( const value_type& data ) : first(data.first), second(data.second), _balance(0), _parentNode(NULL), _leftNode(NULL), _rightNode(NULL) { }
 		//d'tors
 		~avl_node(){
 			_parentNode = _leftNode = _rightNode = nullptr;
