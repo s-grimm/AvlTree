@@ -17,6 +17,33 @@ namespace avl{
 			header = new node();
 		}
 
+		static bool is_header( const const_node_ptr & p ) {
+			node_ptr p_left (node::get_left(p));
+			node_ptr p_right (node::get_right(p));
+			if(!node::get_parent(p) || //Header condition when empty tree
+				(p_left && p_right &&         //Header always has leftmost and rightmost
+				(p_left == p_right ||      //Header condition when only node
+				(node::get_parent(p_left)  != p ||
+				node::get_parent(p_right) != p ))
+				//When tree size > 1 headers can't be leftmost's
+				//and rightmost's parent
+				)) {
+					return true;
+			}
+			return false;
+		}
+
+		static node_ptr get_header(const const_node_ptr & node) {
+			node_ptr h = node::to_ptr( node );
+			if(node::get_parent(node)) {
+				h = node::get_parent(node);
+				while(!is_header(h)) {
+					h = node::get_parent(h);
+				}
+			}
+			return h;
+		}
+
 		static node_ptr next_node(const node_ptr & node) {
 			node_ptr p_right( node::get_right( node ) );
 			if( p_right ) {
@@ -67,33 +94,6 @@ namespace avl{
 					node = p_right;
 			}
 			return node;
-		}
-
-		static bool is_header( const const_node_ptr & p ) {
-			node_ptr p_left (node::get_left(p));
-			node_ptr p_right (node::get_right(p));
-			if(!node::get_parent(p) || //Header condition when empty tree
-				(p_left && p_right &&         //Header always has leftmost and rightmost
-				(p_left == p_right ||      //Header condition when only node
-				(node::get_parent(p_left)  != p ||
-				node::get_parent(p_right) != p ))
-				//When tree size > 1 headers can't be leftmost's
-				//and rightmost's parent
-				)) {
-					return true;
-			}
-			return false;
-		}
-
-		static node_ptr get_header(const const_node_ptr & node) {
-			node_ptr h = node::to_ptr( node );
-			if(node::get_parent(node)) {
-				h = node::get_parent(node);
-				while(!is_header(h)) {
-					h = node::get_parent(h);
-				}
-			}
-			return h;
 		}
 
 		//Clears node and all children of node recursively
