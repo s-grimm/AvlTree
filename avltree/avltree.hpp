@@ -5,7 +5,7 @@
 #include <memory> // std::allocator
 #include <utility> // std::pair
 #include <iterator> //std::reverse_iterator
-
+//#include "avl_node.hpp"
 // to remove
 #include <map>
 //!  AvlTree Class
@@ -21,13 +21,14 @@ template <
 	class avltree : public std::map<Key,Type> {
 		//non iterator typedefs
 	public:
-		typedef std::pair<const Key, Type>					value_type;
-		typedef Allocator									allocator_type;
-		typedef typename allocator_type::size_type			size_type;
-		typedef typename allocator_type::reference			reference;
-		typedef Key											key_type;
-		typedef Type										mapped_type;
-		typedef Traits										key_compare;
+		typedef std::pair<const Key, Type>							value_type;
+		typedef Allocator											allocator_type;
+		typedef typename allocator_type::size_type					size_type;
+		typedef typename allocator_type::reference					reference;
+		typedef Key													key_type;
+		typedef Type												mapped_type;
+		typedef Traits												key_compare;
+		//typedef avlnode< avltree< Key, Type, Traits, Allocator> >	anode;
 	private:
 		//!  AvlNode
 		/*!
@@ -56,7 +57,7 @@ template <
 			void setParent(AvlNode* node)	{ _parent = node; }
 			void setBalance(int balance)	{ _balance = balance; }
 			void setKey( Key& key )			{ _key = key; }
-			void setValue( Type& value )		{ _value = value; }
+			void setValue( Type& value )	{ _value = value; }
 
 			bool hasLeft() { return _left != NULL; }
 			bool hasRight() { return _right != NULL; }
