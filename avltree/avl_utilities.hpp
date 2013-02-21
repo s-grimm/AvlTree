@@ -100,6 +100,20 @@ namespace avl{
 			}
 			return h;
 		}
+
+		void clearHelper ( node_ptr node ) {
+			if( node != NULL ){
+				node_ptr p_left (node::get_left(node));
+				node_ptr p_right(node::get_right(node));
+				if ( p_left ) {
+					clearHelper( p_left );
+				}
+				if ( p_right ) {
+					clearHelper( p_right );
+				}
+				delete( node );
+			}
+		}
 	};
 }//end namespace avl
 #endif
