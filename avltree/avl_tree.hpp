@@ -63,7 +63,7 @@ namespace avl{
 				std::cout << "l " << utilities::is_header( l ) << std::endl;
 				std::cout << "r " << utilities::is_header( r ) << std::endl;
 				std::cout << "****************************************" << std::endl;
-				std::cout << node::get_right( _header )->first << std::endl;
+				std::cout << "get_header on r : " << utilities::is_header( utilities::get_header( r ) ) << std::endl;
 			}
 
 			~avltree()

@@ -24,7 +24,16 @@ namespace avl{
 			_balance = 0;
 		}
 
-		avl_node& operator = ( const node_ptr rhs ) {
+		avl_node& operator = ( const node_ptr & rhs ) {
+			_balance = rhs->_balance;
+			first = rhs->first;
+			second = rhs->second;
+			_parentNode = rhs->_parentNode;
+			_leftNode = rhs->_leftNode;
+			_rightNode = rhs->_rightNode;
+		}
+
+		avl_node& operator = ( const const_node_ptr & rhs ) {
 			_balance = rhs->_balance;
 			first = rhs->first;
 			second = rhs->second;
@@ -79,6 +88,17 @@ namespace avl{
 
 		static void set_balance(const node_ptr & node, int balance) {
 			node->_balance = balance;
+		}
+
+		static node_ptr to_ptr ( const const_node_ptr & rhs ){
+			node_ptr node = new avl_node();
+			node->_balance = rhs->_balance;
+			node->first = rhs->first;
+			node->second = rhs->second;
+			node->_parentNode = rhs->_parentNode;
+			node->_leftNode = rhs->_leftNode;
+			node->_rightNode = rhs->_rightNode;
+			return node;
 		}
 	};//end avlnode
 } //end namespace avl

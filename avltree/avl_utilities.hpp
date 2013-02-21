@@ -92,7 +92,7 @@ namespace avl{
 
 		static node_ptr get_header(const const_node_ptr & node)
 		{
-			node_ptr h = node;
+			node_ptr h = node::to_ptr( node );
 			if(node::get_parent(node)){
 				h = node::get_parent(node);
 				while(!is_header(h))
