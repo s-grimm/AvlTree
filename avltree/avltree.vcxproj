@@ -81,10 +81,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="avltree.hpp" />
+    <ClInclude Include="avl_iterator.hpp" />
+    <ClInclude Include="avl_node.hpp" />
+    <ClInclude Include="avl_tree.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ut_avltree.cpp" />
-    <ClCompile Include="ut_avltree_iterator_operators.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
