@@ -40,8 +40,8 @@ BOOST_AUTO_TEST_CASE( ut_iterator_post_dec ) {
 
 		avltree<std::string,int>::iterator it = tree.end();
 		it--;
-		BOOST_CHECK(it--->second() == 4);
-		BOOST_CHECK(it->second() == 3);
+		BOOST_CHECK(it--->second == 4);
+		BOOST_CHECK(it->second == 3);
 		//BOOST_CHECK((it--)->second == 1);
 	}
 	catch(...)
