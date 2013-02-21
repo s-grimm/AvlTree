@@ -702,7 +702,6 @@ template <
 			if ( rightLeftRight != NULL ) {
 				rightLeftRight->setParent( right );
 			}
-
 			if ( node == _rootNode ) {
 				_rootNode = rightLeft;
 			} else if ( parent->getRight() == node ) {
