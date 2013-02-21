@@ -32,7 +32,6 @@ namespace avl{
 			_leftNode = rhs->_leftNode;
 			_rightNode = rhs->_rightNode;
 		}
-
 		avl_node& operator = ( const const_node_ptr & rhs ) {
 			_balance = rhs->_balance;
 			first = rhs->first;
@@ -41,6 +40,10 @@ namespace avl{
 			_leftNode = rhs->_leftNode;
 			_rightNode = rhs->_rightNode;
 		}
+		bool operator == ( const node_ptr& rhs ) { return ( first == rhs->first ); }
+		bool operator == ( const const_node_ptr& rhs ) { return ( first == rhs->first ); }
+		bool operator != ( const node_ptr& rhs ) { return ( first != rhs->first ); }
+		bool operator != ( const const_node_ptr& rhs ) { return ( first != rhs->first ); }
 
 		static node_ptr get_parent( const const_node_ptr & node ) {
 			return node->_parentNode;
