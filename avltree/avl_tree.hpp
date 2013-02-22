@@ -38,43 +38,6 @@ namespace avl{
 			avltree()
 			{
 				utilities::init_header( _header );
-				node_ptr n = new node(2, 1);
-				node::set_parent( n, _header  );
-				std::cout << "1st Check" << std::endl;
-				std::cout << "_header " << utilities::is_header( _header ) << std::endl;
-				std::cout << "n " << utilities::is_header( n ) << std::endl;
-				node::set_parent( _header, n  );
-				node::set_left( _header, n );
-				node::set_right( _header, n );
-				std::cout << "2nd Check" << std::endl;
-				std::cout << "_header " << utilities::is_header( _header ) << std::endl;
-				std::cout << "n " << utilities::is_header( n ) << std::endl;
-				node_ptr l = new node(1,1);
-				node::set_parent( l, n  );
-				node::set_left( _header, l );
-				node::set_left( n, l );
-				node_ptr r = new node(3,1);
-				node::set_parent( r, n  );
-				node::set_right( _header, r );
-				node::set_right( n, r );
-				std::cout << "3rd Check" << std::endl;
-				std::cout << "_header " << utilities::is_header( _header ) << std::endl;
-				std::cout << "n " << utilities::is_header( n ) << std::endl;
-				std::cout << "l " << utilities::is_header( l ) << std::endl;
-				std::cout << "r " << utilities::is_header( r ) << std::endl;
-				std::cout << "****************************************" << std::endl;
-				std::cout << "get_header checks" << std::endl;
-				std::cout << "get_header on n : " << utilities::is_header( utilities::get_header( n ) ) << std::endl;
-				std::cout << "get_header on l : " << utilities::is_header( utilities::get_header( l ) ) << std::endl;
-				std::cout << "get_header on r : " << utilities::is_header( utilities::get_header( r ) ) << std::endl;
-				std::cout << "****************************************" << std::endl;
-				std::cout << "get_header == _header checks" << std::endl;
-				bool isMatchn = utilities::get_header( n ) == _header;
-				bool isMatchl = utilities::get_header( l ) == _header;
-				bool isMatchr = utilities::get_header( r ) == _header;
-				std::cout << "get_header on n : " <<  isMatchn  << std::endl;
-				std::cout << "get_header on l : " <<  isMatchl  << std::endl;
-				std::cout << "get_header on r : " <<  isMatchr  << std::endl;
 			}
 
 			~avltree()
