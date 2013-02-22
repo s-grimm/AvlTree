@@ -156,6 +156,100 @@ namespace avl{
 			return left;
 		}
 
+		static node_ptr rotate_left_right( node_ptr node ) {
+			node_ptr left = node::get_left( node );
+			node_ptr leftRight = node::get_right( left );
+			node_ptr parent = node::get_parent( node );
+			node_ptr leftRightRight = node::get_right( leftRight );
+			node_ptr leftRightLeft = node::get_left( leftRight );
+
+			node::set_parent( leftRight, parent );
+			node::set_left( node, leftRightRight );
+			node::set_right( left, leftRightLeft );
+			node::set_left( leftRight, left );
+			node::set_right( leftRight, node );
+			node::set_parent( left, leftRight );
+			node::set_parent( node, leftRight );
+
+			if ( leftRightRight ) {
+				node::set_parent( leftRightRight, node );
+			}
+
+			if ( leftRightLeft ) {
+				node::set_parent( leftRightLeft, left );
+			}
+
+			if ( is_header( node::get_parent( leftRight ) ) ) {			// node was root
+				node::set_parent( get_header( node ), leftRight );
+			} else if ( node::get_left( parent ) == node ) {
+				node::set_left( parent, LeftRight );
+			} else {
+				node::set_right( parent, leftRight );
+			}
+
+			if ( node::get_balance( leftRight ) == 1 ) {
+				node::set_balance( node, 0 );
+				node::set_balance( left, 1 );
+			} else if ( node::get_balance( leftRight ) == 0 ) {
+				node::set_balance( node, 0 );
+				node::set_balance( left, 0 );
+			} else {
+				node::set_balance( node, -1 );
+				node::set_balance( left, 0 );
+			}
+
+			node::set_balance( leftRight, 0 );
+
+			return leftRight;
+		}
+
+		static node_ptr rotate_right_left( node_ptr node ) {
+			node_ptr right = node::get_right( node );
+			node_ptr rightLeft = node::get_left( right );
+			node_ptr parent = node::get_parent( node );
+			node_ptr rightLeftLeft = node::get_left( rightLeft );
+			node_ptr rightLeftRight = node::get_right( rightLeft );
+
+			node::set_parent( rightLeft, parent );
+			node::set_right( node, rightLeftLeft );
+			node::set_left( right, rightLeftRight );
+			node::set_right( rightLeft, right );
+			node::set_left( rightLeft, node );
+			node::set_parent( right, rightLeft );
+			node::set_parent( node, rightLeft );
+
+			if ( rightLeftLeft ) {
+				node::set_parent( rightLeftLeft, node );
+			}
+
+			if ( rightLeftRight ) {
+				node::set_parent( rightLeftRight, right );
+			}
+
+			if ( is_header( node::get_parent( rightLeft ) ) ) {			// node was root
+				node::set_parent( get_header( node ), rightLeft );
+			} else if ( node::get_right( parent ) == node ) {
+				node::set_right( parent, rightLeft );
+			} else {
+				node::set_left( parent, rightLeft );
+			}
+
+			if ( node::get_balance( rightLeft ) == 1 ) {
+				node::set_balance( node, 0 );
+				node::set_balance( right, 1 );
+			} else if ( node::get_balance( rightLeft ) == 0 ) {
+				node::set_balance( node, 0 );
+				node::set_balance( right, 0 );
+			} else {
+				node::set_balance( node, -1 );
+				node::set_balance( right, 0 );
+			}
+
+			node::set_balance( rightLeft, 0 );
+
+			return rightLeft;
+		}
+
 		//Clears node and all children of node recursively
 		//param node - node from which to start
 		static void clear_tree ( node_ptr& node ) {
