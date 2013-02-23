@@ -19,19 +19,19 @@ int main ( int argc, const char* argv[] )
 		tree.insert(intPair(11,1));
 		tree.insert(intPair(12,1));
 
-		avltree<int,int>::iterator it;
+		avltree<int,int>::reverse_iterator it;
 		//std::map<int,int>::iterator it;
-		/*	for( it = tree.begin(); it != tree.end(); ++it )
+		for( it = tree.rbegin(); it != tree.rend(); ++it )
 		{
 		std::cout<< it->first << " : ";
 		}
-		std::cout << std::endl;*/
+		std::cout << std::endl;
 		/*	for( it = tree.end(); it != tree.begin(); --it )
 		{
 		std::cout<< it->first << " : ";
 		}
 		std::cout << std::endl;*/
-		it = tree.begin();
+		it = tree.rbegin();
 		std::cout << it->first << " : " << it->second << std::endl;
 		it->second = 10;
 		std::cout << it->first << " : " << it->second << std::endl;

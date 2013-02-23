@@ -5,24 +5,32 @@ namespace avl{
 	template <class tree>
 	class avl_iterator {
 	public:
-		typedef typename tree::node				node;
-		typedef typename tree::node_ptr			node_ptr;
-		typedef typename tree::const_node_ptr	const_node_ptr;
-		typedef typename tree::utilities		utilities;
-		typedef typename tree::value_type		value_type;
+		typedef typename tree::node					node;
+		typedef typename tree::node_ptr				node_ptr;
+		typedef typename tree::value_type*			pointer;// for std reverse iterator
+		typedef typename tree::value_type&			reference;
+		typedef typename tree::const_node_ptr		const_node_ptr;
+		typedef typename tree::utilities			utilities;
+		typedef typename tree::value_type			value_type;
+		typedef std::bidirectional_iterator_tag		iterator_category;
+		typedef std::ptrdiff_t						difference_type;
+
 	private:
 		node_ptr _node;
 	public:
 		avl_iterator() : _node()  { }
 		avl_iterator( const node_ptr node ) : _node ( node ) { }
+		avl_iterator( const avl_iterator& iterator ) {
+			(*this) = iterator;
+		}
 		~avl_iterator() { _node = NULL; }
 
 		avl_iterator& operator=(const avl_iterator& rhs) {
 			_node = rhs._node;
 			return (*this);
 		}
-		bool operator == ( const avl_iterator& rhs ) { return ( _node == rhs._node); }
-		bool operator != ( const avl_iterator& rhs ) { return ( _node != rhs._node); }
+		bool operator == ( const avl_iterator& rhs ) const { return ( _node == rhs._node); }
+		bool operator != ( const avl_iterator& rhs ) const { return ( _node != rhs._node); }
 
 		avl_iterator& operator++()
 		{
