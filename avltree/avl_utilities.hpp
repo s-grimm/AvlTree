@@ -100,7 +100,38 @@ namespace avl{
 			return node;
 		}
 
-		static node_ptr rotate_left( node_ptr node ) {
+		static void insert_balance( node_ptr& node, int balance ) {
+			while ( node && !is_header( node ) ) {
+				node::set_balance( node, ( node::get_balance( node ) + balance ) );
+				balance = node::get_balance( node );
+
+				if ( balance == 0 ) {
+					return;
+				} else if ( balance == 2 ) {
+					if( node::get_balance( node::get_left( node ) ) == 1 ) {
+						rotate_right( node );
+					} else {
+						rotate_left_right( node );
+					}
+					return;
+				} else if ( balance == -2 ) {
+					if ( node::get_balance( node::get_right( node ) ) == -1 ) {
+						rotate_left( node );
+					} else {
+						rotate_right_left( node );
+					}
+					return;
+				}
+
+				node_ptr parentNode = node::get_parent( node );
+				if ( parentNode && !is_header( parentNode ) ) {
+					balance = node::get_left( parentNode ) == node ? 1 : -1;
+				}
+				node = parentNode;
+			}
+		}
+
+		static node_ptr rotate_left( node_ptr& node ) {
 			node_ptr right ( node::get_right( node ) );
 			node_ptr rightLeft ( node::get_left( right ) );
 			node_ptr parent ( node::get_parent( node ) );
@@ -119,7 +150,7 @@ namespace avl{
 			} else if ( node::get_right( parent ) == node ) {		// node was right branch of parent node
 				node::set_right( parent, right );
 			} else {												// node was left branch of parent node
-				node::set_left( parent, right )
+				node::set_left( parent, right );
 			}
 
 			node::set_balance( right, ( node::get_balance( right ) + 1 ) );
@@ -128,7 +159,7 @@ namespace avl{
 			return right;
 		}
 
-		static node_ptr rotate_right( node_ptr node ) {
+		static node_ptr rotate_right( node_ptr& node ) {
 			node_ptr left = node::get_left( node );
 			node_ptr leftRight = node::get_right( left );
 			node_ptr parent = node::get_parent( node );
@@ -139,15 +170,15 @@ namespace avl{
 			node::set_parent( node, left );
 
 			if ( leftRight ) {
-				node::setParent( leftRight, node );
+				node::set_parent( leftRight, node );
 			}
 
 			if ( is_header( node::get_parent( left ) ) ) {			// node was root
-				node::set_parent( get_header( node ), left );		
+				node::set_parent( get_header( node ), left );
 			} else if ( node::get_left( parent ) == node ) {		// node was left branch of parent node
 				node::set_left( parent, left );
 			} else {												// node was right branch of parent node
-				node::set_right( parent, left );				
+				node::set_right( parent, left );
 			}
 
 			node::set_balance( left, ( node::get_balance( left ) + 1 ) );
@@ -156,7 +187,7 @@ namespace avl{
 			return left;
 		}
 
-		static node_ptr rotate_left_right( node_ptr node ) {
+		static node_ptr rotate_left_right( node_ptr& node ) {
 			node_ptr left = node::get_left( node );
 			node_ptr leftRight = node::get_right( left );
 			node_ptr parent = node::get_parent( node );
@@ -182,7 +213,7 @@ namespace avl{
 			if ( is_header( node::get_parent( leftRight ) ) ) {			// node was root
 				node::set_parent( get_header( node ), leftRight );
 			} else if ( node::get_left( parent ) == node ) {
-				node::set_left( parent, LeftRight );
+				node::set_left( parent, leftRight );
 			} else {
 				node::set_right( parent, leftRight );
 			}
@@ -203,7 +234,7 @@ namespace avl{
 			return leftRight;
 		}
 
-		static node_ptr rotate_right_left( node_ptr node ) {
+		static node_ptr rotate_right_left( node_ptr& node ) {
 			node_ptr right = node::get_right( node );
 			node_ptr rightLeft = node::get_left( right );
 			node_ptr parent = node::get_parent( node );
