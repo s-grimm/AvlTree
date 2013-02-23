@@ -135,7 +135,7 @@ namespace avl{
 			node_ptr right ( node::get_right( node ) );
 			node_ptr rightLeft ( node::get_left( right ) );
 			node_ptr parent ( node::get_parent( node ) );
-			bool isHeader = is_header( parent );
+			bool isHeader = is_header( parent ); //get header before changing links
 			node::set_parent( right, parent );
 			node::set_left( right, node );
 			node::set_right( node, rightLeft );
