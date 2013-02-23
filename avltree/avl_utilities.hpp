@@ -135,7 +135,7 @@ namespace avl{
 			node_ptr right ( node::get_right( node ) );
 			node_ptr rightLeft ( node::get_left( right ) );
 			node_ptr parent ( node::get_parent( node ) );
-
+			bool isHeader = is_header( parent );
 			node::set_parent( right, parent );
 			node::set_left( right, node );
 			node::set_right( node, rightLeft );
@@ -145,7 +145,7 @@ namespace avl{
 				node::set_parent( rightLeft, node );
 			}
 			//parent
-			if ( is_header( parent ) ) {			// node was root
+			if ( isHeader ) {			// node was root
 				node::set_parent( parent, right );
 			} else if ( node::get_right( parent ) == node ) {		// node was right branch of parent node
 				node::set_right( parent, right );
@@ -163,7 +163,7 @@ namespace avl{
 			node_ptr left = node::get_left( node );
 			node_ptr leftRight = node::get_right( left );
 			node_ptr parent = node::get_parent( node );
-
+			bool isHeader = is_header( parent );
 			node::set_parent( left, parent );
 			node::set_right( left, node );
 			node::set_left( node, leftRight );
@@ -173,7 +173,7 @@ namespace avl{
 				node::set_parent( leftRight, node );
 			}
 
-			if ( is_header( parent ) ) {			// node was root
+			if ( isHeader ) {			// node was root
 				node::set_parent( parent, left );
 			} else if ( node::get_left( parent ) == node ) {		// node was left branch of parent node
 				node::set_left( parent, left );
@@ -193,7 +193,7 @@ namespace avl{
 			node_ptr parent = node::get_parent( node );
 			node_ptr leftRightRight = node::get_right( leftRight );
 			node_ptr leftRightLeft = node::get_left( leftRight );
-
+			bool isHeader = is_header( parent );
 			node::set_parent( leftRight, parent );
 			node::set_left( node, leftRightRight );
 			node::set_right( left, leftRightLeft );
@@ -210,7 +210,7 @@ namespace avl{
 				node::set_parent( leftRightLeft, left );
 			}
 
-			if ( is_header( parent ) ) {			// node was root
+			if ( isHeader ) {			// node was root
 				node::set_parent( parent, leftRight );
 			} else if ( node::get_left( parent ) == node ) {
 				node::set_left( parent, leftRight );
@@ -240,7 +240,7 @@ namespace avl{
 			node_ptr parent = node::get_parent( node );
 			node_ptr rightLeftLeft = node::get_left( rightLeft );
 			node_ptr rightLeftRight = node::get_right( rightLeft );
-
+			bool isHeader = is_header( parent );
 			node::set_parent( rightLeft, parent );
 			node::set_right( node, rightLeftLeft );
 			node::set_left( right, rightLeftRight );
@@ -257,7 +257,7 @@ namespace avl{
 				node::set_parent( rightLeftRight, right );
 			}
 
-			if ( is_header( parent ) ) {			// node was root
+			if ( isHeader ) {			// node was root
 				node::set_parent( parent, rightLeft );
 			} else if ( node::get_right( parent ) == node ) {
 				node::set_right( parent, rightLeft );
