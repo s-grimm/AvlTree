@@ -66,6 +66,14 @@ namespace avl{
 			const_reverse_iterator	rend() const	{ return const_reverse_iterator( begin() ); }
 			const_iterator			crend() const	{ return const_reverse_iterator( begin() ); }
 
+			Type& at( const Key& key ) {
+				return this->find(key)->second;
+			}
+
+			const Type& at( const Key& key ) const {
+				return this->find(key)->second;
+			}
+
 			//insert
 			std::pair<iterator,bool> insert( const value_type& value ) {
 				/*iterator it = find( value.first);

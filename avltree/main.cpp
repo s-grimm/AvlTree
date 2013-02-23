@@ -1,36 +1,47 @@
 #include <iostream>
 #include "avl_tree.hpp"
+#include <map>
 
 int main ( int argc, const char* argv[] )
 {
 	typedef std::pair<int,int> intPair;
-	try{
-		using namespace avl;
-		avltree<int,int> tree;
-		tree.insert(intPair(1,1));
-		tree.insert(intPair(2,1));
-		tree.insert(intPair(3,1));
-		tree.insert(intPair(4,1));
-		tree.insert(intPair(5,1));
-		tree.insert(intPair(6,1));
-		tree.insert(intPair(7,1));
-		tree.insert(intPair(8,1));
-		tree.insert(intPair(9,1));
-		tree.insert(intPair(10,1));
-		tree.insert(intPair(11,1));
-		tree.insert(intPair(12,1));
+	try {
+		std::cout << "The Map\n";
+		std::map<int, int> myMap;
+		myMap.insert(intPair(1, 1));
+		myMap.insert(intPair(2, 2));
+		myMap.insert(intPair(3, 3));
+		myMap.insert(intPair(4, 4));
+		myMap.insert(intPair(5, 5));
 
-		avltree<int,int>::iterator it;
-		for( it = tree.begin(); it != tree.end(); ++it )
-		{
-			std::cout<< it->first << " : ";
+		for( auto it = myMap.begin(); it != myMap.end(); ++it ) {
+			std::cout << it->first << ":" << it->second;
+			std::cout << "\t\t" << (*it).first << ":" << (*it).second << std::endl;
 		}
-		std::cout << std::endl;
-		for( it = tree.end(); it != tree.begin(); --it )
-		{
-			std::cout<< it->first << " : ";
-		}
-		std::cout << std::endl;
+		
+		std::cout << "\nThe Tree\n";
+		using namespace avl;
+		avltree<int, int> myTree;
+		myTree.insert(intPair(1, 1));
+		myTree.insert(intPair(2, 2));
+		myTree.insert(intPair(3, 3));
+		myTree.insert(intPair(4, 4));
+		myTree.insert(intPair(5, 5));
+
+		const avltree<int, int> myTreeConst = myTree;
+
+		std::cout << "The Tree (at)" << std::endl;
+		std::cout << myTree.at(2) << std::endl;
+		myTree.at(2) = 5;
+		std::cout << myTree.at(2) << std::endl;
+
+		std::cout << "The Tree (at) const" << std::endl;
+		std::cout << myTreeConst.at(2) << std::endl;
+
+		//for( auto it = myTree.begin(); it != myTree.end(); ++it ) {
+		//	std::cout << it->first << ":" << it->second << std::endl;
+		//	/*std::cout << "\t\t" << (*it).first << ":" << (*it).second << std::endl;*/
+		//}
 	}
 	catch(...)
 	{
