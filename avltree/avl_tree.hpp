@@ -81,7 +81,7 @@ namespace avl{
 				return std::pair<iterator, bool>( it, false );
 				}*/
 
-				node_ptr newNode = new node( value.first, value.second );
+				node_ptr newNode = new node( value );
 
 				if ( !node::get_parent( _header ) ) {
 					node::set_parent( newNode, _header  );
@@ -94,7 +94,7 @@ namespace avl{
 				node_ptr currentNode = node::get_parent( _header );
 
 				while ( currentNode && !utilities::is_header( currentNode ) ) {
-					bool compare = _comparer( currentNode->first, newNode->first );
+					bool compare = _comparer( currentNode->_value.first, newNode->_value.first );
 
 					if ( compare ) {
 						if( !node::get_right( currentNode ) ) {
@@ -102,9 +102,9 @@ namespace avl{
 							node::set_right( currentNode, newNode );
 							_size++;
 
-							if ( _comparer( newNode->first, node::get_left( _header)->first ) ) {
+							if ( _comparer( newNode->_value.first, node::get_left( _header)->_value.first ) ) {
 								node::set_left( _header, newNode );
-							} else if ( !_comparer( newNode->first, node::get_right( _header)->first ) ) {
+							} else if ( !_comparer( newNode->_value.first, node::get_right( _header)->_value.first ) ) {
 								node::set_right( _header, newNode );
 							}
 							utilities::insert_balance( currentNode, -1 );
@@ -118,9 +118,9 @@ namespace avl{
 							node::set_left( currentNode, newNode );
 							_size++;
 
-							if ( _comparer( newNode->first, node::get_left( _header)->first ) ) {
+							if ( _comparer( newNode->_value.first, node::get_left( _header)->_value.first ) ) {
 								node::set_left( _header, newNode );
-							} else if ( !_comparer( newNode->first, node::get_right( _header)->first ) ) {
+							} else if ( !_comparer( newNode->_value.first, node::get_right( _header)->_value.first ) ) {
 								node::set_right( _header, newNode );
 							}
 							utilities::insert_balance( currentNode, 1 );
@@ -138,11 +138,11 @@ namespace avl{
 					node_ptr currentNode = node::get_parent( _header );
 
 					while ( currentNode ) {
-						if ( key == currentNode->first ) {
+						if ( key == currentNode->_value.first ) {
 							return iterator( currentNode );
 						}
 
-						bool compare = _comparer( currentNode->first, key );
+						bool compare = _comparer( currentNode->_value.first, key );
 						if ( compare ) {
 							if ( !node::get_right( currentNode ) ) {
 								break;
@@ -166,11 +166,11 @@ namespace avl{
 					node_ptr currentNode = node::get_parent( _header );
 
 					while ( currentNode ) {
-						if ( key == currentNode->first ) {
+						if ( key == currentNode->_value.first ) {
 							return const_iterator( currentNode );
 						}
 
-						bool compare = _comparer( currentNode->first, key );
+						bool compare = _comparer( currentNode->_value.first, key );
 						if ( compare ) {
 							if ( !node::get_right( currentNode ) ) {
 								break;
