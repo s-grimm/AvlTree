@@ -115,6 +115,68 @@ namespace avl{
 				//should never hit this, but just incase it is here;
 				//return std::pair<iterator, bool>(iterator( NULL ), false );
 			}
+
+			// iterator find( const key_type& key )
+			void find( const key_type& key ) {
+				if( node::get_parent( _header ) ) {
+					node_ptr currentNode = node::get_parent( _header );
+
+					while ( currentNode && !utilities::is_header( currentNode ) ) {
+						if ( key == currentNode->first ) {
+							// return iterator( currentNode )
+							return;
+						}
+
+						bool compare = _comparer( currentNode->first, key );
+						if ( compare ) {
+							if ( node::get_right( currentNode ) ) {
+								break;
+							} else {
+								currentNode = node::get_right( currentNode );
+							}
+						} else {
+							if ( !node::get_left( currentNode ) ) {
+								break;
+							} else {
+								currentNode = node::get_left( currentNode );
+							}
+						}
+					}
+				}
+				return;
+				// return end();
+			}
+
+			// const_iterator find ( const Key& key ) const {
+			void const_find( const key_type& key ) {				// this definition needs to be changed
+				if( node::get_parent( _header ) ) {
+					node_ptr currentNode = node::get_parent( _header );
+
+					while ( currentNode && !utilities::is_header( currentNode ) ) {
+						if ( key == currentNode->first ) {
+							// return const_iterator( currentNode )
+							return;
+						}
+
+						bool compare = _comparer( currentNode->first, key );
+						if ( compare ) {
+							if ( node::get_right( currentNode ) ) {
+								break;
+							} else {
+								currentNode = node::get_right( currentNode );
+							}
+						} else {
+							if ( !node::get_left( currentNode ) ) {
+								break;
+							} else {
+								currentNode = node::get_left( currentNode );
+							}
+						}
+					}
+				}
+				return;
+				// return cend();
+			}
 		};
 }//end namespace avl
 #endif
