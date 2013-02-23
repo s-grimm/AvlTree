@@ -103,6 +103,7 @@ namespace avl{
 			node->_rightNode = rhs->_rightNode;
 			return node;
 		}
+
 	};//end avlnode
 } //end namespace avl
 #endif
