@@ -131,15 +131,13 @@ namespace avl{
 				//return std::pair<iterator, bool>(iterator( NULL ), false );
 			}
 
-			// iterator find( const key_type& key )
-			void find( const key_type& key ) {
+			iterator find( const key_type& key ) {
 				if( node::get_parent( _header ) ) {
 					node_ptr currentNode = node::get_parent( _header );
 
 					while ( currentNode ) {
 						if ( key == currentNode->first ) {
-							// return iterator( currentNode )
-							return;
+							return iterator( currentNode )
 						}
 
 						bool compare = _comparer( currentNode->first, key );
@@ -158,19 +156,16 @@ namespace avl{
 						}
 					}
 				}
-				return;
-				// return end();
+				return end();
 			}
 
-			// const_iterator find ( const Key& key ) const {
-			void const_find( const key_type& key ) {				// this definition needs to be changed
+			const_iterator find( const key_type& key ) const {				
 				if( node::get_parent( _header ) ) {
 					node_ptr currentNode = node::get_parent( _header );
 
 					while ( currentNode ) {
 						if ( key == currentNode->first ) {
-							// return const_iterator( currentNode )
-							return;
+							return const_iterator( currentNode )
 						}
 
 						bool compare = _comparer( currentNode->first, key );
@@ -189,8 +184,7 @@ namespace avl{
 						}
 					}
 				}
-				return;
-				// return cend();
+				return cend();
 			}
 		};
 }//end namespace avl
