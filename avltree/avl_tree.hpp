@@ -131,7 +131,7 @@ namespace avl{
 
 					while ( currentNode ) {
 						if ( key == currentNode->first ) {
-							return iterator( currentNode )
+							return iterator( currentNode );
 						}
 
 						bool compare = _comparer( currentNode->first, key );
@@ -159,7 +159,7 @@ namespace avl{
 
 					while ( currentNode ) {
 						if ( key == currentNode->first ) {
-							return const_iterator( currentNode )
+							return const_iterator( currentNode );
 						}
 
 						bool compare = _comparer( currentNode->first, key );
