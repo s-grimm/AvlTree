@@ -51,6 +51,15 @@ namespace avl{
 				delete( _header );
 			}
 
+			// operator overloads
+			avltree& operator = ( avltree const & rhs ) {
+				utilities::init_header( _header );
+				for ( auto it = rhs.begin(); it != rhs.end() ) {
+					insert( *it );
+				}
+				return *this;
+			}
+
 			// iterator
 			iterator				begin()			{ return iterator( node::get_left( _header ) ); }
 			const_iterator			begin() const	{ return const_iterator( node::get_left( _header ) ); }
