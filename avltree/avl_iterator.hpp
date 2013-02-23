@@ -46,13 +46,12 @@ namespace avl{
 			return(temp);
 		}
 
-		value_type& operator * () const {
-			return *operator->();
+		value_type& operator * () {
+			return value_type( node->first, node->second );
 		}
 
-		value_type* operator -> () const {
-			return NULL;
-
+		node_ptr operator -> () const {
+			return _node;
 		}
 	};
 }//end namespace avl

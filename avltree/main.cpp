@@ -31,10 +31,6 @@ int main ( int argc, const char* argv[] )
 			std::cout<< it->first << " : ";
 		}
 		std::cout << std::endl;
-
-		std::cout << it->first << " : " << it->second << std::endl;
-		it->second = 5;
-		std::cout << it->first << " : " << it->second << std::endl;
 	}
 	catch(...)
 	{
