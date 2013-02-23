@@ -31,6 +31,9 @@ int main ( int argc, const char* argv[] )
 			std::cout<< it->first << " : ";
 		}
 		std::cout << std::endl;
+		it = tree.begin();
+		std::cout << it->first << " : " << it->second << std::endl;
+		it->first = 5;
 	}
 	catch(...)
 	{
