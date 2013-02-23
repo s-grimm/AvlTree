@@ -21,16 +21,20 @@ int main ( int argc, const char* argv[] )
 
 		avltree<int,int>::iterator it;
 		//std::map<int,int>::iterator it;
-		for( it = tree.begin(); it != tree.end(); ++it )
+		/*	for( it = tree.begin(); it != tree.end(); ++it )
 		{
-			std::cout<< it->first << " : ";
+		std::cout<< it->first << " : ";
 		}
-		std::cout << std::endl;
-		for( it = tree.end(); it != tree.begin(); --it )
+		std::cout << std::endl;*/
+		/*	for( it = tree.end(); it != tree.begin(); --it )
 		{
-			std::cout<< it->first << " : ";
+		std::cout<< it->first << " : ";
 		}
-		std::cout << std::endl;
+		std::cout << std::endl;*/
+		it = tree.begin();
+		std::cout << it->first << " : " << it->second << std::endl;
+		it->second = 10;
+		std::cout << it->first << " : " << it->second << std::endl;
 	}
 	catch(...)
 	{
