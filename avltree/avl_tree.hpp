@@ -124,6 +124,62 @@ namespace avl{
 				} // end while
 				return std::pair<iterator,bool>( iterator( newNode ), false ); // a nice little level 4 warning about not all code paths returning a value
 			}
+
+			iterator find( const key_type& key ) {
+				if( node::get_parent( _header ) ) {
+					node_ptr currentNode = node::get_parent( _header );
+
+					while ( currentNode ) {
+						if ( key == currentNode->first ) {
+							return iterator( currentNode )
+						}
+
+						bool compare = _comparer( currentNode->first, key );
+						if ( compare ) {
+							if ( !node::get_right( currentNode ) ) {
+								break;
+							} else {
+								currentNode = node::get_right( currentNode );
+							}
+						} else {
+							if ( !node::get_left( currentNode ) ) {
+								break;
+							} else {
+								currentNode = node::get_left( currentNode );
+							}
+						}
+					}
+				}
+				return end();
+			}
+
+			const_iterator find( const key_type& key ) const {				
+				if( node::get_parent( _header ) ) {
+					node_ptr currentNode = node::get_parent( _header );
+
+					while ( currentNode ) {
+						if ( key == currentNode->first ) {
+							return const_iterator( currentNode )
+						}
+
+						bool compare = _comparer( currentNode->first, key );
+						if ( compare ) {
+							if ( !node::get_right( currentNode ) ) {
+								break;
+							} else {
+								currentNode = node::get_right( currentNode );
+							}
+						} else {
+							if ( !node::get_left( currentNode ) ) {
+								break;
+							} else {
+								currentNode = node::get_left( currentNode );
+							}
+						}
+					}
+				}
+				return cend();
+			}
 		};
 }//end namespace avl
 #endif
