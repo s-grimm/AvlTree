@@ -1,6 +1,5 @@
 #include <iostream>
 #include "avl_tree.hpp"
-
 int main ( int argc, const char* argv[] )
 {
 	typedef std::pair<int,int> intPair;
@@ -21,6 +20,7 @@ int main ( int argc, const char* argv[] )
 		tree.insert(intPair(12,1));
 
 		avltree<int,int>::iterator it;
+		//std::map<int,int>::iterator it;
 		for( it = tree.begin(); it != tree.end(); ++it )
 		{
 			std::cout<< it->first << " : ";
@@ -31,9 +31,10 @@ int main ( int argc, const char* argv[] )
 			std::cout<< it->first << " : ";
 		}
 		std::cout << std::endl;
-		it = tree.begin();
+
 		std::cout << it->first << " : " << it->second << std::endl;
-		it->first = 5;
+		it->second = 5;
+		std::cout << it->first << " : " << it->second << std::endl;
 	}
 	catch(...)
 	{

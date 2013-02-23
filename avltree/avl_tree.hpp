@@ -73,7 +73,7 @@ namespace avl{
 				return std::pair<iterator, bool>( it, false );
 				}*/
 
-				node_ptr newNode = new node( value.first, value.second );
+				node_ptr newNode = new node( value );
 
 				if ( !node::get_parent( _header ) ) {
 					node::set_parent( newNode, _header  );
