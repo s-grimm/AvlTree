@@ -51,6 +51,15 @@ namespace avl{
 				delete( _header );
 			}
 
+			// operator overloads
+			avltree& operator = ( avltree const & rhs ) {
+				utilities::init_header( _header );
+				for ( auto it = rhs.begin(); it != rhs.end() ) {
+					insert( *it );
+				}
+				return *this;
+			}
+
 			// iterator
 			iterator				begin()			{ return iterator( node::get_left( _header ) ); }
 			const_iterator			begin() const	{ return const_iterator( node::get_left( _header ) ); }
@@ -65,6 +74,14 @@ namespace avl{
 			reverse_iterator		rend()			{ return reverse_iterator( begin() ); }
 			const_reverse_iterator	rend() const	{ return const_reverse_iterator( begin() ); }
 			const_iterator			crend() const	{ return const_reverse_iterator( begin() ); }
+
+			Type& at( const Key& key ) {
+				return this->find(key)->second;
+			}
+
+			const Type& at( const Key& key ) const {
+				return this->find(key)->second;
+			}
 
 			//insert
 			std::pair<iterator,bool> insert( const value_type& value ) {
