@@ -38,11 +38,75 @@ namespace avl{
 			avltree()
 			{
 				utilities::init_header( _header );
+				_size = 0;
 			}
 
 			~avltree()
 			{
 				delete( _header );
+			}
+
+			//insert
+			//std::pair<iterator,bool> insert( std::pair<Key,Type> value ) {
+			void insert( const value_type& value ) {
+				/*iterator it = find( value.first);
+				if ( it != end() ) {
+				return std::pair<iterator, bool>( it, false );
+				}*/
+
+				node_ptr newNode = new node( value.first, value.second );
+
+				if ( !node::get_parent( _header ) ) {
+					node::set_parent( newNode, _header  );
+					node::set_parent( _header, newNode  );
+					node::set_left( _header, newNode );
+					node::set_right( _header, newNode );
+					_size++;
+					//return statement
+				} else {
+					node_ptr currentNode = node::get_parent( _header );
+
+					while ( currentNode && !utilities::is_header( currentNode ) ) {
+						bool compare = _comparer( currentNode->first, newNode->first );
+
+						if ( compare ) {
+							if( !node::get_right( currentNode ) ) {
+								node::set_parent( newNode, currentNode );
+								node::set_right( currentNode, newNode );
+								_size++;
+
+								if ( _comparer( newNode->first, node::get_left( _header)->first ) ) {
+									node::set_left( _header, newNode );
+								} else if ( !_comparer( newNode->first, node::get_right( _header)->first ) ) {
+									node::set_right( _header, newNode );
+								}
+								utilities::insert_balance( currentNode, -1 );
+								//		return std::pair<iterator,bool>( iterator( newNode ), true );
+							} else {
+								currentNode = node::get_right( currentNode );
+							}// end else
+						} else {
+							if( !node::get_left( currentNode ) ) {
+								node::set_parent( newNode, currentNode );
+								node::set_left( currentNode, newNode );
+								_size++;
+
+								if ( _comparer( newNode->first, node::get_left( _header)->first ) ) {
+									node::set_left( _header, newNode );
+								} else if ( !_comparer( newNode->first, node::get_right( _header)->first ) ) {
+									node::set_right( _header, newNode );
+								}
+								utilities::insert_balance( currentNode, 1 );
+								//		//return std::pair<iterator,bool>( iterator( newNode ), true );
+							} else {
+								currentNode = node::get_left( currentNode );
+							}
+						} //end else compare
+					} // end while
+				} // end else;
+
+				//should never hit this, but just incase it is here;
+				//return std::pair<iterator, bool>(iterator( NULL ), false );
 			}
 		};
 }//end namespace avl
