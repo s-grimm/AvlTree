@@ -121,7 +121,7 @@ namespace avl{
 				if( node::get_parent( _header ) ) {
 					node_ptr currentNode = node::get_parent( _header );
 
-					while ( currentNode && !utilities::is_header( currentNode ) ) {
+					while ( currentNode ) {
 						if ( key == currentNode->first ) {
 							// return iterator( currentNode )
 							return;
@@ -129,7 +129,7 @@ namespace avl{
 
 						bool compare = _comparer( currentNode->first, key );
 						if ( compare ) {
-							if ( node::get_right( currentNode ) ) {
+							if ( !node::get_right( currentNode ) ) {
 								break;
 							} else {
 								currentNode = node::get_right( currentNode );
@@ -152,7 +152,7 @@ namespace avl{
 				if( node::get_parent( _header ) ) {
 					node_ptr currentNode = node::get_parent( _header );
 
-					while ( currentNode && !utilities::is_header( currentNode ) ) {
+					while ( currentNode ) {
 						if ( key == currentNode->first ) {
 							// return const_iterator( currentNode )
 							return;
@@ -160,7 +160,7 @@ namespace avl{
 
 						bool compare = _comparer( currentNode->first, key );
 						if ( compare ) {
-							if ( node::get_right( currentNode ) ) {
+							if ( !node::get_right( currentNode ) ) {
 								break;
 							} else {
 								currentNode = node::get_right( currentNode );
