@@ -7,6 +7,7 @@
 #include <iterator> //std::reverse_iterator
 #include "avl_node.hpp"
 #include "avl_utilities.hpp"
+#include "avl_iterator.hpp"
 
 namespace avl{
 	template <
