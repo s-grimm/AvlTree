@@ -19,6 +19,18 @@ int main ( int argc, const char* argv[] )
 		tree.insert(intPair(10,1));
 		tree.insert(intPair(11,1));
 		tree.insert(intPair(12,1));
+
+		avltree<int,int>::iterator it;
+		for( it = tree.begin(); it != tree.end(); ++it )
+		{
+			std::cout<< it->first << " : ";
+		}
+		std::cout << std::endl;
+		for( it = tree.end(); it != tree.begin(); --it )
+		{
+			std::cout<< it->first << " : ";
+		}
+		std::cout << std::endl;
 	}
 	catch(...)
 	{
