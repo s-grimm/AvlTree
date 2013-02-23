@@ -31,6 +31,10 @@ namespace avl{
 			typedef typename node::node_ptr										node_ptr;
 			typedef typename node::const_node_ptr								const_node_ptr;
 			typedef typename avl_utilities< tree >								utilities;
+			typedef typename avl_iterator< tree >								iterator;
+			typedef typename const avl_iterator< tree >							const_iterator;
+			typedef std::reverse_iterator<iterator>								reverse_iterator;
+			typedef std::reverse_iterator<const_iterator>						const_reverse_iterator;
 		private:
 			node_ptr _header;
 			std::size_t _size;
@@ -63,7 +67,7 @@ namespace avl{
 					node::set_left( _header, newNode );
 					node::set_right( _header, newNode );
 					_size++;
-					//return statement
+					return;
 				} else {
 					node_ptr currentNode = node::get_parent( _header );
 
@@ -82,6 +86,7 @@ namespace avl{
 									node::set_right( _header, newNode );
 								}
 								utilities::insert_balance( currentNode, -1 );
+								return;
 								//		return std::pair<iterator,bool>( iterator( newNode ), true );
 							} else {
 								currentNode = node::get_right( currentNode );
@@ -98,6 +103,7 @@ namespace avl{
 									node::set_right( _header, newNode );
 								}
 								utilities::insert_balance( currentNode, 1 );
+								return;
 								//		//return std::pair<iterator,bool>( iterator( newNode ), true );
 							} else {
 								currentNode = node::get_left( currentNode );
