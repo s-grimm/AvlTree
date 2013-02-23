@@ -45,7 +45,20 @@ namespace avl{
 				utilities::init_header( _header );
 				_size = 0;
 			}
+			avltree( const avltree& _Right )
+			{
+				utilities::init_header( _header );
+				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
+					insert( *it );
+				}
 
+			}
+			template<class InputIterator>
+			avltree( InputIterator _First, InputIterator _Last ){
+				utilities::init_header( _header );				
+				insert(_First,_Last );
+				
+			}
 			~avltree()
 			{
 				delete( _header );
@@ -54,7 +67,7 @@ namespace avl{
 			// operator overloads
 			avltree& operator = ( avltree const & rhs ) {
 				utilities::init_header( _header );
-				for ( auto it = rhs.begin(); it != rhs.end() ) {
+				for ( auto it = rhs.begin(); it != rhs.end() ; ++it) {
 					insert( *it );
 				}
 				return *this;
@@ -83,7 +96,9 @@ namespace avl{
 				return this->find(key)->second;
 			}
 
-			//insert
+			//*******************************************************
+			//INSERT
+			//*******************************************************
 			std::pair<iterator,bool> insert( const value_type& value ) {
 				/*iterator it = find( value.first);
 				if ( it != end() ) {
@@ -141,7 +156,18 @@ namespace avl{
 				} // end while
 				return std::pair<iterator,bool>( iterator( newNode ), false ); // a nice little level 4 warning about not all code paths returning a value
 			}
-
+			//*******************************************************
+			//INSERT
+			//*******************************************************
+			template<class InputIterator>
+			void insert(InputIterator first, InputIterator last)
+			{			
+			for (; first != last; ++first)
+				insert(*first);
+			}
+			//*******************************************************
+			//Find
+			//*******************************************************
 			iterator find( const key_type& key ) {
 				if( node::get_parent( _header ) ) {
 					node_ptr currentNode = node::get_parent( _header );
@@ -169,7 +195,9 @@ namespace avl{
 				}
 				return end();
 			}
-
+			//*******************************************************
+			//Find
+			//*******************************************************
 			const_iterator find( const key_type& key ) const {				
 				if( node::get_parent( _header ) ) {
 					node_ptr currentNode = node::get_parent( _header );

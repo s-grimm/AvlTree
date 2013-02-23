@@ -28,7 +28,8 @@ int main ( int argc, const char* argv[] )
 		myTree.insert(intPair(4, 4));
 		myTree.insert(intPair(5, 5));
 
-		const avltree<int, int> myTreeConst = myTree;
+		avltree<int, int> myTreeConst;
+		myTreeConst.insert(myTree.begin(), --myTree.end());
 
 		std::cout << "The Tree (at)" << std::endl;
 		std::cout << myTree.at(2) << std::endl;
