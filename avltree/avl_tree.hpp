@@ -88,14 +88,43 @@ namespace avl{
 			const_reverse_iterator	rend() const	{ return const_reverse_iterator( begin() ); }
 			const_iterator			crend() const	{ return const_reverse_iterator( begin() ); }
 
+			//*******************************************************
+			//SIZE
+			//*******************************************************
+			size_type size() const _NOEXCEPT
+			{	// return length of sequence
+			return _size;
+			}
+			//*******************************************************
+			//AT
+			//*******************************************************
 			Type& at( const Key& key ) {
 				return this->find(key)->second;
 			}
-
+			//*******************************************************
+			//AT
+			//*******************************************************
 			const Type& at( const Key& key ) const {
 				return this->find(key)->second;
 			}
-
+			//*******************************************************
+			//ARRAY
+			//*******************************************************
+			Type& operator[](const Key& key)
+			{
+				iterator itr = find(key);
+				if(itr != end() && key == itr->first)
+				{
+					return itr->second;
+				}
+				else
+				{
+					std::pair<iterator,bool> inserted =  insert(value_type(key,mapped_type()));
+					itr = inserted.first;
+					
+				}
+				return itr->second;
+			}
 			//*******************************************************
 			//INSERT
 			//*******************************************************

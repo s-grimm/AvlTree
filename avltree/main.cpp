@@ -43,6 +43,50 @@ int main ( int argc, const char* argv[] )
 		//	std::cout << it->first << ":" << it->second << std::endl;
 		//	/*std::cout << "\t\t" << (*it).first << ":" << (*it).second << std::endl;*/
 		//}
+
+		//*******************************************************
+		//Jovan Test Area
+		//*******************************************************
+		std::cout << "JOVAN TEST AREA" << std::endl;
+		//avltree<int, int> jovanTree;
+		std::map<int, int> jovanTree;
+		std::cout << "Round one" << std::endl;
+		jovanTree[1] = 1;
+		jovanTree[2] = 1;
+		jovanTree[3] = 1;
+		jovanTree[4] = 1;
+		jovanTree[5] = 1;
+		for( auto it = jovanTree.begin(); it != jovanTree.end(); ++it ) {
+			std::cout << it->first << ":" << it->second;
+			std::cout << "\t\t" << (*it).first << ":" << (*it).second << std::endl;
+		}
+		std::cout << "Round Two" << std::endl;
+		jovanTree[1] = 1;
+		jovanTree[2] = 2;
+		jovanTree[3] = 3;
+		jovanTree[4] = 4;
+		jovanTree[5] = 5;
+		for( auto it = jovanTree.begin(); it != jovanTree.end(); ++it ) {
+			std::cout << it->first << ":" << it->second;
+			std::cout << "\t\t" << (*it).first << ":" << (*it).second << std::endl;
+		}
+		std::cout << "Round Three" << std::endl;
+		for(size_t i = 0; i < jovanTree.size(); ++i)
+		{
+			std::cout << i << ":" << jovanTree[i] << std::endl;
+		}
+
+
+		std::cout << "END OF JOVAN TEST AREA" << std::endl;
+		//*******************************************************
+		//end of	Jovan Test Area
+		//*******************************************************
+
+
+
+
+
+
 	}
 	catch(...)
 	{
