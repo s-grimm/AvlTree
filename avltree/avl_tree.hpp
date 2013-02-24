@@ -90,6 +90,13 @@ namespace avl{
 			const_iterator			crend() const	{ return const_reverse_iterator( begin() ); }
 
 			//*******************************************************
+			//Empty
+			//*******************************************************
+			bool empty() const _NOEXCEPT
+			{	// return true only if sequence is empty
+			return (size() == 0);
+			}
+			//*******************************************************
 			//Swap
 			//*******************************************************
 			void swap( tree& right)

@@ -136,6 +136,11 @@ int main ( int argc, const char* argv[] )
 				++swapIt;
 			}
 		}
+		std::cout << "Round Six -- Empty test" << std::endl;
+		avltree_type emptyTree;
+		std::cout << "emptyTree is empty: "<< emptyTree.empty() << std::endl;
+		emptyTree[5] = 5;
+		std::cout << "emptyTree is empty: "<< emptyTree.empty() << std::endl;
 
 		std::cout << "END OF JOVAN TEST AREA" << std::endl;
 		//*******************************************************
