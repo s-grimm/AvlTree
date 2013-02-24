@@ -48,8 +48,9 @@ int main ( int argc, const char* argv[] )
 		//Jovan Test Area
 		//*******************************************************
 		std::cout << "JOVAN TEST AREA" << std::endl;
-		//avltree<int, int> jovanTree;
-		std::map<int, int> jovanTree;
+		typedef avltree<int, int> avltree_type;
+		avltree_type jovanTree;
+		//std::map<int, int> jovanTree;
 		std::cout << "Round one" << std::endl;
 		jovanTree[1] = 1;
 		jovanTree[2] = 1;
@@ -76,6 +77,65 @@ int main ( int argc, const char* argv[] )
 			std::cout << i << ":" << jovanTree[i] << std::endl;
 		}
 
+		std::cout << "Round Four -- move insert" << std::endl;
+		jovanTree.insert(std::move(std::pair<int,int>(6,6) ) );
+
+		for( auto it = jovanTree.begin(); it != jovanTree.end(); ++it ) {
+			std::cout << it->first << ":" << it->second;
+			std::cout << "\t\t" << (*it).first << ":" << (*it).second << std::endl;
+		}
+
+		std::cout << "Round Five -- move array" << std::endl;
+		jovanTree[std::move(7)] = 7;
+		for( auto it = jovanTree.begin(); it != jovanTree.end(); ++it ) {
+			std::cout << it->first << ":" << it->second;
+			std::cout << "\t\t" << (*it).first << ":" << (*it).second << std::endl;
+		}
+
+		std::cout << "Round Six -- Swap test" << std::endl;
+		avltree_type jovanTreeSwap;
+		//std::map<int, int> jovanTreeSwap;
+		jovanTreeSwap[100] = 1;
+		jovanTreeSwap[101] = 2;
+		jovanTreeSwap[102] = 3;
+		jovanTreeSwap[103] = 4;
+		jovanTreeSwap[104] = 5;
+
+		{
+			avltree_type::iterator swapIt = jovanTreeSwap.cbegin();
+			avltree_type::iterator it = jovanTree.cbegin();
+			std::cout << "tree" << "\t\t" << "tree swap"<< std::endl;
+			while(swapIt != jovanTreeSwap.end() && it != jovanTree.end()){
+				std::cout << it->first << ":" << it->second;
+				std::cout << "\t\t" << (*swapIt).first << ":" << (*swapIt).second << std::endl;
+				++it;
+				++swapIt;
+			}
+		}
+		jovanTree.swap(jovanTreeSwap);
+		{
+			avltree_type::iterator swapIt = jovanTreeSwap.cbegin();
+			avltree_type::iterator it = jovanTree.cbegin();
+			std::cout << "tree" << "\t\t" << "tree swap"<< std::endl;
+			while(swapIt != jovanTreeSwap.end() && it != jovanTree.end()){
+				std::cout << it->first << ":" << it->second;
+				std::cout << "\t\t" << (*swapIt).first << ":" << (*swapIt).second << std::endl;
+				++it;
+				++swapIt;
+			}
+		}
+		swap(jovanTreeSwap,jovanTree);
+		{
+			avltree_type::iterator swapIt = jovanTreeSwap.cbegin();
+			avltree_type::iterator it = jovanTree.cbegin();
+			std::cout << "tree" << "\t\t" << "tree swap"<< std::endl;
+			while(swapIt != jovanTreeSwap.end() && it != jovanTree.end()){
+				std::cout << it->first << ":" << it->second;
+				std::cout << "\t\t" << (*swapIt).first << ":" << (*swapIt).second << std::endl;
+				++it;
+				++swapIt;
+			}
+		}
 
 		std::cout << "END OF JOVAN TEST AREA" << std::endl;
 		//*******************************************************
