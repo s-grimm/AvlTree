@@ -61,6 +61,7 @@ namespace avl{
 			}
 			~avltree()
 			{
+				utilities::clear_tree( node::get_parent( _header ) );
 				delete( _header );
 			}
 

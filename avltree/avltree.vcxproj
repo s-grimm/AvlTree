@@ -80,7 +80,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="avltree.hpp" />
     <ClInclude Include="avl_iterator.hpp" />
     <ClInclude Include="avl_node.hpp" />
     <ClInclude Include="avl_tree.hpp" />
