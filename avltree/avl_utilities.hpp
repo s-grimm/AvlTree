@@ -283,15 +283,15 @@ namespace avl{
 
 		//Clears node and all children of node recursively
 		//param node - node from which to start
-		static void clear_tree ( node_ptr& node ) {
+		static void clear_tree ( node_ptr node ) {
 			if( node != NULL ){
 				node_ptr p_left (node::get_left(node));
 				node_ptr p_right(node::get_right(node));
 				if ( p_left ) {
-					clearHelper( p_left );
+					clear_tree( p_left );
 				}
 				if ( p_right ) {
-					clearHelper( p_right );
+					clear_tree( p_right );
 				}
 				delete( node );
 			}
