@@ -65,13 +65,14 @@ namespace avl{
 			}
 
 			// operator overloads
-			avltree& operator = ( avltree const & rhs ) {
+			tree& operator = ( tree const & rhs ) {
 				utilities::init_header( _header );
 				for ( auto it = rhs.begin(); it != rhs.end() ; ++it) {
 					insert( *it );
 				}
 				return *this;
 			}
+			
 
 			// iterator
 			iterator				begin()			{ return iterator( node::get_left( _header ) ); }
@@ -88,6 +89,22 @@ namespace avl{
 			const_reverse_iterator	rend() const	{ return const_reverse_iterator( begin() ); }
 			const_iterator			crend() const	{ return const_reverse_iterator( begin() ); }
 
+			//*******************************************************
+			//Empty
+			//*******************************************************
+			bool empty() const _NOEXCEPT
+			{	// return true only if sequence is empty
+			return (size() == 0);
+			}
+			//*******************************************************
+			//Swap
+			//*******************************************************
+			void swap( tree& right)
+			{	
+				tree tempTree = right;
+				right = *this;
+				*this = tempTree;
+			}
 			//*******************************************************
 			//SIZE
 			//*******************************************************
@@ -120,6 +137,22 @@ namespace avl{
 				else
 				{
 					std::pair<iterator,bool> inserted =  insert(value_type(key,mapped_type()));
+					itr = inserted.first;
+					
+				}
+				return itr->second;
+			}
+			Type& operator[]( Key&& key)
+			{
+				
+				iterator itr = find(key);
+				if(itr != end() && key == itr->first)
+				{
+					return itr->second;
+				}
+				else
+				{
+					std::pair<iterator,bool> inserted =  insert(value_type(std::move(key),mapped_type()));
 					itr = inserted.first;
 					
 				}
@@ -188,12 +221,70 @@ namespace avl{
 			//*******************************************************
 			//INSERT
 			//*******************************************************
+			std::pair<iterator,bool> insert(value_type&& value)
+			{
+				node_ptr newNode = new node( std::move(value) );
+
+				if ( !node::get_parent( _header ) ) {
+					node::set_parent( newNode, _header  );
+					node::set_parent( _header, newNode  );
+					node::set_left( _header, newNode );
+					node::set_right( _header, newNode );
+					_size++;
+					return std::pair<iterator,bool>( iterator( newNode ), true );
+				}
+				node_ptr currentNode = node::get_parent( _header );
+
+				while ( currentNode && !utilities::is_header( currentNode ) ) {
+					bool compare = _comparer( currentNode->_value.first, newNode->_value.first );
+
+					if ( compare ) {
+						if( !node::get_right( currentNode ) ) {
+							node::set_parent( newNode, currentNode );
+							node::set_right( currentNode, newNode );
+							_size++;
+
+							if ( _comparer( newNode->_value.first, node::get_left( _header)->_value.first ) ) {
+								node::set_left( _header, newNode );
+							} else if ( !_comparer( newNode->_value.first, node::get_right( _header)->_value.first ) ) {
+								node::set_right( _header, newNode );
+							}
+							utilities::insert_balance( currentNode, -1 );
+							return std::pair<iterator,bool>( iterator( newNode ), true );
+						} else {
+							currentNode = node::get_right( currentNode );
+						}// end else
+					} else {
+						if( !node::get_left( currentNode ) ) {
+							node::set_parent( newNode, currentNode );
+							node::set_left( currentNode, newNode );
+							_size++;
+
+							if ( _comparer( newNode->_value.first, node::get_left( _header)->_value.first ) ) {
+								node::set_left( _header, newNode );
+							} else if ( !_comparer( newNode->_value.first, node::get_right( _header)->_value.first ) ) {
+								node::set_right( _header, newNode );
+							}
+							utilities::insert_balance( currentNode, 1 );
+							return std::pair<iterator,bool>( iterator( newNode ), true );
+						} else {
+							currentNode = node::get_left( currentNode );
+						}
+					} //end else compare
+				} // end while
+				return std::pair<iterator,bool>( iterator( newNode ), false ); // a nice little level 4 warning about not all code paths returning a value
+			}
+			
+			//*******************************************************
+			//INSERT
+			//*******************************************************
 			template<class InputIterator>
 			void insert(InputIterator first, InputIterator last)
 			{			
 			for (; first != last; ++first)
 				insert(*first);
-			}
+			}			
+
 			//*******************************************************
 			//Find
 			//*******************************************************
