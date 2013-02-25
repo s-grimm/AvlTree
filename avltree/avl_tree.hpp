@@ -346,6 +346,29 @@ namespace avl{
 				}
 				return cend();
 			}
+			//*******************************************************
+			//BOUNDS
+			//*******************************************************
+			iterator lower_bound(const key_type& key)
+			{	
+
+				return (find(key));
+			}
+
+			const_iterator lower_bound(const key_type& key) const
+			{	// find leftmost node not less than _Keyval in nonmutable tree
+			return (find(key));
+			}
+
+			iterator upper_bound(const key_type& key)
+			{	// find leftmost node greater than _Keyval in mutable tree
+			return (++find(key));
+			}
+
+			const_iterator upper_bound(const key_type& key) const
+			{	// find leftmost node greater than _Keyval in nonmutable tree
+			return (++find(key));
+			}
 		};
 }//end namespace avl
 #endif

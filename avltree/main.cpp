@@ -91,7 +91,9 @@ int main ( int argc, const char* argv[] )
 			std::cout << it->first << ":" << it->second;
 			std::cout << "\t\t" << (*it).first << ":" << (*it).second << std::endl;
 		}
-
+		//*******************************************************
+		//Swap
+		//*******************************************************
 		std::cout << "Round Six -- Swap test" << std::endl;
 		avltree_type jovanTreeSwap;
 		//std::map<int, int> jovanTreeSwap;
@@ -141,6 +143,64 @@ int main ( int argc, const char* argv[] )
 		std::cout << "emptyTree is empty: "<< emptyTree.empty() << std::endl;
 		emptyTree[5] = 5;
 		std::cout << "emptyTree is empty: "<< emptyTree.empty() << std::endl;
+
+		//*******************************************************
+		//Lower Bound
+		//*******************************************************
+		std::cout << "Lower Bound" << std::endl;
+
+		if(jovanTree.lower_bound(2)->second == 2)
+		{
+			std::cout << "Every Thing Good" << std::endl;
+		}
+		else
+		{
+			std::cout << "Every Thing BAD" << std::endl;
+		}
+		if(jovanTree.lower_bound(3)->second == 3)
+		{
+			std::cout << "Every Thing Good" << std::endl;
+		}
+		else
+		{
+			std::cout << "Every Thing BAD" << std::endl;
+		}
+		if(jovanTree.lower_bound(4)->second == 4)
+		{
+			std::cout << "Every Thing Good" << std::endl;
+		}
+		else
+		{
+			std::cout << "Every Thing BAD" << std::endl;
+		}
+		//*******************************************************
+		//Upper Bound
+		//*******************************************************
+		std::cout << "Upper Bound" << std::endl;
+		if(jovanTree.upper_bound(2)->second == 3)
+		{
+			std::cout << "Every Thing Good" << std::endl;
+		}
+		else
+		{
+			std::cout << "Every Thing BAD" << std::endl;
+		}
+		if(jovanTree.upper_bound(3)->second == 4)
+		{
+			std::cout << "Every Thing Good" << std::endl;
+		}
+		else
+		{
+			std::cout << "Every Thing BAD" << std::endl;
+		}
+		if(jovanTree.upper_bound(4)->second == 5)
+		{
+			std::cout << "Every Thing Good" << std::endl;
+		}
+		else
+		{
+			std::cout << "Every Thing BAD" << std::endl;
+		}
 
 		std::cout << "END OF JOVAN TEST AREA" << std::endl;
 		//*******************************************************
