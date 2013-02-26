@@ -363,23 +363,71 @@ namespace avl{
 			//*******************************************************
 			iterator lower_bound(const key_type& key)
 			{	
+				iterator bound = this->find(key);
+				if (bound != end()) {
+					return bound;
+				}
 
-				return (find(key));
+				for(bound = this->begin(); bound != this->end(); ++bound) {
+					if (!_comparer(bound->first, key)) {
+						return bound;
+					}
+				}
+
+				return bound;
 			}
 
 			const_iterator lower_bound(const key_type& key) const
-			{	// find leftmost node not less than _Keyval in nonmutable tree
-			return (find(key));
+			{	
+				const_iterator cbound = this->find(key);
+				if (cbound != end()) {
+					return cbound;
+				}
+
+				iterator bound;
+				for(bound = this->begin(); bound != this->end(); ++bound) {
+					if (!_comparer(bound->first, key)) {
+						const_iterator newcbound = bound;
+						return newcbound;
+					}
+				}
+
+				return bound;
 			}
 
 			iterator upper_bound(const key_type& key)
-			{	// find leftmost node greater than _Keyval in mutable tree
-			return (++find(key));
+			{	
+				iterator bound = this->find(key);
+				if (bound != end()) {
+					return ++bound;
+				}
+
+				for(bound = this->begin(); bound != this->end(); ++bound) {
+					if (!_comparer(bound->first, key)) {
+						return bound;
+					}
+				}
+
+				return bound;
 			}
 
 			const_iterator upper_bound(const key_type& key) const
-			{	// find leftmost node greater than _Keyval in nonmutable tree
-			return (++find(key));
+			{	
+				iterator cbound = this->find(key);
+				if (cbound != end()) {
+					const_iterator nextcbound = ++cbound;
+					return nextcbound;
+				}
+
+				iterator bound;
+				for(bound = this->begin(); bound != this->end(); ++bound) {
+					if (!_comparer(bound->first, key)) {
+						const_iterator newcbound = bound;
+						return newcbound;
+					}
+				}
+
+				return bound;
 			}
 		};
 }//end namespace avl
