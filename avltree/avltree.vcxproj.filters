@@ -29,7 +29,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="ut_avltree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ut_avltree_bound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
