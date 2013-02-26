@@ -9,19 +9,21 @@
 	*/
 
 #include <boost/test/auto_unit_test.hpp>
-#include "avltree.hpp"
+#include "avl_tree.hpp"
 #include <iostream>
 
 /**	iterator lower_bound( Key const& ) */
 BOOST_AUTO_TEST_CASE( ut_lower_bound_key )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::lower_bound(Key)\n";
-
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('c',5));
 		myTree.insert(std::pair<char,int>('e',7));
+		BOOST_CHECK_EQUAL( myTree.lower_bound('a')->second, 1 );
+		BOOST_CHECK_EQUAL( myTree.lower_bound('b')->second, 5 );
 		BOOST_CHECK_EQUAL( myTree.lower_bound('c')->second, 5 );
 		BOOST_CHECK_EQUAL( myTree.lower_bound('d')->second, 7 );
 	}
@@ -37,8 +39,8 @@ BOOST_AUTO_TEST_CASE( ut_lower_bound_key )
 BOOST_AUTO_TEST_CASE( ut_lower_bound_key_const )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::lower_bound(Key) const\n";
-
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('c',5));
@@ -58,8 +60,8 @@ BOOST_AUTO_TEST_CASE( ut_lower_bound_key_const )
 BOOST_AUTO_TEST_CASE( ut_upper_bound_key )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::upper_bound(Key)\n";
-
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('c',5));
@@ -77,8 +79,8 @@ BOOST_AUTO_TEST_CASE( ut_upper_bound_key )
 BOOST_AUTO_TEST_CASE( ut_upper_bound_key_const )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::upper_bound(Key) const\n";
-
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('c',5));
