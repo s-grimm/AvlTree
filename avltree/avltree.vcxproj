@@ -88,6 +88,7 @@
   <ItemGroup>
     <ClCompile Include="ut_avltree.cpp" />
     <ClCompile Include="ut_avltree_bound.cpp" />
+    <ClCompile Include="ut_avltree_insert.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

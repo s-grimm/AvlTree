@@ -35,5 +35,8 @@
     <ClCompile Include="ut_avltree_bound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ut_avltree_insert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
