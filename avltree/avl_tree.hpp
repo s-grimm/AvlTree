@@ -39,6 +39,7 @@ namespace avl{
 			node_ptr _header;
 			std::size_t _size;
 			key_compare	_comparer;
+			allocator_type _alloc;
 		public:
 			//*******************************************************
 			//C'tors
@@ -74,12 +75,12 @@ namespace avl{
 				}
 				insert( *_Last );
 			}
-			/*avltree( key_compare key, allocator_type alloc ) {
+			avltree( key_compare key, allocator_type alloc ) {
 				utilities::init_header( _header );
 				_size = 0;
-				key_compare keycomp = key;
-				allocator_type alloctype = alloc;
-			}*/
+				_comparer = key;
+				_alloc = alloc;
+			}
 			~avltree()
 			{
 				utilities::clear_tree( node::get_parent( _header ) );
@@ -331,7 +332,6 @@ namespace avl{
 			//*******************************************************
 			iterator insert(iterator where, const value_type& value)
 			{	
-				
 				if (find(value.first) != end()){
 					return find(value.first);
 				}
@@ -557,7 +557,14 @@ namespace avl{
 			//MAX_SIZE
 			//*******************************************************
 			size_type max_size () const {
-				return std::numeric_limits<std::size_t>::max() / sizeof(value_type);
+				// return std::numeric_limits<std::size_t>::max() / sizeof(value_type);
+				return _alloc.max_size();
+			}
+			//*******************************************************
+			//GET_ALLOCATOR
+			//*******************************************************
+			allocator_type get_allocator() const {
+				return _alloc;
 			}
 		};
 }//end namespace avl

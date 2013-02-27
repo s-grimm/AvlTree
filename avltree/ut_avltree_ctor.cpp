@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE( ut_ctor_traits_ref )
 BOOST_AUTO_TEST_CASE( ut_ctor_traits_ref_allocator_ref )
 {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::avltree( traits&, allocator& )\n";
-	/*try	{
+	try	{
 		using namespace avl;
 		typedef avltree<char,int> avl_tree;
 		avltree<int,int> allocTree = avltree<int,int>();
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE( ut_ctor_traits_ref_allocator_ref )
 	}
 	catch(...) {
 		BOOST_FAIL( "FAILED: avltree<T>::avltree( traits&, allocator& )\n" );
-	}*/
+	}
 }
 
 
