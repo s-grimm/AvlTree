@@ -512,6 +512,21 @@ namespace avl{
 
 				return bound;
 			}
+			//*******************************************************
+			//EQUAL_RANGE
+			//*******************************************************
+			std::pair<const_iterator, const_iterator> equal_range (const key_type& key) const
+			{
+				return std::pair <const_iterator, const_iterator>(lower_bound(key),upper_bound(key));
+			}
+			//*******************************************************
+			//EQUAL_RANGE
+			//*******************************************************
+			std::pair<iterator, iterator> equal_range (const key_type& key)
+			{
+				return std::pair<iterator, iterator>(lower_bound(key),upper_bound(key));
+			}
+			
 		};
 }//end namespace avl
 #endif
