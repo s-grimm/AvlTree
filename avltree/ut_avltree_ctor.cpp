@@ -50,21 +50,21 @@ BOOST_AUTO_TEST_CASE( ut_ctor_traits_ref )
 
 
 /**	avltree( Traits const&, Allocator const& ) */
-//BOOST_AUTO_TEST_CASE( ut_ctor_traits_ref_allocator_ref )
-//{
-//	// std::cout << "NOT IMPLEMENTED: avltree<T>::avltree( traits&, allocator& )\n";
-//	try	{
-//		using namespace avl;
-//		typedef avltree<char,int> avl_tree;
-//		avltree<int,int> allocTree = avltree<int,int>();
-//		avltree<int, int>::allocator_type treeAllocator;
-//		treeAllocator = allocTree.get_allocator();
-//		avltree<int,int> tree2(std::less<int>(), treeAllocator);
-//	}
-//	catch(...) {
-//		BOOST_FAIL( "FAILED: avltree<T>::avltree( traits&, allocator& )\n" );
-//	}
-//}
+BOOST_AUTO_TEST_CASE( ut_ctor_traits_ref_allocator_ref )
+{
+	std::cout << "NOT IMPLEMENTED: avltree<T>::avltree( traits&, allocator& )\n";
+	/*try	{
+		using namespace avl;
+		typedef avltree<char,int> avl_tree;
+		avltree<int,int> allocTree = avltree<int,int>();
+		avltree<int, int>::allocator_type treeAllocator;
+		treeAllocator = allocTree.get_allocator();
+		avltree<int,int> tree2(std::less<int>(), treeAllocator);
+	}
+	catch(...) {
+		BOOST_FAIL( "FAILED: avltree<T>::avltree( traits&, allocator& )\n" );
+	}*/
+}
 
 
 
@@ -72,7 +72,6 @@ BOOST_AUTO_TEST_CASE( ut_ctor_traits_ref )
 BOOST_AUTO_TEST_CASE( ut_ctor_avltree_ref )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::avltree(avltree&)\n";
-
 	try {
 		using namespace avl;
 		typedef avltree<char,int> avl_tree;
@@ -93,7 +92,6 @@ BOOST_AUTO_TEST_CASE( ut_ctor_avltree_ref )
 BOOST_AUTO_TEST_CASE( ut_ctor_iterator_iterator )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::avltree(iterator,iterator)\n";
-
 	try {
 		using namespace avl;
 		typedef avltree<char,int> avl_tree;
@@ -123,7 +121,6 @@ BOOST_AUTO_TEST_CASE( ut_ctor_iterator_iterator )
 BOOST_AUTO_TEST_CASE( ut_ctor_iterator_iterator_traits )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::avltree(iterator,iterator,traits)\n";
-
 	try {
 		using namespace avl;
 		typedef avltree<char,int,std::greater<char>> avl_tree;
@@ -153,7 +150,6 @@ BOOST_AUTO_TEST_CASE( ut_ctor_iterator_iterator_traits )
 BOOST_AUTO_TEST_CASE( ut_ctor_iterator_iterator_traits_allocator )
 {
 	//std::cout << "NOT IMPLEMENTED: avltree<T>::avltree(iterator,iterator,traits,allocator)\n";
-
 	try {
 		using namespace avl;
 		avltree<char,int,std::less<char>,std::allocator<std::pair<const char,int>>> myTree;

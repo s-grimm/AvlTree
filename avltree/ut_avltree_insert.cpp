@@ -97,22 +97,22 @@ BOOST_AUTO_TEST_CASE( ut_insert_T_move ) {
 
 
 /**	template <class ValTy> pair<iterator,bool> insert( const_iterator, ValTy && ) */
-//BOOST_AUTO_TEST_CASE( ut_insert_iterator_T_move ) {
-//	// std::cout << "NOT IMPLEMENTED: avltree<T>::insert(iterator,&&)\n";
-//	try {
-//		using namespace avl;
-//		typedef avltree<char,int> avl_tree;
-//		avl_tree myTree;
-//		std::pair<char,int> pair('a',1), pair2('b',2);
-//
-//		myTree.insert(std::move(pair2));
-//		myTree.insert(myTree.begin(), std::move(pair));
-//		BOOST_CHECK_EQUAL( myTree.begin()->second, 1 );
-//	}
-//	catch( ... ) {
-//		BOOST_FAIL( "FAILED: avltree<T>::insert(iterator,&&)\n" );
-//	}
-//}
+BOOST_AUTO_TEST_CASE( ut_insert_iterator_T_move ) {
+	std::cout << "NOT IMPLEMENTED: avltree<T>::insert(iterator,&&)\n";
+	/*try {
+		using namespace avl;
+		typedef avltree<char,int> avl_tree;
+		avl_tree myTree;
+		std::pair<char,int> pair('a',1), pair2('b',2);
+
+		myTree.insert(std::move(pair2));
+		myTree.insert(myTree.begin(), std::move(pair));
+		BOOST_CHECK_EQUAL( myTree.begin()->second, 1 );
+	}
+	catch( ... ) {
+		BOOST_FAIL( "FAILED: avltree<T>::insert(iterator,&&)\n" );
+	}*/
+}
 
 
 /*=============================================================

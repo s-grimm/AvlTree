@@ -553,6 +553,12 @@ namespace avl{
 				return std::pair<iterator, iterator>(lower_bound(key),upper_bound(key));
 			}
 			
+			//*******************************************************
+			//MAX_SIZE
+			//*******************************************************
+			size_type max_size () const {
+				return std::numeric_limits<std::size_t>::max() / sizeof(value_type);
+			}
 		};
 }//end namespace avl
 #endif
