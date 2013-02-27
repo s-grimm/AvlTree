@@ -201,6 +201,15 @@ int main ( int argc, const char* argv[] )
 		{
 			std::cout << "Every Thing BAD" << std::endl;
 		}
+		//*******************************************************
+		//Emplace
+		//*******************************************************
+		typedef std::pair<avltree_type::iterator, bool> Pairib;
+		Pairib emplaceTest = jovanTree.emplace(std::pair<int,int>(1,1));
+		std::cout << emplaceTest.first->first << ":" << emplaceTest.first->first << "->" << emplaceTest.second<< std::endl;
+
+		emplaceTest = jovanTree.emplace(std::pair<int,int>(45,45));
+		std::cout << emplaceTest.first->first << ":" << emplaceTest.first->first << "->" << emplaceTest.second<< std::endl;
 
 		std::cout << "END OF JOVAN TEST AREA" << std::endl;
 		//*******************************************************

@@ -98,6 +98,18 @@ namespace avl{
 			return (size() == 0);
 			}
 			//*******************************************************
+			//Emplace
+			//*******************************************************
+			std::pair<iterator, bool> emplace( value_type&& value)
+			{
+				iterator newNode = find(value.first);
+				if(newNode == end())
+				{
+					return insert(std::move(value));
+				}
+				return std::pair<iterator, bool> (newNode,false);
+			}
+			//*******************************************************
 			//Swap
 			//*******************************************************
 			void swap( tree& right)
