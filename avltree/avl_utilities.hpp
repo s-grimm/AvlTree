@@ -6,6 +6,7 @@ namespace avl{
 	class avl_utilities{
 		typedef typename tree::key_type			Key;
 		typedef typename tree::mapped_type		Type;
+		typedef typename tree::key_compare		compare;
 		typedef typename tree::value_type		value_type;
 
 		typedef typename tree::node				node;
@@ -31,6 +32,33 @@ namespace avl{
 					return true;
 			}
 			return false;
+		}
+		static node_ptr get_node( const Key& key, node_ptr& header) {
+			if( node::get_parent( header ) ) {
+					node_ptr currentNode = node::get_parent( header );
+
+					while ( currentNode ) {
+						if ( key == currentNode->_value.first ) {
+							return currentNode ;
+						}
+						compare _comparer;
+						bool compare = _comparer( currentNode->_value.first, key );
+						if ( compare ) {
+							if ( !node::get_right( currentNode ) ) {
+								break;
+							} else {
+								currentNode = node::get_right( currentNode );
+							}
+						} else {
+							if ( !node::get_left( currentNode ) ) {
+								break;
+							} else {
+								currentNode = node::get_left( currentNode );
+							}
+						}
+					}
+				}
+				return header;//represents end node
 		}
 
 		static node_ptr get_header(const const_node_ptr & node) {
