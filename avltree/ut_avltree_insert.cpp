@@ -15,15 +15,13 @@
 /**	pair<iterator,bool> insert( value_type const& ) */
 BOOST_AUTO_TEST_CASE( ut_insert_value ) {
 	//std::cout << "NOT IMPLEMENTED: avltree<T>::insert(value)\n";
-
 	try {
 		using namespace avl;
 		avltree<char,int> myTree;
 		auto it = myTree.insert(std::pair<char,int>('a',1));
 		BOOST_CHECK_EQUAL( it.first->second, 1 );
 	}
-	catch(...)
-	{
+	catch(...) {
 		BOOST_FAIL("FAILED: avltree<T>::insert(value)\n");
 	}
 }

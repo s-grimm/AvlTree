@@ -48,14 +48,15 @@ namespace avl{
 			avltree( const avltree& _Right )
 			{
 				utilities::init_header( _header );
+				_size = 0;
 				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
 					insert( *it );
 				}
-
 			}
 			avltree( const avltree&& _Right )
 			{
 				utilities::init_header( _header );
+				_size = 0;
 				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
 					insert( std::move(*it) );
 				}
@@ -63,7 +64,8 @@ namespace avl{
 			}
 			template<class InputIterator>
 			avltree( InputIterator _First, InputIterator _Last ){
-				utilities::init_header( _header );				
+				utilities::init_header( _header );
+				_size = 0;
 				insert(_First,_Last );
 				
 			}
@@ -183,10 +185,10 @@ namespace avl{
 			//INSERT
 			//*******************************************************
 			std::pair<iterator,bool> insert( const value_type& value ) {
-				/*iterator it = find( value.first);
+				iterator it = find( value.first);
 				if ( it != end() ) {
-				return std::pair<iterator, bool>( it, false );
-				}*/
+					return std::pair<iterator, bool>( it, false );
+				}
 
 				node_ptr newNode = new node( value );
 
@@ -244,6 +246,11 @@ namespace avl{
 			//*******************************************************
 			std::pair<iterator,bool> insert(value_type&& value)
 			{
+				iterator it = find( value.first);
+				if ( it != end() ) {
+					return std::pair<iterator, bool>( it, false );
+				}
+
 				node_ptr newNode = new node( std::move(value) );
 
 				if ( !node::get_parent( _header ) ) {

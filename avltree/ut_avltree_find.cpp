@@ -10,19 +10,21 @@
 
 #include <boost/test/auto_unit_test.hpp>
 #include <iostream>
-#include "avltree.hpp"
+#include "avl_tree.hpp"
 
 
 /**	iterator find( Key const& ) */
 BOOST_AUTO_TEST_CASE( ut_find ) {
-	try
-	{
-		avltree<int,int> tree;
+	//std::cout << "NOT IMPLEMENTED: avltree<T>::find()\n";
+	try	{
+		using namespace avl;
+		typedef avltree<int,int> avl_tree;
+		avl_tree tree;
 		tree.insert(std::pair<int,int>(1,10));
 		tree.insert(std::pair<int,int>(2,20));
 		tree.insert(std::pair<int,int>(3,30));
 
-		avltree<int,int>::iterator treeIterator;
+		avl_tree::iterator treeIterator;
 
 		treeIterator = tree.find(2);
 
@@ -32,11 +34,9 @@ BOOST_AUTO_TEST_CASE( ut_find ) {
 
 		BOOST_CHECK(treeIterator == tree.end());
 	}
-	catch(...)
-	{
+	catch(...) {
 		BOOST_FAIL("FAILED: avltree<T>::find()\n");
 	}
-	//std::cout << "NOT IMPLEMENTED: avltree<T>::find()\n";
 }
 
 
@@ -46,9 +46,11 @@ BOOST_AUTO_TEST_CASE( ut_find_const )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::find() const\n";
 	try {
-		avltree<char,int> myTree;
+		using namespace avl;
+		typedef avltree<int,int> avl_tree;
+		avl_tree myTree;
 		myTree.insert(std::pair<char,int>('a',1));
-		const avltree<char,int> myTree2(myTree);
+		const avl_tree myTree2(myTree);
 		BOOST_CHECK_EQUAL( myTree2.find('a')->second, 1 );
 	}
 	catch( ... ) {
