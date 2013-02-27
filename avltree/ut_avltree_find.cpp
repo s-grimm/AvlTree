@@ -27,11 +27,9 @@ BOOST_AUTO_TEST_CASE( ut_find ) {
 		avl_tree::iterator treeIterator;
 
 		treeIterator = tree.find(2);
-
 		BOOST_CHECK(treeIterator->second == 20);
 
 		treeIterator = tree.find(4);
-
 		BOOST_CHECK(treeIterator == tree.end());
 	}
 	catch(...) {

@@ -40,6 +40,9 @@ namespace avl{
 			std::size_t _size;
 			key_compare	_comparer;
 		public:
+			//*******************************************************
+			//C'tors
+			//*******************************************************
 			avltree()
 			{
 				utilities::init_header( _header );
@@ -85,7 +88,9 @@ namespace avl{
 			}
 			
 
-			// iterator
+			//*******************************************************
+			//Iterators
+			//*******************************************************
 			iterator				begin()			{ return iterator( node::get_left( _header ) ); }
 			const_iterator			begin() const	{ return const_iterator( node::get_left( _header ) ); }
 			const_iterator			cbegin() const	{ return const_iterator( node::get_left( _header ) ); }
@@ -322,6 +327,7 @@ namespace avl{
 				if (find(value.first) != end()){
 					return find(value.first);
 				}
+
 				//if we at the end move to last node
 				if(where == end())
 				{
@@ -333,8 +339,7 @@ namespace avl{
 					--where;
 				}
 				while(where != end() && !_comparer(value.first, where->first) )
-				{
-						
+				{	
 					++where;
 				}
 				//if we at the end move to last node
@@ -392,8 +397,6 @@ namespace avl{
 					} //end else compare
 				} // end while
 				return iterator( newNode ); // a nice little level 4 warning about not all code paths returning a value	
-				
-				
 			}	
 
 			//*******************************************************
