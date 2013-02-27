@@ -69,9 +69,17 @@ namespace avl{
 			avltree( InputIterator _First, InputIterator _Last ){
 				utilities::init_header( _header );
 				_size = 0;
-				insert(_First,_Last );
-				
+				for (; _First != _Last; ++_First) {
+					insert( *_First );
+				}
+				insert( *_Last );
 			}
+			/*avltree( key_compare key, allocator_type alloc ) {
+				utilities::init_header( _header );
+				_size = 0;
+				key_compare keycomp = key;
+				allocator_type alloctype = alloc;
+			}*/
 			~avltree()
 			{
 				utilities::clear_tree( node::get_parent( _header ) );
