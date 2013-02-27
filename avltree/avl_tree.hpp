@@ -53,6 +53,14 @@ namespace avl{
 				}
 
 			}
+			avltree( const avltree&& _Right )
+			{
+				utilities::init_header( _header );
+				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
+					insert( std::move(*it) );
+				}
+
+			}
 			template<class InputIterator>
 			avltree( InputIterator _First, InputIterator _Last ){
 				utilities::init_header( _header );				
