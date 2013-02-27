@@ -9,16 +9,15 @@
 	*/
 
 #include <boost/test/auto_unit_test.hpp>
-#include "avltree.hpp"
+#include "avl_tree.hpp"
 #include <iostream>
-#include <iterator>
 
 /**	pair <iterator, iterator> equal_range ( Key const& ) */
 BOOST_AUTO_TEST_CASE( ut_equal_range )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::equal_range()\n";
-
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));
@@ -36,8 +35,8 @@ BOOST_AUTO_TEST_CASE( ut_equal_range )
 BOOST_AUTO_TEST_CASE( ut_equal_range_const )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::equal_range() const\n";
-
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));

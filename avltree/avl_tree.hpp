@@ -39,7 +39,11 @@ namespace avl{
 			node_ptr _header;
 			std::size_t _size;
 			key_compare	_comparer;
+			allocator_type _alloc;
 		public:
+			//*******************************************************
+			//C'tors
+			//*******************************************************
 			avltree()
 			{
 				utilities::init_header( _header );
@@ -48,14 +52,15 @@ namespace avl{
 			avltree( const avltree& _Right )
 			{
 				utilities::init_header( _header );
+				_size = 0;
 				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
 					insert( *it );
 				}
-
 			}
 			avltree( const avltree&& _Right )
 			{
 				utilities::init_header( _header );
+				_size = 0;
 				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
 					insert( std::move(*it) );
 				}
@@ -63,9 +68,18 @@ namespace avl{
 			}
 			template<class InputIterator>
 			avltree( InputIterator _First, InputIterator _Last ){
-				utilities::init_header( _header );				
-				insert(_First,_Last );
-				
+				utilities::init_header( _header );
+				_size = 0;
+				for (; _First != _Last; ++_First) {
+					insert( *_First );
+				}
+				insert( *_Last );
+			}
+			avltree( key_compare key, allocator_type alloc ) {
+				utilities::init_header( _header );
+				_size = 0;
+				_comparer = key;
+				_alloc = alloc;
 			}
 			~avltree()
 			{
@@ -83,7 +97,9 @@ namespace avl{
 			}
 			
 
-			// iterator
+			//*******************************************************
+			//Iterators
+			//*******************************************************
 			iterator				begin()			{ return iterator( node::get_left( _header ) ); }
 			const_iterator			begin() const	{ return const_iterator( node::get_left( _header ) ); }
 			const_iterator			cbegin() const	{ return const_iterator( node::get_left( _header ) ); }
@@ -183,10 +199,10 @@ namespace avl{
 			//INSERT
 			//*******************************************************
 			std::pair<iterator,bool> insert( const value_type& value ) {
-				/*iterator it = find( value.first);
+				iterator it = find( value.first);
 				if ( it != end() ) {
-				return std::pair<iterator, bool>( it, false );
-				}*/
+					return std::pair<iterator, bool>( it, false );
+				}
 
 				node_ptr newNode = new node( value );
 
@@ -244,6 +260,11 @@ namespace avl{
 			//*******************************************************
 			std::pair<iterator,bool> insert(value_type&& value)
 			{
+				iterator it = find( value.first);
+				if ( it != end() ) {
+					return std::pair<iterator, bool>( it, false );
+				}
+
 				node_ptr newNode = new node( std::move(value) );
 
 				if ( !node::get_parent( _header ) ) {
@@ -311,10 +332,10 @@ namespace avl{
 			//*******************************************************
 			iterator insert(iterator where, const value_type& value)
 			{	
-				
 				if (find(value.first) != end()){
 					return find(value.first);
 				}
+
 				//if we at the end move to last node
 				if(where == end())
 				{
@@ -326,8 +347,7 @@ namespace avl{
 					--where;
 				}
 				while(where != end() && !_comparer(value.first, where->first) )
-				{
-						
+				{	
 					++where;
 				}
 				//if we at the end move to last node
@@ -385,8 +405,6 @@ namespace avl{
 					} //end else compare
 				} // end while
 				return iterator( newNode ); // a nice little level 4 warning about not all code paths returning a value	
-				
-				
 			}	
 
 			//*******************************************************
@@ -535,6 +553,19 @@ namespace avl{
 				return std::pair<iterator, iterator>(lower_bound(key),upper_bound(key));
 			}
 			
+			//*******************************************************
+			//MAX_SIZE
+			//*******************************************************
+			size_type max_size () const {
+				// return std::numeric_limits<std::size_t>::max() / sizeof(value_type);
+				return _alloc.max_size();
+			}
+			//*******************************************************
+			//GET_ALLOCATOR
+			//*******************************************************
+			allocator_type get_allocator() const {
+				return _alloc;
+			}
 		};
 }//end namespace avl
 #endif
