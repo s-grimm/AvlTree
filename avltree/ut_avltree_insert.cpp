@@ -10,13 +10,14 @@
 
 #include <boost/test/auto_unit_test.hpp>
 #include <iostream>
-#include "avltree.hpp"
+#include "avl_tree.hpp"
 
 /**	pair<iterator,bool> insert( value_type const& ) */
 BOOST_AUTO_TEST_CASE( ut_insert_value ) {
 	//std::cout << "NOT IMPLEMENTED: avltree<T>::insert(value)\n";
 
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		auto it = myTree.insert(std::pair<char,int>('a',1));
 		BOOST_CHECK_EQUAL( it.first->second, 1 );
@@ -33,6 +34,7 @@ BOOST_AUTO_TEST_CASE( ut_insert_value ) {
 BOOST_AUTO_TEST_CASE( ut_insert_iterator_value ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::insert(iterator,value)\n";
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(myTree.begin(), std::pair<char,int>('b',2));
@@ -50,6 +52,7 @@ BOOST_AUTO_TEST_CASE( ut_insert_iterator_value ) {
 BOOST_AUTO_TEST_CASE( ut_insert_iterator_iterator ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::insert(iterator,iterator)\n";
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));
@@ -68,6 +71,7 @@ BOOST_AUTO_TEST_CASE( ut_insert_iterator_iterator ) {
 BOOST_AUTO_TEST_CASE( ut_insert_T_move ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::insert(&&)\n";
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		std::pair<char,int> pair('a',1);
 		myTree.insert(std::move(pair));
@@ -83,6 +87,7 @@ BOOST_AUTO_TEST_CASE( ut_insert_T_move ) {
 BOOST_AUTO_TEST_CASE( ut_insert_iterator_T_move ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::insert(iterator,&&)\n";
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		std::pair<char,int> pair('a',1), pair2('b',2);
 		myTree.insert(std::move(pair));
