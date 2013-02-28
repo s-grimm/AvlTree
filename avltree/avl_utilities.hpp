@@ -159,6 +159,41 @@ namespace avl{
 			}
 		}
 
+		static void delete_balance( node_ptr node, int balance ) {
+			while ( node && !is_header( node ) ) {
+				node::set_balance( node, ( node::get_balance( node ) + balance ) );
+				balance = node::get_balance( node );
+
+				if ( balance == 2 ) {
+					if ( node::get_balance( node::get_left( node ) ) >= 0 ) {
+						node = rotate_right( node );
+						if ( node::get_balance( node ) == -1 ) {
+							return;
+						}
+					} else {
+						node = rotate_left_right( node );
+					}
+				} else if ( balance == -2 ) {
+					if ( node::get_balance( node::get_right( node ) ) <= 0 ) {
+						node = rotate_left( node );
+						if ( node::get_balance( node ) == 1 ) {
+							return;
+						}
+					} else {
+						node = rotate_right_left( node );
+					}
+				} else if ( balance != 0 ) {
+					return;
+				}
+
+				if ( node::get_parent( node ) ) {
+					balance = node::get_left( node::get_parent( node ) ) == node ? -1 : 1;
+				}
+
+				node = node::get_parent( node );
+			}
+		}
+
 		static node_ptr rotate_left( node_ptr node ) {
 			node_ptr right ( node::get_right( node ) );
 			node_ptr rightLeft ( node::get_left( right ) );
