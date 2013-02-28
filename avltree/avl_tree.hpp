@@ -39,7 +39,11 @@ namespace avl{
 			node_ptr _header;
 			std::size_t _size;
 			key_compare	_comparer;
+			allocator_type _alloc;
 		public:
+			//*******************************************************
+			//C'tors
+			//*******************************************************
 			avltree()
 			{
 				utilities::init_header( _header );
@@ -48,16 +52,34 @@ namespace avl{
 			avltree( const avltree& _Right )
 			{
 				utilities::init_header( _header );
+				_size = 0;
 				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
 					insert( *it );
+				}
+			}
+			avltree( const avltree&& _Right )
+			{
+				utilities::init_header( _header );
+				_size = 0;
+				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
+					insert( std::move(*it) );
 				}
 
 			}
 			template<class InputIterator>
 			avltree( InputIterator _First, InputIterator _Last ){
-				utilities::init_header( _header );				
-				insert(_First,_Last );
-				
+				utilities::init_header( _header );
+				_size = 0;
+				for (; _First != _Last; ++_First) {
+					insert( *_First );
+				}
+				insert( *_Last );
+			}
+			avltree( key_compare key, allocator_type alloc ) {
+				utilities::init_header( _header );
+				_size = 0;
+				_comparer = key;
+				_alloc = alloc;
 			}
 			~avltree()
 			{
@@ -75,7 +97,9 @@ namespace avl{
 			}
 			
 
-			// iterator
+			//*******************************************************
+			//Iterators
+			//*******************************************************
 			iterator				begin()			{ return iterator( node::get_left( _header ) ); }
 			const_iterator			begin() const	{ return const_iterator( node::get_left( _header ) ); }
 			const_iterator			cbegin() const	{ return const_iterator( node::get_left( _header ) ); }
@@ -96,6 +120,18 @@ namespace avl{
 			bool empty() const _NOEXCEPT
 			{	// return true only if sequence is empty
 			return (size() == 0);
+			}
+			//*******************************************************
+			//Emplace
+			//*******************************************************
+			std::pair<iterator, bool> emplace( value_type&& value)
+			{
+				iterator newNode = find(value.first);
+				if(newNode == end())
+				{
+					return insert(std::move(value));
+				}
+				return std::pair<iterator, bool> (newNode,false);
 			}
 			//*******************************************************
 			//Swap
@@ -163,10 +199,10 @@ namespace avl{
 			//INSERT
 			//*******************************************************
 			std::pair<iterator,bool> insert( const value_type& value ) {
-				/*iterator it = find( value.first);
+				iterator it = find( value.first);
 				if ( it != end() ) {
-				return std::pair<iterator, bool>( it, false );
-				}*/
+					return std::pair<iterator, bool>( it, false );
+				}
 
 				node_ptr newNode = new node( value );
 
@@ -224,6 +260,11 @@ namespace avl{
 			//*******************************************************
 			std::pair<iterator,bool> insert(value_type&& value)
 			{
+				iterator it = find( value.first);
+				if ( it != end() ) {
+					return std::pair<iterator, bool>( it, false );
+				}
+
 				node_ptr newNode = new node( std::move(value) );
 
 				if ( !node::get_parent( _header ) ) {
@@ -284,7 +325,87 @@ namespace avl{
 			{			
 			for (; first != last; ++first)
 				insert(*first);
-			}			
+			}		
+
+			//*******************************************************
+			//INSERT
+			//*******************************************************
+			iterator insert(iterator where, const value_type& value)
+			{	
+				if (find(value.first) != end()){
+					return find(value.first);
+				}
+
+				//if we at the end move to last node
+				if(where == end())
+				{
+					--where;
+				}
+				//these two while loops will make sure the hint is in the correct place to insert.
+				while(where != begin() && _comparer(value.first, where->first) )
+				{
+					--where;
+				}
+				while(where != end() && !_comparer(value.first, where->first) )
+				{	
+					++where;
+				}
+				//if we at the end move to last node
+				if(where == end())
+				{
+					--where;
+				}
+				node_ptr newNode = new node( std::move(value) );
+
+				if ( !node::get_parent( _header ) ) {
+					node::set_parent( newNode, _header  );
+					node::set_parent( _header, newNode  );
+					node::set_left( _header, newNode );
+					node::set_right( _header, newNode );
+					_size++;
+					return iterator( newNode );
+				}
+				node_ptr currentNode = utilities::get_node(where->first, _header);
+
+				while ( currentNode && !utilities::is_header( currentNode ) ) {
+					bool compare = _comparer( currentNode->_value.first, newNode->_value.first );
+
+					if ( compare ) {
+						if( !node::get_right( currentNode ) ) {
+							node::set_parent( newNode, currentNode );
+							node::set_right( currentNode, newNode );
+							_size++;
+
+							if ( _comparer( newNode->_value.first, node::get_left( _header)->_value.first ) ) {
+								node::set_left( _header, newNode );
+							} else if ( !_comparer( newNode->_value.first, node::get_right( _header)->_value.first ) ) {
+								node::set_right( _header, newNode );
+							}
+							utilities::insert_balance( currentNode, -1 );
+							return iterator( newNode );
+						} else {
+							currentNode = node::get_right( currentNode );
+						}// end else
+					} else {
+						if( !node::get_left( currentNode ) ) {
+							node::set_parent( newNode, currentNode );
+							node::set_left( currentNode, newNode );
+							_size++;
+
+							if ( _comparer( newNode->_value.first, node::get_left( _header)->_value.first ) ) {
+								node::set_left( _header, newNode );
+							} else if ( !_comparer( newNode->_value.first, node::get_right( _header)->_value.first ) ) {
+								node::set_right( _header, newNode );
+							}
+							utilities::insert_balance( currentNode, 1 );
+							return iterator( newNode );
+						} else {
+							currentNode = node::get_left( currentNode );
+						}
+					} //end else compare
+				} // end while
+				return iterator( newNode ); // a nice little level 4 warning about not all code paths returning a value	
+			}	
 
 			//*******************************************************
 			//Find
@@ -416,6 +537,34 @@ namespace avl{
 				}
 
 				return bound;
+			}
+			//*******************************************************
+			//EQUAL_RANGE
+			//*******************************************************
+			std::pair<const_iterator, const_iterator> equal_range (const key_type& key) const
+			{
+				return std::pair <const_iterator, const_iterator>(lower_bound(key),upper_bound(key));
+			}
+			//*******************************************************
+			//EQUAL_RANGE
+			//*******************************************************
+			std::pair<iterator, iterator> equal_range (const key_type& key)
+			{
+				return std::pair<iterator, iterator>(lower_bound(key),upper_bound(key));
+			}
+			
+			//*******************************************************
+			//MAX_SIZE
+			//*******************************************************
+			size_type max_size () const {
+				// return std::numeric_limits<std::size_t>::max() / sizeof(value_type);
+				return _alloc.max_size();
+			}
+			//*******************************************************
+			//GET_ALLOCATOR
+			//*******************************************************
+			allocator_type get_allocator() const {
+				return _alloc;
 			}
 		};
 }//end namespace avl

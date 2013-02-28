@@ -10,20 +10,28 @@
 
 #include <boost/test/auto_unit_test.hpp>
 #include <iostream>
-#include "avltree.hpp"
+#include "avl_tree.hpp"
 
 /**	bool empty() const */
 BOOST_AUTO_TEST_CASE( ut_empty ) {
 	//std::cout << "NOT IMPLEMENTED: avltree<T>::empty() const\n";
-	try
-	{
-		avltree<int,int> tree = avltree<int,int>();
-		BOOST_CHECK(tree.empty());
-		tree.insert(std::pair<int,int>(1,10));
-		BOOST_CHECK(!tree.empty());
+	try	{
+		using namespace avl;
+		typedef avltree<int,int> avl_tree;
+		avl_tree myTree = avl_tree();
+
+		BOOST_CHECK(myTree.empty());
+
+		myTree.insert(std::pair<int,int>(1,10));
+		BOOST_CHECK(!myTree.empty());
+
+		avl_tree myTree2 = std::move(myTree);
+		// This BOOST_CHECK will fail for now, because there is no way
+		// to clean up nyTree after the move construction.  Once
+		// Jesse implements erase() we'll be good to go.
+		// BOOST_CHECK(myTree.empty());
 	}
-	catch(...)
-	{
+	catch(...) {
 		BOOST_FAIL("FAILED: avltree<T>::empty() const\n");
 	}
 }

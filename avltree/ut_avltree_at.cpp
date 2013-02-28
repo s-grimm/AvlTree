@@ -10,17 +10,19 @@
 
 #include <boost/test/auto_unit_test.hpp>
 #include <iostream>
-#include "avltree.hpp"
+#include "avl_tree.hpp"
 
 /**	at( Key const& ) */
 BOOST_AUTO_TEST_CASE( ut_at_key )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::at( Key const& )\n";
-
 	try {
+		using namespace avl;
 		avltree<char,int> myTree;
+
 		myTree.insert(std::pair<char,int>('a',1));
 		BOOST_CHECK_EQUAL( myTree.at('a'), 1 );
+
 		myTree.at('a') = 10;
 		BOOST_CHECK_EQUAL( myTree.at('a'), 10 );
 	}
@@ -34,9 +36,9 @@ BOOST_AUTO_TEST_CASE( ut_at_key )
 /**	at( Key const& ) const */
 BOOST_AUTO_TEST_CASE( ut_at_key_const )
 {
-	// std::cout << "NOT IMPLEMENTED: avltree<T>::at( Key const& ) const\n";
-
+	std::cout << "NOT IMPLEMENTED: avltree<T>::at( Key const& ) const\n";
 	/*try {
+		using namespace avl;
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		const avltree<char,int> myTree2 = myTree;
