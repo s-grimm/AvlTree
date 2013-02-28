@@ -128,6 +128,31 @@ namespace avl{
 			return node;
 		}
 
+		// finds and returns a node matching a given key value if it exists in the tree
+		static node_ptr find_node( node_ptr& node, const key_type& key ) {
+			while ( node ) {
+				if ( key == node->_value.first ) {
+					return node;
+				}
+
+				bool compare = _comparer( node->_value.first, key );
+				if ( compare ) {
+					if ( !node::get_right( node ) ) {
+						break;
+					} else {
+						node = node::get_right( node );
+					}
+				} else {
+					if ( !node::get_left( node ) ) {
+						break;
+					} else {
+						node = node::get_left( node );
+					}
+				}
+			}
+			return NULL;
+		}
+
 		static void insert_balance( node_ptr node, int balance ) {
 			while ( node && !is_header( node ) ) {
 				node::set_balance( node, ( node::get_balance( node ) + balance ) );
@@ -342,6 +367,16 @@ namespace avl{
 			node::set_balance( rightLeft, 0 );
 
 			return rightLeft;
+		}
+
+		static void succeed( node_ptr target, node_ptr source ) {
+			target = std::move( source );
+			if ( node::get_left( target ) {
+				node::set_parent( node::get_left( target ), target );
+			}
+			if ( node::get_right( target ) {
+				node::set_parent( node::get_right( target ), target );
+			}
 		}
 
 		//Clears node and all children of node recursively

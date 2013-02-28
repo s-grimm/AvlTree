@@ -407,6 +407,67 @@ namespace avl{
 				return iterator( newNode ); // a nice little level 4 warning about not all code paths returning a value	
 			}	
 
+			size_type erase( const key_type& key ) {
+				node_ptr node = utilities::find_node( node::get_parent( _header ) );
+				if ( node ) {
+					node_ptr left = node::get_left( node );
+					node_ptr right = node::get_right( node );
+
+					if ( !left ) {
+						if ( !right ) {
+							if ( node == node::get_parent( _header ) ) {
+								// we need to remove the root here
+							} else {
+								node_ptr parent = node::get_parent( node );
+								if ( node::get_left( parent ) == node ) {
+									node::set_left( parent, nullptr );
+									delete( node::get_left( parent ) );
+									utilities::delete_balance( parent, -1 );
+								} else {
+									node::set_right( parent, nullptr );
+									delete( node::get_right( parent ) );
+									utilities::delete_balance( parent, 1 );
+								}
+							}
+						} else {
+							utilities::succeed( node, right );
+							utilities::delete_balance( node, 0 );
+						}
+					} else if ( !right ) {
+						utilitie::succeed( node, left );
+						DeleteBalance( node, 0 );
+					} else {
+						node_ptr successor = right;
+						if ( !node::get_left( successor ) ) {
+							node_ptr parent = node::get_parent( node );
+							node::set_parent( successor, parent );
+							node::set_left( successor, left );
+							node::set_balance( successor, node::get_balance( node ) );
+
+							if ( left ) {
+								node::set_parent( left, successor );
+							}
+
+							if ( node == node::get_parent( _header ) ) {
+								node::set_parent( _header, successor );
+								node::set_parent( successor, _header );
+							} else {
+								if ( node::get_left( parent ) == node ) {
+									node::set_left( parent, sucessor );
+								} else {
+									node::set_right( parent, successor );
+								}
+							}
+							DeleteBalance(successor, 1);
+						} else {
+							successor = utilities::minimum( successor );
+							node
+						}
+					}
+				}
+				return 0;
+			}
+
 			//*******************************************************
 			//Find
 			//*******************************************************
