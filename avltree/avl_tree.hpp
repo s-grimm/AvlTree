@@ -32,7 +32,7 @@ namespace avl{
 			typedef typename node::const_node_ptr								const_node_ptr;
 			typedef typename avl_utilities< tree >								utilities;
 			typedef typename avl_iterator< tree >								iterator;
-			typedef typename const avl_iterator< tree >							const_iterator;
+			typedef typename const_avl_iterator< tree >							const_iterator;
 			typedef std::reverse_iterator<iterator>								reverse_iterator;
 			typedef std::reverse_iterator<const_iterator>						const_reverse_iterator;
 		private:
@@ -493,8 +493,8 @@ namespace avl{
 					return cbound;
 				}
 
-				iterator bound;
-				for(bound = this->begin(); bound != this->end(); ++bound) {
+				const_iterator bound;
+				for(bound = this->cbegin(); bound != this->cend(); ++bound) {
 					if (!_comparer(bound->first, key)) {
 						const_iterator newcbound = bound;
 						return newcbound;
@@ -522,14 +522,14 @@ namespace avl{
 
 			const_iterator upper_bound(const key_type& key) const
 			{	
-				iterator cbound = this->find(key);
-				if (cbound != end()) {
+				const_iterator cbound = this->find(key);
+				if (cbound != cend()) {
 					const_iterator nextcbound = ++cbound;
 					return nextcbound;
 				}
 
-				iterator bound;
-				for(bound = this->begin(); bound != this->end(); ++bound) {
+				const_iterator bound;
+				for(bound = this->cbegin(); bound != this->cend(); ++bound) {
 					if (!_comparer(bound->first, key)) {
 						const_iterator newcbound = bound;
 						return newcbound;
