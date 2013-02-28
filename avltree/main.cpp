@@ -28,6 +28,11 @@ int main ( int argc, const char* argv[] )
 		myTree.insert(intPair(4, 4));
 		myTree.insert(intPair(5, 5));
 
+		int erased = myTree.erase( 2 );
+		if ( myTree.find( 2 ) == myTree.end() ) {
+			std::cout << "yayyyyyyy!";
+		}
+
 		avltree<int, int> myTreeConst;
 		myTreeConst.insert(myTree.begin(), --myTree.end());
 

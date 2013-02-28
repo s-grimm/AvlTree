@@ -15,8 +15,20 @@ namespace avl{
 		value_type _value;
 		//c'tors
 		avl_node(): _balance(0), _parentNode(NULL), _leftNode(NULL), _rightNode(NULL) {} //header node c'tor
-		//avl_node( const Key& key, const Type& value ) : first(key), second(value), _balance(0), _parentNode(NULL), _leftNode(NULL), _rightNode(NULL) { }
+		
 		avl_node( const value_type& value ) : _value(value), _balance(0), _parentNode(NULL), _leftNode(NULL), _rightNode(NULL) { }
+		
+		avl_node( avl_node && original ) {
+			_value = original._value;
+			_balance = original._balance;
+			_parentNode = original._parentNode;
+			_leftNode = original._leftNode;
+			_rightNode = original._rightNode;
+
+			original._parentNode = original._leftNode = original._rightNode = nullptr;
+			original._value = NULL;
+			original._balance = 0;
+		}
 		//d'tors
 		~avl_node(){
 			_parentNode = _leftNode = _rightNode = nullptr;
