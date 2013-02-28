@@ -10,7 +10,8 @@
 
 #include <boost/test/auto_unit_test.hpp>
 #include <iostream>
-#include "avltree.hpp"
+#include "avl_tree.hpp" 
+using namespace avl;
 
 /**	const_iterator begin() const */
 BOOST_AUTO_TEST_CASE( ut_begin_const ) {

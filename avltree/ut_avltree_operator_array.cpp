@@ -10,7 +10,8 @@
 
 #include <boost/test/auto_unit_test.hpp>
 #include <iostream>
-#include "avltree.hpp"
+#include "avl_tree.hpp" 
+using namespace avl;
 
 
 /**	Type& operator[]( Key const& ) */

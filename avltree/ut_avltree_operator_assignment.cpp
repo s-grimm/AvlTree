@@ -9,7 +9,8 @@
 	*/
 
 #include <boost/test/auto_unit_test.hpp>
-#include "avltree.hpp"
+#include "avl_tree.hpp"
+using namespace avl;
 #include <iostream>
 
 
