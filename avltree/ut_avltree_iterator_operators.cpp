@@ -10,8 +10,8 @@
 
 #include <boost/test/auto_unit_test.hpp>
 #include <iostream>
-#include "avltree.hpp"
-
+#include "avl_tree.hpp"
+using namespace avl;
 /**	iterator operator pre++ */
 BOOST_AUTO_TEST_CASE( ut_iterator_pre_inc ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::iterator::operator++(int)\n";
@@ -40,8 +40,8 @@ BOOST_AUTO_TEST_CASE( ut_iterator_post_dec ) {
 
 		avltree<std::string,int>::iterator it = tree.end();
 		it--;
-		BOOST_CHECK(it--->second() == 4);
-		BOOST_CHECK(it->second() == 3);
+		BOOST_CHECK(it--->second == 4);
+		BOOST_CHECK(it->second == 3);
 		//BOOST_CHECK((it--)->second == 1);
 	}
 	catch(...)
