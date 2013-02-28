@@ -408,7 +408,7 @@ namespace avl{
 			}	
 
 			size_type erase( const key_type& key ) {
-				node_ptr node = utilities::find_node( node::get_parent( _header ) );
+				node_ptr node = utilities::find_node( node::get_parent( _header ), key );
 				if ( node ) {
 					node_ptr left = node::get_left( node );
 					node_ptr right = node::get_right( node );
@@ -434,8 +434,8 @@ namespace avl{
 							utilities::delete_balance( node, 0 );
 						}
 					} else if ( !right ) {
-						utilitie::succeed( node, left );
-						DeleteBalance( node, 0 );
+						utilities::succeed( node, left );
+						utilities::delete_balance( node, 0 );
 					} else {
 						node_ptr successor = right;
 						if ( !node::get_left( successor ) ) {
@@ -453,17 +453,52 @@ namespace avl{
 								node::set_parent( successor, _header );
 							} else {
 								if ( node::get_left( parent ) == node ) {
-									node::set_left( parent, sucessor );
+									node::set_left( parent, successor );
 								} else {
 									node::set_right( parent, successor );
 								}
 							}
-							DeleteBalance(successor, 1);
+							utilities::delete_balance( successor, 1 );
 						} else {
 							successor = utilities::minimum( successor );
-							node
+							node_ptr parent = node::get_parent( node );
+							node_ptr successorParent = node::get_parent( successor );
+							node_ptr successorRight = node::get_right( successor );
+
+							if ( node::get_left( successorParent ) == successor ) {
+								node::set_left( successorParent, successorRight );
+							} else {
+								node::set_right( successorParent, successorRight );
+							}
+
+							if ( successorRight ) {
+								node::set_parent( successorRight, successorParent );
+							}
+
+							node::set_parent( successor, parent );
+							node::set_left( successor, left );
+							node::set_balance( successor, node::get_balance( node ) );
+							node::set_right( successor, right );
+							node::set_parent( right, successor );
+
+							if ( left ) {
+								node::set_parent( left, successor );
+							}
+
+							if ( node == node::get_parent( _header ) ) {
+								node::set_parent( _header, successor );
+								node::set_parent( successor, _header );
+							} else {
+								if ( node::get_left( parent ) == node ) {
+									node::set_left( parent, successor );
+								} else {
+									node::set_right( parent, successor );
+								}
+							}
+							utilities::delete_balance( successorParent, -1 );
 						}
 					}
+					return 1;
 				}
 				return 0;
 			}

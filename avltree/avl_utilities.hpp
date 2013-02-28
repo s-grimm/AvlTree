@@ -4,7 +4,7 @@
 namespace avl{
 	template <class tree>
 	class avl_utilities{
-		typedef typename tree::key_type			Key;
+		typedef typename tree::key_type			key_type;
 		typedef typename tree::mapped_type		Type;
 		typedef typename tree::key_compare		compare;
 		typedef typename tree::value_type		value_type;
@@ -33,7 +33,7 @@ namespace avl{
 			}
 			return false;
 		}
-		static node_ptr get_node( const Key& key, node_ptr& header) {
+		static node_ptr get_node( const key_type& key, node_ptr& header) {
 			if( node::get_parent( header ) ) {
 					node_ptr currentNode = node::get_parent( header );
 
@@ -58,7 +58,7 @@ namespace avl{
 						}
 					}
 				}
-				return header;//represents end node
+				return header; //represents end node
 		}
 
 		static node_ptr get_header(const const_node_ptr & node) {
@@ -129,12 +129,13 @@ namespace avl{
 		}
 
 		// finds and returns a node matching a given key value if it exists in the tree
-		static node_ptr find_node( node_ptr& node, const key_type& key ) {
+		static node_ptr find_node( node_ptr node, const key_type& key ) {
 			while ( node ) {
 				if ( key == node->_value.first ) {
 					return node;
 				}
 
+				compare _comparer;
 				bool compare = _comparer( node->_value.first, key );
 				if ( compare ) {
 					if ( !node::get_right( node ) ) {
@@ -371,10 +372,10 @@ namespace avl{
 
 		static void succeed( node_ptr target, node_ptr source ) {
 			target = std::move( source );
-			if ( node::get_left( target ) {
+			if ( node::get_left( target ) ) {
 				node::set_parent( node::get_left( target ), target );
 			}
-			if ( node::get_right( target ) {
+			if ( node::get_right( target ) ) {
 				node::set_parent( node::get_right( target ), target );
 			}
 		}
