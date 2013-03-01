@@ -1,6 +1,6 @@
 #if !defined (GUARD_GRIMMINCKavl_iterator_20130202_)
 #define GUARD_GRIMMINCKavl_iterator_20130202_
-
+#include <assert.h> 
 namespace avl{
 	template <class tree>
 	class const_avl_iterator;
@@ -66,10 +66,12 @@ namespace avl{
 		}
 
 		value_type& operator * () const {
+			assert( ! utilities::is_header( _node ) );
 			return _node->_value;
 		}
 
 		value_type* operator -> () const {
+			assert( ! utilities::is_header( _node ) );
 			return &_node->_value;
 		}
 	};
@@ -135,10 +137,12 @@ namespace avl{
 		}
 
 		const value_type& operator * () const {
+			assert( ! utilities::is_header( _node ) );
 			return _node->_value;
 		}
 
 		const value_type* operator -> () const {
+			assert( ! utilities::is_header( _node ) );
 			return &_node->_value;
 		}
 	};
