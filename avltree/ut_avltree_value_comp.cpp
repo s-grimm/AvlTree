@@ -15,24 +15,24 @@ using namespace avl;
 
 /**	value_compare value_comp() const */
 BOOST_AUTO_TEST_CASE( ut_value_comp ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::value_comp() const\n";
-	//try
-	//{
-	//	avltree<int,int> tree;
-	//	avltree<int,int>::value_compare vc = tree.value_comp();
+	//std::cout << "NOT IMPLEMENTED: avltree<T>::value_comp() const\n";
+	try
+	{
+		avltree<int,int> tree;
+		avltree<int,int>::value_compare vc = tree.value_comp();
 
-	//	std::pair<avltree<int,int>::iterator, bool> hr1,hr2;
+		std::pair<avltree<int,int>::iterator, bool> hr1,hr2;
 
-	//	hr1 = tree.insert(std::pair<int,int>(1,10));
-	//	hr2 = tree.insert(std::pair<int,int>(3,5));
+		hr1 = tree.insert(std::pair<int,int>(1,10));
+		hr2 = tree.insert(std::pair<int,int>(3,5));
 
-	//	BOOST_CHECK( vc( *hr1.first, *hr2.first ) );
+		BOOST_CHECK( vc( *hr1.first, *hr2.first ) );
 
-	//}
-	//catch(...)
-	//{
-	//	BOOST_FAIL("FAILED: avltree<T>::value_comp() const\n");
-	//}
+	}
+	catch(...)
+	{
+		BOOST_FAIL("FAILED: avltree<T>::value_comp() const\n");
+	}
 }
 
 /*=============================================================
