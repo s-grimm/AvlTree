@@ -51,8 +51,8 @@ BOOST_AUTO_TEST_CASE( ut_erase_iterator_iterator ) {
 
 /**	size_type erase( Key const& ) */
 BOOST_AUTO_TEST_CASE( ut_erase_key ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::erase(key)\n";
-	/*try {
+	//std::cout << "NOT IMPLEMENTED: avltree<T>::erase(key)\n";
+	try {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE( ut_erase_key ) {
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::erase(key)\n" );
-	}*/
+	}
 }
 
 

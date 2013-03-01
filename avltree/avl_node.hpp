@@ -107,7 +107,7 @@ namespace avl{
 			to->_value = from->_value;
 		}
 
-		static node_ptr to_ptr ( const const_node_ptr & rhs ){
+		static node_ptr& to_ptr ( const const_node_ptr & rhs ){
 			node_ptr node = new avl_node();
 			node->_balance = rhs->_balance;
 			node->_value = rhs->_value;

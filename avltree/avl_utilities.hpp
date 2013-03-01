@@ -35,34 +35,34 @@ namespace avl{
 		}
 		static node_ptr get_node( const key_type& key, node_ptr& header) {
 			if( node::get_parent( header ) ) {
-					node_ptr currentNode = node::get_parent( header );
+				node_ptr currentNode = node::get_parent( header );
 
-					while ( currentNode ) {
-						if ( key == currentNode->_value.first ) {
-							return currentNode ;
-						}
-						compare _comparer;
-						bool compare = _comparer( currentNode->_value.first, key );
-						if ( compare ) {
-							if ( !node::get_right( currentNode ) ) {
-								break;
-							} else {
-								currentNode = node::get_right( currentNode );
-							}
+				while ( currentNode ) {
+					if ( key == currentNode->_value.first ) {
+						return currentNode ;
+					}
+					compare _comparer;
+					bool compare = _comparer( currentNode->_value.first, key );
+					if ( compare ) {
+						if ( !node::get_right( currentNode ) ) {
+							break;
 						} else {
-							if ( !node::get_left( currentNode ) ) {
-								break;
-							} else {
-								currentNode = node::get_left( currentNode );
-							}
+							currentNode = node::get_right( currentNode );
+						}
+					} else {
+						if ( !node::get_left( currentNode ) ) {
+							break;
+						} else {
+							currentNode = node::get_left( currentNode );
 						}
 					}
 				}
-				return header; //represents end node
+			}
+			return header; //represents end node
 		}
 
-		static node_ptr get_header(const const_node_ptr & node) {
-			node_ptr h = node::to_ptr( node );
+		static node_ptr get_header(const node_ptr & node) {
+			node_ptr h = node;
 			if(node::get_parent(node)) {
 				h = node::get_parent(node);
 				while(!is_header(h)) {
@@ -371,24 +371,36 @@ namespace avl{
 		}
 
 		static void succeed( node_ptr& predecessor, node_ptr& successor ) {
-			
+			//old					//new
 			node_ptr left = node::get_left( successor );
 			node_ptr right = node::get_right( successor );
 			node_ptr parent = node::get_parent( predecessor ); // if the node is the header we have to check to see if we are replacing the left or right node and update it
 
+			node_ptr header = get_header( parent );
+
+			bool isHeader = is_header( parent );
+			bool isFirstNode = node::get_left( header ) == predecessor;
+			bool isLastNode = node::get_right( header ) == predecessor;
+			delete( predecessor );
 			predecessor = successor;
 			node::set_parent( predecessor, parent );
-			if ( is_header( parent ) ) {
+			if ( isHeader ) {
 				node::set_parent( parent, predecessor );
-			} 
-			/*node::set_value( successor, predecessor ); 
+			}
+			if( isFirstNode ){
+				node::set_left( parent, predecessor );
+			}
+			if( isLastNode ){
+				node::set_right( parent, predecessor );
+			}
+			/*node::set_value( successor, predecessor );
 			node::set_left( predecessor, left );
 			node::set_right( predecessor, right );*/
 
 			if ( left ) {
 				node::set_parent( left, predecessor );
 			}
-			
+
 			if ( right ) {
 				node::set_parent( right, predecessor );
 			}
