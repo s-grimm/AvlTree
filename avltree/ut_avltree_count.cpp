@@ -11,22 +11,23 @@
 #include <boost/test/auto_unit_test.hpp>
 #include "avl_tree.hpp" 
 using namespace avl;
-#include <iostream>
 
 /**	size_type count( Key const& ) const */
 BOOST_AUTO_TEST_CASE( ut_count )
 {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::count()\n";
-	/*try {
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::count()\n";
+	try {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',100));
+		
 		int i = myTree.count('a');
-
-		BOOST_CHECK_EQUAL( i , 1 );
+		BOOST_CHECK_EQUAL( i, 1 );
+		i = myTree.count('b');
+		BOOST_CHECK_EQUAL( i, 0 );
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::count()\n" );
-	}*/
+	}
 }
 
 

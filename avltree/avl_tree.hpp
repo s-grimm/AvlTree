@@ -676,6 +676,26 @@ namespace avl{
 			allocator_type get_allocator() const {
 				return _alloc;
 			}
+
+			//*******************************************************
+			//CLEAR
+			//*******************************************************
+			void clear () {
+				utilities::clear_tree( node::get_parent( _header ) );
+				_size = 0;
+				delete( _header );
+				utilities::init_header( _header );
+			}
+
+			//*******************************************************
+			//COUNT
+			//*******************************************************
+			size_type count (const key_type& key) const {
+				if (find(key) != this->end()) {
+					return 1;
+				}
+				return 0;
+			}
 		};
 }//end namespace avl
 #endif

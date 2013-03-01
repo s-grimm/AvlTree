@@ -15,17 +15,17 @@ using namespace avl;
 /**	void clear() */
 BOOST_AUTO_TEST_CASE( ut_clear )
 {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::clear()\n";
-	//try {
-	//	avltree<char,int> myTree;
-	//	myTree.insert(std::pair<char,int>('a',100));
-	//	myTree.clear();
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::clear()\n";
+	try {
+		avltree<char,int> myTree;
+		myTree.insert(std::pair<char,int>('a',100));
+		myTree.clear();
 
-	//	BOOST_CHECK( myTree.size() == 0 );
-	//}
-	//catch( ... ) {
-	//	BOOST_FAIL( "FAILED: avltree<T>::clear()\n" );
-	//}
+		BOOST_CHECK( myTree.size() == 0 );
+	}
+	catch( ... ) {
+		BOOST_FAIL( "FAILED: avltree<T>::clear()\n" );
+	}
 }
 
 
