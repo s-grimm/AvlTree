@@ -146,12 +146,14 @@ namespace avl{
 			//*******************************************************
 			void swap( tree& right)
 			{
-				tree tempTree = right;
-				right.clear();
-				right = *this;
-				this->clear();
-				*this = tempTree;
-				tempTree.clear();
+				node_ptr tmp =  _header;
+				size_type size = _size;
+
+				_header = right._header;
+				_size = right._size;
+
+				right._header = tmp;
+				right._size = size;
 			}
 			//*******************************************************
 			//SIZE
