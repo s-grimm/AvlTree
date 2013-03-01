@@ -164,15 +164,15 @@ BOOST_AUTO_TEST_CASE( ut_rbegin ) {
 	try{
 		avltree<int, int> m1;
 
-	   avltree <int, int> :: const_reverse_iterator m1_crIter;
+	   avltree <int, int> :: reverse_iterator m1_rIter;
 	   typedef std::pair <int, int> Int_Pair;
 
 	   m1.insert ( Int_Pair ( 1, 10 ) );
 	   m1.insert ( Int_Pair ( 2, 20 ) );
 	   m1.insert ( Int_Pair ( 3, 30 ) );
 
-	   m1_crIter = m1.rbegin( );
-	   BOOST_CHECK(m1_crIter->first == 3);
+	   m1_rIter = m1.rbegin( );
+	   BOOST_CHECK(m1_rIter->first == 3);
 	}
 	catch(...)
 	{
@@ -188,7 +188,7 @@ BOOST_AUTO_TEST_CASE( ut_rend_const ) {
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));
 		myTree.insert(std::pair<char,int>('c',3));
-		auto it = myTree.crend();
+		avltree <char, int> :: const_reverse_iterator it = myTree.crend();
 		--it;
 		BOOST_CHECK_EQUAL( it->second, myTree.begin()->second );
 	}
@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_CASE( ut_rend ) {
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));
 		myTree.insert(std::pair<char,int>('c',3));
-		auto it = myTree.rend();
+		avltree <char, int> :: reverse_iterator it = myTree.rend();
 		--it;
 		BOOST_CHECK_EQUAL( it->second, myTree.begin()->second );
 	}
