@@ -86,9 +86,9 @@ BOOST_AUTO_TEST_CASE( ut_crbegin_const ) {
 		myTree.insert(std::pair<char,int>('b',2));
 		myTree.insert(std::pair<char,int>('c',3));
 
-		avltree<char,int>::const_reverse_iterator crit = myTree.crbegin();
-		crit++;
-		BOOST_CHECK_EQUAL( crit->second, 3);
+		auto crit = myTree.crbegin();
+
+		BOOST_CHECK( crit->second == 3 );
 	}
 	catch(...) {
 		BOOST_FAIL( "FAILED: avltree<T>::crbegin() const\n" );
