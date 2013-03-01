@@ -150,9 +150,8 @@ namespace avl{
 				}
 				else {
 					return std::pair<iterator,bool>(newNode, false);
-				}
-			}
-
+ 				}
+ 			}
 			//*******************************************************
 			//Swap
 			//*******************************************************
@@ -357,6 +356,9 @@ namespace avl{
 			{
 				if (find(value.first) != end()){
 					return find(value.first);
+				}
+				else if (empty()) {
+					return insert(value).first;
 				}
 
 				//if we at the end move to last node
