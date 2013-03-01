@@ -71,20 +71,19 @@ BOOST_AUTO_TEST_CASE( ut_cend_const ) {
 
 /**	const_reverse_iterator crbegin() const */
 BOOST_AUTO_TEST_CASE( ut_crbegin_const ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::crbegin() const\n";
-	/*try {
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::crbegin() const\n";
+	try {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));
 		myTree.insert(std::pair<char,int>('c',3));
 
 		avltree<char,int>::const_reverse_iterator crit = myTree.crbegin();
-		crit++;
 		BOOST_CHECK_EQUAL( crit->second, 3);
 	}
 	catch(...) {
 		BOOST_FAIL( "FAILED: avltree<T>::crbegin() const\n" );
-	}*/
+	}
 }
 
 /**	const_iterator crend() const */

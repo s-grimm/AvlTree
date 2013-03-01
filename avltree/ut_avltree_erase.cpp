@@ -33,18 +33,18 @@ BOOST_AUTO_TEST_CASE( ut_erase_iterator ) {
 
 /**	iterator erase( iterator, iterator ) */
 BOOST_AUTO_TEST_CASE( ut_erase_iterator_iterator ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::erase(iterator,iterator)\n";
-	//try {
-	//	avltree<char,int> myTree;
-	//	myTree.insert(std::pair<char,int>('a',1));
-	//	myTree.insert(std::pair<char,int>('b',2));
-	//	auto it = myTree.find('a');
-	//	myTree.erase(it,myTree.end());
-	//	BOOST_CHECK_EQUAL( myTree.empty(), true );
-	//}
-	//catch( ... ) {
-	//	BOOST_FAIL( "FAILED: avltree<T>::erase(iterator,iterator)\n" );
-	//}
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::erase(iterator,iterator)\n";
+	try {
+		avltree<char,int> myTree;
+		myTree.insert(std::pair<char,int>('a',1));
+		myTree.insert(std::pair<char,int>('b',2));
+		auto it = myTree.find('a');
+		myTree.erase(it,myTree.end());
+		BOOST_CHECK_EQUAL( myTree.empty(), true );
+	}
+	catch( ... ) {
+		BOOST_FAIL( "FAILED: avltree<T>::erase(iterator,iterator)\n" );
+	}
 }
 
 
