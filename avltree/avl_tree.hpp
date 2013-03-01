@@ -412,9 +412,9 @@ namespace avl{
 				return iterator( newNode ); // a nice little level 4 warning about not all code paths returning a value	
 			}	
 
-			iterator erase( iterator& _where ) {
-				key_type oldKey = _where->first;
-				if (erase(_where->first) == 1) {
+			iterator erase( iterator& where ) {
+				key_type oldKey = where->first;
+				if (erase(where->first) == 1) {
 					for (iterator it = this->begin(); it != this->end(); ++it) {
 						if (it->first >= oldKey) {
 							return it;
@@ -422,7 +422,7 @@ namespace avl{
 						return this->end();
 					}
 				}
-				return _where;
+				return where;
 			}
 
 			size_type erase( const key_type& key ) {
