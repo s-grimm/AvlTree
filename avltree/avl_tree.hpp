@@ -10,6 +10,18 @@
 #include "avl_iterator.hpp"
 
 namespace avl{
+	/*template <class tree>
+	class value_compare
+	{
+	private:
+		tree::key_compare key_compare;
+		tree::value_type value_type;
+		key_compare _comparer;
+	public:
+		value_compare() {}
+		~value_comparer{}
+
+	};*/
 	template <
 		class Key,
 		class Type,
@@ -27,6 +39,7 @@ namespace avl{
 			typedef Key															key_type;
 			typedef Type														mapped_type;
 			typedef Traits														key_compare;
+			//typedef value_compare												value_compare;
 			typedef typename avl_node< tree >									node;
 			typedef typename node::node_ptr										node_ptr;
 			typedef typename node::const_node_ptr								const_node_ptr;
@@ -49,11 +62,6 @@ namespace avl{
 				utilities::init_header( _header );
 				_size = 0;
 			}
-			explicit avltree( const key_compare& keyComp ) {
-				utilities::init_header( _header );
-				_size = 0;
-				_comparer = keyComp;
-			}
 			avltree( const avltree& _Right )
 			{
 				utilities::init_header( _header );
@@ -68,7 +76,6 @@ namespace avl{
 				_size = 0;
 				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
 					insert( std::move(*it) );
-					erase( it->first );
 				}
 			}
 			template<class InputIterator>
@@ -80,10 +87,10 @@ namespace avl{
 				}
 				insert( *_Last );
 			}
-			avltree( key_compare keyComp, allocator_type alloc ) {
+			avltree( key_compare key, allocator_type alloc ) {
 				utilities::init_header( _header );
 				_size = 0;
-				_comparer = keyComp;
+				_comparer = key;
 				_alloc = alloc;
 			}
 			~avltree()
@@ -133,18 +140,9 @@ namespace avl{
 				iterator newNode = find(value.first);
 				if(newNode == end())
 				{
-					return insert(value);
+					return insert(std::move(value));
 				}
-				return std::pair<iterator, bool>(newNode,false);
-			}
-			std::pair<iterator, bool> emplace_hint (iterator where, value_type&& value) {
-				iterator newNode = find(value.first);
-				if (newNode == end()) {
-					return std::pair<iterator,bool>(insert(where, value), true);
-				}
-				else {
-					return std::pair<iterator,bool>(newNode, false);
-				}
+				return std::pair<iterator, bool> (newNode,false);
 			}
 			//*******************************************************
 			//Swap
@@ -345,9 +343,6 @@ namespace avl{
 				if (find(value.first) != end()){
 					return find(value.first);
 				}
-				else if (empty()) {
-					return insert(value).first;
-				}
 
 				//if we at the end move to last node
 				if(where == end())
@@ -417,20 +412,7 @@ namespace avl{
 						}
 					} //end else compare
 				} // end while
-				return iterator( newNode ); // a nice little level 4 warning about not all code paths returning a value	
-			}	
-
-			iterator erase( iterator& where ) {
-				key_type oldKey = where->first;
-				if (erase(where->first) == 1) {
-					for (iterator it = this->begin(); it != this->end(); ++it) {
-						if (it->first >= oldKey) {
-							return it;
-						}
-						return this->end();
-					}
-				}
-				return where;
+				return iterator( newNode ); // a nice little level 4 warning about not all code paths returning a value
 			}
 
 			size_type erase( const key_type& key ) {
@@ -524,7 +506,6 @@ namespace avl{
 							utilities::delete_balance( successorParent, -1 );
 						}
 					}
-					--_size;
 					return 1;
 				}
 				return 0;
@@ -686,29 +667,50 @@ namespace avl{
 			//*******************************************************
 			//GET_ALLOCATOR
 			//*******************************************************
-			allocator_type get_allocator() const _NOEXCEPT {
+			allocator_type get_allocator() const {
 				return _alloc;
 			}
 
 			//*******************************************************
 			//CLEAR
 			//*******************************************************
-			void clear () {
+			void clear(){
 				utilities::clear_tree( node::get_parent( _header ) );
 				_size = 0;
 				delete( _header );
 				utilities::init_header( _header );
 			}
+			//*******************************************************
+			//value_comp
+			//*******************************************************
+			class value_compare	: public std::binary_function<value_type, value_type, bool>
+			{	
 
-			//*******************************************************
-			//COUNT
-			//*******************************************************
-			size_type count (const key_type& key) const {
-				if (find(key) != this->end()) {
-					return 1;
+				public:
+				bool operator()(const value_type& _Left,
+				const value_type& _Right) const
+				{	// test if _Left precedes _Right by comparing just keys
+					return (comp(_Left.first, _Right.first));
 				}
-				return 0;
+
+				value_compare(key_compare _Pred)
+				: comp(_Pred)
+				{	// construct with specified predicate
+				}
+				protected:
+				key_compare comp;	// the comparator predicate for keys
+			};
+			value_compare value_comp() const
+			{	// return object for comparing values
+			return (value_compare(key_comp()));
 			}
-		};
+			//*******************************************************
+			//key_comp
+			//*******************************************************
+			key_compare key_comp( ) const
+			{	// return object for comparing values
+				return _comparer;
+			}
+	};
 }//end namespace avl
 #endif
