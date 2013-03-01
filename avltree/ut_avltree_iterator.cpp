@@ -88,22 +88,58 @@ BOOST_AUTO_TEST_CASE( ut_crbegin_const ) {
 
 /**	const_iterator crend() const */
 BOOST_AUTO_TEST_CASE( ut_crend_const ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::crend() const\n";
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::crend() const\n";
+	try {
+		avltree<char,int> myTree;
+		myTree.insert(std::pair<char,int>('a',1));
+		myTree.insert(std::pair<char,int>('b',2));
+		myTree.insert(std::pair<char,int>('c',3));
+
+		avltree<char,int>::const_reverse_iterator crit = myTree.crend();
+		--crit;
+		BOOST_CHECK_EQUAL( crit->second, 1);
+	}
+	catch(...) {
+		BOOST_FAIL( "FAILED: avltree<T>::crend() const\n" );
+	}
 }
 
 /**	const_iterator end() const */
 BOOST_AUTO_TEST_CASE( ut_end_const ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::end() const\n";
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::end() const\n";
+	try {
+		avltree<char,int> myTree;
+		myTree.insert(std::pair<char,int>('a',1));
+		const avltree<char,int> myTree2(myTree);
+
+		avltree<char,int>::const_iterator it = myTree2.end();
+		--it;
+		BOOST_CHECK_EQUAL( it->second, 1 );
+	}
+	catch(...) {
+		BOOST_FAIL( "FAILED: avltree<T>::end() const\n" );
+	}
 }
 
 /**	iterator end() */
 BOOST_AUTO_TEST_CASE( ut_end ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::end()\n";
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::end()\n";
+	try {
+		avltree<char,int> myTree;
+		myTree.insert(std::pair<char,int>('a',1));
+		auto it = myTree.end();
+		--it;
+		BOOST_CHECK_EQUAL( it->second, myTree.begin()->second );
+	}
+	catch( ... ) {
+		BOOST_FAIL( "FAILED: avltree<T>::end()\n" );
+	}
 }
 
 /**	const_reverse_iterator rbegin() const */
 BOOST_AUTO_TEST_CASE( ut_rbegin_const ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::rbegin() const\n";
+
 }
 
 /**	reverse_iterator rbegin() */
@@ -119,6 +155,18 @@ BOOST_AUTO_TEST_CASE( ut_rend_const ) {
 /**	reverse_iterator rend() */
 BOOST_AUTO_TEST_CASE( ut_rend ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::rend()\n";
+	try {
+		avltree<char,int> myTree;
+		myTree.insert(std::pair<char,int>('a',1));
+		myTree.insert(std::pair<char,int>('b',2));
+		myTree.insert(std::pair<char,int>('c',3));
+		auto it = myTree.rend();
+		--it;
+		BOOST_CHECK_EQUAL( it->second, myTree.begin()->second );
+	}
+	catch( ... ) {
+		BOOST_FAIL( "FAILED: avltree<T>::end()\n" );
+	}
 }
 
 /*=============================================================
