@@ -119,7 +119,7 @@ namespace avl{
 			_node = utilities::next_node( _node );
 			return (*this);
 		}
-		const_avl_iterator& operator ++( int ) {
+		const_avl_iterator operator ++( int ) {
 			const_avl_iterator temp(*this);
 			++(*this);
 			return(temp);
@@ -130,7 +130,7 @@ namespace avl{
 			return (*this);
 		}
 
-		const_avl_iterator& operator -- ( int ) {
+		const_avl_iterator operator -- ( int ) {
 			const_avl_iterator temp(*this);
 			--(*this);
 			return(temp);
