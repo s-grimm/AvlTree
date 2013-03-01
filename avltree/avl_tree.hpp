@@ -89,6 +89,8 @@ namespace avl{
 
 			// operator overloads
 			tree& operator = ( tree const & rhs ) {
+				clear();
+				delete( _header );
 				utilities::init_header( _header );
 				for ( auto it = rhs.begin(); it != rhs.end() ; ++it) {
 					insert( *it );
@@ -96,6 +98,8 @@ namespace avl{
 				return *this;
 			}
 			tree& operator = ( tree&& rhs ) {
+				clear();
+				delete( _header );
 				utilities::init_header( _header );
 				for ( auto it = rhs.begin(); it != rhs.end() ; ++it) {
 					insert( std::move(*it) );
