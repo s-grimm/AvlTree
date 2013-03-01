@@ -204,6 +204,12 @@ namespace avl{
 				return itr->second;
 			}
 			//*******************************************************
+			//COUNT
+			//*******************************************************
+			size_type count( const key_type& _keyType ) const {
+				return find( _keyType ) != end() ? 1 : 0;
+			}
+			//*******************************************************
 			//INSERT
 			//*******************************************************
 			std::pair<iterator,bool> insert( const value_type& value ) {

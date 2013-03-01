@@ -15,8 +15,8 @@ using namespace avl;
 /**	size_type count( Key const& ) const */
 BOOST_AUTO_TEST_CASE( ut_count )
 {
-	 std::cout << "NOT IMPLEMENTED: avltree<T>::count()\n";
-	/*try {
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::count()\n";
+	try {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',100));
 		
@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE( ut_count )
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::count()\n" );
-	}*/
+	}
 }
 
 
