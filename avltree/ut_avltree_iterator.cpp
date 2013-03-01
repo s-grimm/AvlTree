@@ -16,9 +16,17 @@ using namespace avl;
 /**	const_iterator begin() const */
 BOOST_AUTO_TEST_CASE( ut_begin_const ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::begin() const\n";
+	try {
+		avltree<char,int> myTree;
+		myTree.insert(std::pair<char,int>('a',1));
+		const avltree<char,int> myTree2(myTree);
 
-	const avltree<char,int> myTree;
-	auto it = myTree.begin();
+		avltree<char,int>::const_iterator it = myTree2.begin();
+		BOOST_CHECK_EQUAL( it->second, 1 );
+	}
+	catch(...) {
+		BOOST_FAIL( "FAILED: avltree<T>::begin() const\n" );
+	}
 }
 
 
@@ -26,7 +34,6 @@ BOOST_AUTO_TEST_CASE( ut_begin_const ) {
 /**	iterator begin() */
 BOOST_AUTO_TEST_CASE( ut_begin ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::begin()\n";
-
 	try {
 		avltree<char,int> myTree;
 		auto it = myTree.insert(std::pair<char,int>('a',1)).first;
@@ -42,7 +49,6 @@ BOOST_AUTO_TEST_CASE( ut_begin ) {
 /**	const_iterator cbegin() const */
 BOOST_AUTO_TEST_CASE( ut_cbegin_const ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::cbegin() const\n";
-
 	try {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
@@ -58,14 +64,35 @@ BOOST_AUTO_TEST_CASE( ut_cbegin_const ) {
 
 /**	const_iterator cend() const */
 BOOST_AUTO_TEST_CASE( ut_cend_const ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::cend() const\n";
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::cend() const\n";
+	try {
+		const avltree<char,int> myTree;
+		avltree<char,int>::const_iterator it = myTree.cend();
+		BOOST_CHECK( it == myTree.cend() );
+	}
+	catch(...) {
+		BOOST_FAIL( "FAILED: avltree<T>::cend() const\n" );
+	}
 }
 
 
 
-/**	const_iterator crbegin() const */
+/**	const_reverse_iterator crbegin() const */
 BOOST_AUTO_TEST_CASE( ut_crbegin_const ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::crbegin() const\n";
+	/*try {
+		avltree<char,int> myTree;
+		myTree.insert(std::pair<char,int>('a',1));
+		myTree.insert(std::pair<char,int>('b',2));
+		myTree.insert(std::pair<char,int>('c',3));
+
+		avltree<char,int>::const_reverse_iterator crit = myTree.crbegin();
+		crit++;
+		BOOST_CHECK_EQUAL( crit->second, 3);
+	}
+	catch(...) {
+		BOOST_FAIL( "FAILED: avltree<T>::crbegin() const\n" );
+	}*/
 }
 
 
