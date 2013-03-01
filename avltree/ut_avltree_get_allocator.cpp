@@ -9,11 +9,23 @@
 	*/
 
 #include <boost/test/auto_unit_test.hpp>
+#include "avl_tree.hpp"
 #include <iostream>
 
 /**	allocator_type get_allocator() const */
 BOOST_AUTO_TEST_CASE( ut_get_allocator ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::get_allocator()\n";
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::get_allocator()\n";
+	try	{
+		using namespace avl;
+		typedef avltree<char,int> avl_tree;
+		avltree<int,int> allocTree = avltree<int,int>();
+		avltree<int, int>::allocator_type treeAllocator;
+		treeAllocator = allocTree.get_allocator();
+		avltree<int,int> tree2(std::less<int>(), treeAllocator);
+	}
+	catch(...) {
+		BOOST_FAIL( "FAILED: avltree<T>::avltree( traits&, allocator& )\n" );
+	}
 }
 
 
