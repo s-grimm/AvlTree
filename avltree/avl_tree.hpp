@@ -69,13 +69,14 @@ namespace avl{
 					insert( *it );
 				}
 			}
-			avltree( const avltree&& _Right )
+			avltree( avltree&& _Right )
 			{
 				utilities::init_header( _header );
 				_size = 0;
 				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
 					insert( std::move(*it) );
 				}
+				_Right.clear();
 			}
 			template<class InputIterator>
 			avltree( InputIterator _First, InputIterator _Last ){
@@ -150,16 +151,19 @@ namespace avl{
 				}
 				else {
 					return std::pair<iterator,bool>(newNode, false);
- 				}
- 			}
+				}
+			}
 			//*******************************************************
 			//Swap
 			//*******************************************************
 			void swap( tree& right)
 			{
 				tree tempTree = right;
+				right.clear();
 				right = *this;
+				this->clear();
 				*this = tempTree;
+				tempTree.clear();
 			}
 			//*******************************************************
 			//SIZE
