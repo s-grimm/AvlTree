@@ -138,29 +138,74 @@ BOOST_AUTO_TEST_CASE( ut_end ) {
 
 /**	const_reverse_iterator rbegin() const */
 BOOST_AUTO_TEST_CASE( ut_rbegin_const ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::rbegin() const\n";
+	//std::cout << "NOT IMPLEMENTED: avltree<T>::rbegin() const\n";
+	try{
+		avltree<int, int> m1;
 
+	   avltree <int, int> :: const_reverse_iterator m1_crIter;
+	   typedef std::pair <int, int> Int_Pair;
+
+	   m1.insert ( Int_Pair ( 1, 10 ) );
+	   m1.insert ( Int_Pair ( 2, 20 ) );
+	   m1.insert ( Int_Pair ( 3, 30 ) );
+
+	   m1_crIter = m1.crbegin( );
+	   BOOST_CHECK(m1_crIter->first == 3);
+	}
+	catch(...)
+	{
+		BOOST_FAIL( "FAILED: avltree<T>::rbegin() const \n" );
+	}
 }
 
 /**	reverse_iterator rbegin() */
 BOOST_AUTO_TEST_CASE( ut_rbegin ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::rbegin()\n";
+	//std::cout << "NOT IMPLEMENTED: avltree<T>::rbegin()\n";
+	try{
+		avltree<int, int> m1;
+
+	   avltree <int, int> :: reverse_iterator m1_rIter;
+	   typedef std::pair <int, int> Int_Pair;
+
+	   m1.insert ( Int_Pair ( 1, 10 ) );
+	   m1.insert ( Int_Pair ( 2, 20 ) );
+	   m1.insert ( Int_Pair ( 3, 30 ) );
+
+	   m1_rIter = m1.rbegin( );
+	   BOOST_CHECK(m1_rIter->first == 3);
+	}
+	catch(...)
+	{
+		BOOST_FAIL( "FAILED: avltree<T>::rbegin()  \n" );
+	}
 }
 
 /**	const_reverse_iterator rend() const */
 BOOST_AUTO_TEST_CASE( ut_rend_const ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::rend() const\n";
-}
-
-/**	reverse_iterator rend() */
-BOOST_AUTO_TEST_CASE( ut_rend ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::rend()\n";
+	//std::cout << "NOT IMPLEMENTED: avltree<T>::rend() const\n";
 	try {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));
 		myTree.insert(std::pair<char,int>('c',3));
-		auto it = myTree.rend();
+		avltree <char, int> :: const_reverse_iterator it = myTree.crend();
+		--it;
+		BOOST_CHECK_EQUAL( it->second, myTree.begin()->second );
+	}
+	catch( ... ) {
+		BOOST_FAIL( "FAILED: avltree<T>::end()const\n" );
+	}
+}
+
+/**	reverse_iterator rend() */
+BOOST_AUTO_TEST_CASE( ut_rend ) {
+	//std::cout << "NOT IMPLEMENTED: avltree<T>::rend()\n";
+	try {
+		avltree<char,int> myTree;
+		myTree.insert(std::pair<char,int>('a',1));
+		myTree.insert(std::pair<char,int>('b',2));
+		myTree.insert(std::pair<char,int>('c',3));
+		avltree <char, int> :: reverse_iterator it = myTree.rend();
 		--it;
 		BOOST_CHECK_EQUAL( it->second, myTree.begin()->second );
 	}
