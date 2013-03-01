@@ -15,8 +15,8 @@ using namespace avl;
 
 /**	iterator erase( iterator ) */
 BOOST_AUTO_TEST_CASE( ut_erase_iterator ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::erase(iterator)\n";
-	/*try {
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::erase(iterator)\n";
+	try {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));
@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE( ut_erase_iterator ) {
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::erase(iterator)\n" );
-	}*/
+	}
 }
 
 
@@ -56,7 +56,12 @@ BOOST_AUTO_TEST_CASE( ut_erase_key ) {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));
-		int count = myTree.erase('a');
+		myTree.insert(std::pair<char,int>('c',3));
+		myTree.insert(std::pair<char,int>('d',4));
+		myTree.insert(std::pair<char,int>('e',5));
+		int count = myTree.erase('b');
+		BOOST_CHECK_EQUAL( count, 1 );
+		count = myTree.erase('a');
 		BOOST_CHECK_EQUAL( count, 1 );
 	}
 	catch( ... ) {

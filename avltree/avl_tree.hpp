@@ -14,12 +14,12 @@ namespace avl{
 	class value_compare
 	{
 	private:
-		tree::key_compare key_compare;
-		tree::value_type value_type;
-		key_compare _comparer;
+	tree::key_compare key_compare;
+	tree::value_type value_type;
+	key_compare _comparer;
 	public:
-		value_compare() {}
-		~value_comparer{}
+	value_compare() {}
+	~value_comparer{}
 
 	};*/
 	template <
@@ -420,8 +420,24 @@ namespace avl{
 				return iterator( newNode ); // a nice little level 4 warning about not all code paths returning a value
 			}
 
+			//*******************************************************
+			//ERASE
+			//*******************************************************
+			iterator erase (iterator where) {
+				key_type oldKey = where->first;
+				if (erase(oldKey) == 1) {
+					for (auto it = begin(); it != end(); ++it) {
+						if (it->first > oldKey) {
+							return it;
+						}
+					}
+				}
+				return end();
+			}
+
 			size_type erase( const key_type& key ) {
 				node_ptr node = utilities::find_node( node::get_parent( _header ), key );
+				node_ptr oldNode = node;
 				if ( node ) {
 					node_ptr left = node::get_left( node );
 					node_ptr right = node::get_right( node );
@@ -429,16 +445,18 @@ namespace avl{
 					if ( !left ) {
 						if ( !right ) {
 							if ( node == node::get_parent( _header ) ) {
-								// we need to remove the root here
+								delete( node);
+								delete( _header);
+								utilities::init_header( _header );
 							} else {
 								node_ptr parent = node::get_parent( node );
 								if ( node::get_left( parent ) == node ) {
-									node::set_left( parent, nullptr );
 									delete( node::get_left( parent ) );
+									node::set_left( parent, nullptr );
 									utilities::delete_balance( parent, -1 );
 								} else {
-									node::set_right( parent, nullptr );
 									delete( node::get_right( parent ) );
+									node::set_right( parent, nullptr );
 									utilities::delete_balance( parent, 1 );
 								}
 							}
@@ -472,6 +490,7 @@ namespace avl{
 								}
 							}
 							utilities::delete_balance( successor, 1 );
+							delete( oldNode );
 						} else {
 							successor = utilities::minimum( successor );
 							node_ptr parent = node::get_parent( node );
@@ -509,8 +528,10 @@ namespace avl{
 								}
 							}
 							utilities::delete_balance( successorParent, -1 );
+							delete( oldNode );
 						}
 					}
+					--_size;
 					return 1;
 				}
 				return 0;
@@ -691,23 +712,23 @@ namespace avl{
 			class value_compare	: public std::binary_function<value_type, value_type, bool>
 			{	
 
-				public:
+			public:
 				bool operator()(const value_type& _Left,
-				const value_type& _Right) const
+					const value_type& _Right) const
 				{	// test if _Left precedes _Right by comparing just keys
 					return (comp(_Left.first, _Right.first));
 				}
 
 				value_compare(key_compare _Pred)
-				: comp(_Pred)
+					: comp(_Pred)
 				{	// construct with specified predicate
 				}
-				protected:
+			protected:
 				key_compare comp;	// the comparator predicate for keys
 			};
 			value_compare value_comp() const
 			{	// return object for comparing values
-			return (value_compare(key_comp()));
+				return (value_compare(key_comp()));
 			}
 			//*******************************************************
 			//key_comp
@@ -725,7 +746,7 @@ namespace avl{
 				{
 					return false;
 				}
-				
+
 				const_iterator lhs = cbegin();
 				const_iterator rhs = right.cbegin();
 				while(lhs != cend() && rhs != right.cend() )
