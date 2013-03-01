@@ -10,18 +10,6 @@
 #include "avl_iterator.hpp"
 
 namespace avl{
-	/*template <class tree>
-	class value_compare
-	{
-	private:
-	tree::key_compare key_compare;
-	tree::value_type value_type;
-	key_compare _comparer;
-	public:
-	value_compare() {}
-	~value_comparer{}
-
-	};*/
 	template <
 		class Key,
 		class Type,
@@ -751,8 +739,7 @@ namespace avl{
 			//value_comp
 			//*******************************************************
 			class value_compare	: public std::binary_function<value_type, value_type, bool>
-			{	
-
+			{
 			public:
 				bool operator()(const value_type& _Left,
 					const value_type& _Right) const
@@ -778,145 +765,56 @@ namespace avl{
 			{	// return object for comparing values
 				return _comparer;
 			}
-			//*******************************************************
-			//Relation Operators
-			//*******************************************************
-			bool operator==(const tree& right)
-			{	
-				if(_size != right.size())
-				{
-					return false;
-				}
-
-				const_iterator lhs = cbegin();
-				const_iterator rhs = right.cbegin();
-				while(lhs != cend() && rhs != right.cend() )
-				{
-					if(lhs->first != rhs->first || lhs->second != rhs->second)
-					{
-						return false;
-					}
-					++lhs;
-					++rhs;
-				}
-				return true;
-			}
-			bool operator!=(const tree& right)
-			{
-				return (!(*this == right));
-			}
-			bool operator<(const tree& right)
-			{
-				const_iterator lhs = cbegin();
-				const_iterator rhs = right.cbegin();
-				while(lhs != cend() && rhs != right.cend() )
-				{
-					if(lhs->first != rhs->first || lhs->second != rhs->second)
-					{
-						if(lhs->first < rhs->first || lhs->second < rhs->second)
-						{
-							return true;
-						}						
-					}
-					++lhs;
-					++rhs;
-				}
-				return false;
-			}
-			bool operator>(const tree& right)
-			{
-				return ( right < *this );
-			}
-			bool operator<=(const tree& right)
-			{
-				return ( !(right < *this) );
-			}
-			bool operator>=(const tree& right)
-			{
-				return ( !(*this < right) );
-			}
 		};
 		//*******************************************************
 		//Relation Operators
 		//*******************************************************
-		template <
-			class Key,
-			class Type
-		>
-		bool operator==(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
-			{	
-				if(left.size() != right.size())
-				{
+		template < class Key, class Type >
+		bool operator==(const avltree<Key,Type>& left,const avltree<Key,Type>& right) {
+			if(left.size() != right.size())	{
+				return false;
+			}
+			avltree<Key,Type>::const_iterator lhs = left.cbegin();
+			avltree<Key,Type>::const_iterator rhs = right.cbegin();
+			while(lhs != left.cend() && rhs != right.cend() ) {
+				if(lhs->first != rhs->first || lhs->second != rhs->second) {
 					return false;
 				}
-
-				avltree<Key,Type>::const_iterator lhs = left.cbegin();
-				avltree<Key,Type>::const_iterator rhs = right.cbegin();
-				while(lhs != left.cend() && rhs != right.cend() )
-				{
-					if(lhs->first != rhs->first || lhs->second != rhs->second)
-					{
-						return false;
-					}
-					++lhs;
-					++rhs;
-				}
-				return true;
+				++lhs;
+				++rhs;
 			}
-			template <
-				class Key,
-				class Type
-			>
-			bool operator!=(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
-				{
-					return (!(left == right));
-				}
-				template <
-					class Key,
-					class Type
-				>
-				bool operator<(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
-					{
-						avltree<Key,Type>::const_iterator lhs = left.cbegin();
-						avltree<Key,Type>::const_iterator rhs = right.cbegin();
-						while(lhs != left.cend() && rhs != right.cend() )
-						{
-							if(lhs->first != rhs->first || lhs->second != rhs->second)
-							{
-								if(lhs->first < rhs->first || lhs->second < rhs->second)
-								{
-									return true;
-								}						
-							}
-							++lhs;
-							++rhs;
-						}
-						return false;
+			return true;
+		}
+		template < class Key, class Type >
+		bool operator!=(const avltree<Key,Type>& left,const avltree<Key,Type>& right) {
+			return (!(left == right));
+		}
+		template < class Key, class Type >
+		bool operator<(const avltree<Key,Type>& left,const avltree<Key,Type>& right) {
+			avltree<Key,Type>::const_iterator lhs = left.cbegin();
+			avltree<Key,Type>::const_iterator rhs = right.cbegin();
+			while(lhs != left.cend() && rhs != right.cend() ) {
+				if(lhs->first != rhs->first || lhs->second != rhs->second) {
+					if(lhs->first < rhs->first || lhs->second < rhs->second) {
+						return true;
 					}
-					template <
-						class Key,
-						class Type
-					>
-					bool operator>(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
-						{
-							return ( right < left );
-						}
-						template <
-							class Key,
-							class Type
-						>
-						bool operator<=(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
-							{
-								return ( !(right < left) );
-							}
-							template <
-								class Key,
-								class Type
-							>
-							bool operator>=(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
-								{
-									return ( !(left < right) );
-								}
-
+				}
+				++lhs;
+				++rhs;
+			}
+			return false;
+		}
+		template < class Key, class Type >
+		bool operator>(const avltree<Key,Type>& left,const avltree<Key,Type>& right) {
+			return ( right < left );
+		}
+		template < class Key, class Type >
+		bool operator<=(const avltree<Key,Type>& left,const avltree<Key,Type>& right) {
+			return ( !(right < left) );
+		}
+		template < class Key, class Type >
+		bool operator>=(const avltree<Key,Type>& left,const avltree<Key,Type>& right) {
+			return ( !(left < right) );
+		}
 }//end namespace avl
 #endif
