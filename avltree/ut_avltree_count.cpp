@@ -17,7 +17,6 @@ using namespace avl;
 BOOST_AUTO_TEST_CASE( ut_count )
 {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::count()\n";
-
 	/*try {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',100));

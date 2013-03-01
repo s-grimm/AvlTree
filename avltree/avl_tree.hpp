@@ -407,6 +407,19 @@ namespace avl{
 				return iterator( newNode ); // a nice little level 4 warning about not all code paths returning a value	
 			}	
 
+			iterator erase( iterator& _where ) {
+				key_type oldKey = _where->first;
+				if (erase(_where->first) == 1) {
+					for (iterator it = this->begin(); it != this->end(); ++it) {
+						if (it->first >= oldKey) {
+							return it;
+						}
+						return this->end();
+					}
+				}
+				return _where;
+			}
+
 			size_type erase( const key_type& key ) {
 				node_ptr node = utilities::find_node( node::get_parent( _header ), key );
 				if ( node ) {
@@ -498,6 +511,7 @@ namespace avl{
 							utilities::delete_balance( successorParent, -1 );
 						}
 					}
+					--_size;
 					return 1;
 				}
 				return 0;
