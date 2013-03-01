@@ -36,8 +36,8 @@ BOOST_AUTO_TEST_CASE( ut_at_key )
 /**	at( Key const& ) const */
 BOOST_AUTO_TEST_CASE( ut_at_key_const )
 {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::at( Key const& ) const\n";
-	/*try {
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::at( Key const& ) const\n";
+	try {
 		using namespace avl;
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE( ut_at_key_const )
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::at( Key const& )\n" );
-	}*/
+	}
 }
 
 

@@ -49,6 +49,11 @@ namespace avl{
 				utilities::init_header( _header );
 				_size = 0;
 			}
+			explicit avltree( const key_compare& keyComp ) {
+				utilities::init_header( _header );
+				_size = 0;
+				_comparer = keyComp;
+			}
 			avltree( const avltree& _Right )
 			{
 				utilities::init_header( _header );
@@ -63,8 +68,8 @@ namespace avl{
 				_size = 0;
 				for ( auto it = _Right.cbegin(); it != _Right.cend(); ++it ) {
 					insert( std::move(*it) );
+					erase( it->first );
 				}
-
 			}
 			template<class InputIterator>
 			avltree( InputIterator _First, InputIterator _Last ){
@@ -75,10 +80,10 @@ namespace avl{
 				}
 				insert( *_Last );
 			}
-			avltree( key_compare key, allocator_type alloc ) {
+			avltree( key_compare keyComp, allocator_type alloc ) {
 				utilities::init_header( _header );
 				_size = 0;
-				_comparer = key;
+				_comparer = keyComp;
 				_alloc = alloc;
 			}
 			~avltree()
