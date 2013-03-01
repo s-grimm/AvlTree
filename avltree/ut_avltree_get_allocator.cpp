@@ -11,8 +11,6 @@
 #include <boost/test/auto_unit_test.hpp>
 #include <iostream>
 
-
-
 /**	allocator_type get_allocator() const */
 BOOST_AUTO_TEST_CASE( ut_get_allocator ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::get_allocator()\n";

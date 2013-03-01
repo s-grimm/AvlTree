@@ -98,8 +98,8 @@ BOOST_AUTO_TEST_CASE( ut_insert_T_move ) {
 
 /**	template <class ValTy> pair<iterator,bool> insert( const_iterator, ValTy && ) */
 BOOST_AUTO_TEST_CASE( ut_insert_iterator_T_move ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::insert(iterator,&&)\n";
-	/*try {
+	// std::cout << "NOT IMPLEMENTED: avltree<T>::insert(iterator,&&)\n";
+	try {
 		using namespace avl;
 		typedef avltree<char,int> avl_tree;
 		avl_tree myTree;
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE( ut_insert_iterator_T_move ) {
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::insert(iterator,&&)\n" );
-	}*/
+	}
 }
 
 
