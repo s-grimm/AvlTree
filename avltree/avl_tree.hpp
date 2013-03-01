@@ -27,6 +27,7 @@ namespace avl{
 			typedef Key															key_type;
 			typedef Type														mapped_type;
 			typedef Traits														key_compare;
+			typedef typename tree::value_type*									pointer;
 			typedef typename avl_node< tree >									node;
 			typedef typename node::node_ptr										node_ptr;
 			typedef typename node::const_node_ptr								const_node_ptr;
@@ -177,13 +178,23 @@ namespace avl{
 			//AT
 			//*******************************************************
 			Type& at( const Key& key ) {
-				return this->find(key)->second;
+				auto it = find(key);
+				if (it != end() ) {
+					return it->second;
+				}
+
+				throw std::out_of_range("avltree out of bounds");
 			}
 			//*******************************************************
 			//AT
 			//*******************************************************
 			const Type& at( const Key& key ) const {
-				return this->find(key)->second;
+				auto it = find(key);
+				if (it != end() ) {
+					return it->second;
+				}
+
+				throw std::out_of_range("avltree out of bounds");
 			}
 			//*******************************************************
 			//ARRAY
@@ -729,7 +740,6 @@ namespace avl{
 			//MAX_SIZE
 			//*******************************************************
 			size_type max_size () const {
-				// return std::numeric_limits<std::size_t>::max() / sizeof(value_type);
 				return _alloc.max_size();
 			}
 			//*******************************************************
