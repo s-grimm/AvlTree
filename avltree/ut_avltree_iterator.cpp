@@ -1,16 +1,16 @@
 /**	@file: ut_avltree_iterator.cpp
-	@author Garth Santor
-	@author gsantor@fanshaweonline.ca
-	@author http://www.gats.ca/
-	@date 2013-01-16
-	@version 0.0.0
-	@note Developed for C++ 11
-	@brief avltree<T>::iterator unit tests.
-	*/
+@author Garth Santor
+@author gsantor@fanshaweonline.ca
+@author http://www.gats.ca/
+@date 2013-01-16
+@version 0.0.0
+@note Developed for C++ 11
+@brief avltree<T>::iterator unit tests.
+*/
 
 #include <boost/test/auto_unit_test.hpp>
 #include <iostream>
-#include "avl_tree.hpp" 
+#include "avl_tree.hpp"
 using namespace avl;
 
 /**	const_iterator begin() const */
@@ -29,8 +29,6 @@ BOOST_AUTO_TEST_CASE( ut_begin_const ) {
 	}
 }
 
-
-
 /**	iterator begin() */
 BOOST_AUTO_TEST_CASE( ut_begin ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::begin()\n";
@@ -43,8 +41,6 @@ BOOST_AUTO_TEST_CASE( ut_begin ) {
 		BOOST_FAIL( "FAILED: avltree<T>::begin()\n" );
 	}
 }
-
-
 
 /**	const_iterator cbegin() const */
 BOOST_AUTO_TEST_CASE( ut_cbegin_const ) {
@@ -60,8 +56,6 @@ BOOST_AUTO_TEST_CASE( ut_cbegin_const ) {
 	}
 }
 
-
-
 /**	const_iterator cend() const */
 BOOST_AUTO_TEST_CASE( ut_cend_const ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::cend() const\n";
@@ -75,75 +69,62 @@ BOOST_AUTO_TEST_CASE( ut_cend_const ) {
 	}
 }
 
-
-
 /**	const_reverse_iterator crbegin() const */
 BOOST_AUTO_TEST_CASE( ut_crbegin_const ) {
-	std::cout << "NOT IMPLEMENTED: avltree<T>::crbegin() const\n";
-	/*try {
+	//std::cout << "NOT IMPLEMENTED: avltree<T>::crbegin() const\n";
+	try {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',1));
 		myTree.insert(std::pair<char,int>('b',2));
 		myTree.insert(std::pair<char,int>('c',3));
 
 		avltree<char,int>::const_reverse_iterator crit = myTree.crbegin();
-		crit++;
-		BOOST_CHECK_EQUAL( crit->second, 3);
+
+		avltree<char,int>::reverse_iterator rit = myTree.rbegin();
+
+		for(; rit != myTree.rend(); ++rit)
+		{
+		}
 	}
 	catch(...) {
 		BOOST_FAIL( "FAILED: avltree<T>::crbegin() const\n" );
-	}*/
+	}
 }
-
-
 
 /**	const_iterator crend() const */
 BOOST_AUTO_TEST_CASE( ut_crend_const ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::crend() const\n";
 }
 
-
-
 /**	const_iterator end() const */
 BOOST_AUTO_TEST_CASE( ut_end_const ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::end() const\n";
 }
-
-
 
 /**	iterator end() */
 BOOST_AUTO_TEST_CASE( ut_end ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::end()\n";
 }
 
-
-
 /**	const_reverse_iterator rbegin() const */
 BOOST_AUTO_TEST_CASE( ut_rbegin_const ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::rbegin() const\n";
 }
-
-
 
 /**	reverse_iterator rbegin() */
 BOOST_AUTO_TEST_CASE( ut_rbegin ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::rbegin()\n";
 }
 
-
-
 /**	const_reverse_iterator rend() const */
 BOOST_AUTO_TEST_CASE( ut_rend_const ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::rend() const\n";
 }
 
-
-
 /**	reverse_iterator rend() */
 BOOST_AUTO_TEST_CASE( ut_rend ) {
 	std::cout << "NOT IMPLEMENTED: avltree<T>::rend()\n";
 }
-
 
 /*=============================================================
 

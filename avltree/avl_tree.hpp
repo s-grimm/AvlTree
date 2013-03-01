@@ -45,8 +45,8 @@ namespace avl{
 			typedef typename avl_utilities< tree >								utilities;
 			typedef typename avl_iterator< tree >								iterator;
 			typedef typename const_avl_iterator< tree >							const_iterator;
-			typedef std::reverse_iterator<iterator>								reverse_iterator;
-			typedef std::reverse_iterator<const_iterator>						const_reverse_iterator;
+			typedef typename std::reverse_iterator<iterator>					reverse_iterator;
+			typedef typename std::reverse_iterator<const_iterator>				const_reverse_iterator;
 		private:
 			node_ptr _header;
 			std::size_t _size;
@@ -777,16 +777,19 @@ namespace avl{
 	//*******************************************************
 	//Relation Operators
 	//*******************************************************
-	template<class tree>
-	bool operator==(const tree& left,const tree& right)
+		template <
+		class Key,
+		class Type
+		>
+	bool operator==(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
 	{	
 		if(left.size() != right.size())
 		{
 			return false;
 		}
 				
-		tree::const_iterator lhs = left.cbegin();
-		tree::const_iterator rhs = right.cbegin();
+		avltree<Key,Type>::const_iterator lhs = left.cbegin();
+		avltree<Key,Type>::const_iterator rhs = right.cbegin();
 		while(lhs != left.cend() && rhs != right.cend() )
 		{
 			if(lhs->first != rhs->first || lhs->second != rhs->second)
@@ -798,16 +801,22 @@ namespace avl{
 		}
 		return true;
 	}
-	template<class tree>
-	bool operator!=(const tree& left,const tree& right)
+		template <
+		class Key,
+		class Type
+		>
+	bool operator!=(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
 	{
 		return (!(left == right));
 	}
-	template<class tree>
-	bool operator<(const tree& left,const tree& right)
+		template <
+		class Key,
+		class Type
+		>
+	bool operator<(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
 	{
-		tree::const_iterator lhs = left.cbegin();
-		tree::const_iterator rhs = right.cbegin();
+		avltree<Key,Type>::const_iterator lhs = left.cbegin();
+		avltree<Key,Type>::const_iterator rhs = right.cbegin();
 		while(lhs != left.cend() && rhs != right.cend() )
 		{
 			if(lhs->first != rhs->first || lhs->second != rhs->second)
@@ -822,18 +831,27 @@ namespace avl{
 		}
 		return false;
 	}
-	template<class tree>
-	bool operator>(const tree& left,const tree& right)
+		template <
+		class Key,
+		class Type
+		>
+	bool operator>(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
 	{
 		return ( right < left );
 	}
-	template<class tree>
-	bool operator<=(const tree& left,const tree& right)
+		template <
+		class Key,
+		class Type
+		>
+	bool operator<=(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
 	{
 		return ( !(right < left) );
 	}
-	template<class tree>
-	bool operator>=(const tree& left,const tree& right)
+		template <
+		class Key,
+		class Type
+		>
+	bool operator>=(const avltree<Key,Type>& left,const avltree<Key,Type>& right)
 	{
 		return ( !(left < right) );
 	}

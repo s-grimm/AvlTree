@@ -1,6 +1,6 @@
 #if !defined (GUARD_GRIMMINCKavl_iterator_20130202_)
 #define GUARD_GRIMMINCKavl_iterator_20130202_
-#include <assert.h> 
+#include <assert.h>
 namespace avl{
 	template <class tree>
 	class const_avl_iterator;
@@ -40,8 +40,6 @@ namespace avl{
 
 		bool operator == ( const avl_iterator& rhs ) const { return ( _node == rhs._node); }
 		bool operator != ( const avl_iterator& rhs ) const { return ( _node != rhs._node); }
-		bool operator == ( const const_avl_iterator<tree>& rhs ) const { return ( _node == rhs._node); }
-		bool operator != ( const const_avl_iterator<tree>& rhs ) const { return ( _node != rhs._node); }
 
 		avl_iterator& operator++()
 		{
@@ -75,7 +73,7 @@ namespace avl{
 			return &_node->_value;
 		}
 	};
-	
+
 	template <class tree>
 	class const_avl_iterator {
 	public:
@@ -112,8 +110,7 @@ namespace avl{
 
 		bool operator == ( const const_avl_iterator& rhs ) const { return ( _node == rhs._node); }
 		bool operator != ( const const_avl_iterator& rhs ) const { return ( _node != rhs._node); }
-		bool operator == ( const avl_iterator<tree>& rhs ) const { return ( _node == rhs._node); }
-		bool operator != ( const avl_iterator<tree>& rhs ) const { return ( _node != rhs._node); }
+
 		const_avl_iterator& operator++()
 		{
 			_node = utilities::next_node( _node );
