@@ -111,12 +111,12 @@ namespace avl{
 			const_iterator			end() const		{ return const_iterator( _header ); }
 			const_iterator			cend() const	{ return const_iterator( _header ); }
 
-			reverse_iterator		rbegin()		{ return reverse_iterator( end() ); }
-			const_reverse_iterator	rbegin() const	{ return const_reverse_iterator( end() ); }
-			const_iterator			crbegin() const { return const_reverse_iterator( end() ); }
-			reverse_iterator		rend()			{ return reverse_iterator( begin() ); }
-			const_reverse_iterator	rend() const	{ return const_reverse_iterator( begin() ); }
-			const_iterator			crend() const	{ return const_reverse_iterator( begin() ); }
+			reverse_iterator		rbegin()		{ return reverse_iterator( _header ); }
+			const_reverse_iterator	rbegin() const	{ return const_reverse_iterator( _header ); }
+			const_reverse_iterator	crbegin() const { return const_reverse_iterator( _header ); }
+			reverse_iterator		rend()			{ return reverse_iterator( node::get_left( _header ) ); }
+			const_reverse_iterator	rend() const	{ return const_reverse_iterator( node::get_left( _header ) ); }
+			const_reverse_iterator	crend() const	{ return const_reverse_iterator( node::get_left( _header ) ); }
 
 			//*******************************************************
 			//Empty
