@@ -95,6 +95,13 @@ namespace avl{
 				}
 				return *this;
 			}
+			tree& operator = ( tree&& rhs ) {
+				utilities::init_header( _header );
+				for ( auto it = rhs.begin(); it != rhs.end() ; ++it) {
+					insert( std::move(*it) );
+				}
+				return *this;
+			}
 
 			//*******************************************************
 			//Iterators
