@@ -63,12 +63,12 @@ namespace avl{
 			return(temp);
 		}
 
-		value_type& operator * () const {
+		reference operator * () const {
 			assert( ! utilities::is_header( _node ) );
 			return _node->_value;
 		}
 
-		value_type* operator -> () const {
+		pointer operator -> () const {
 			assert( ! utilities::is_header( _node ) );
 			return &_node->_value;
 		}
@@ -133,12 +133,12 @@ namespace avl{
 			return(temp);
 		}
 
-		const value_type& operator * () const {
+		const reference operator * () const {
 			assert( ! utilities::is_header( _node ) );
 			return _node->_value;
 		}
 
-		const value_type* operator -> () const {
+		const pointer operator -> () const {
 			assert( ! utilities::is_header( _node ) );
 			return &_node->_value;
 		}
