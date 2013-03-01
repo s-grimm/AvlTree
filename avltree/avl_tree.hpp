@@ -100,7 +100,6 @@ namespace avl{
 				}
 				return *this;
 			}
-			
 
 			//*******************************************************
 			//Iterators
@@ -124,7 +123,7 @@ namespace avl{
 			//*******************************************************
 			bool empty() const _NOEXCEPT
 			{	// return true only if sequence is empty
-			return (size() == 0);
+				return (size() == 0);
 			}
 			//*******************************************************
 			//Emplace
@@ -151,7 +150,7 @@ namespace avl{
 			//Swap
 			//*******************************************************
 			void swap( tree& right)
-			{	
+			{
 				tree tempTree = right;
 				right = *this;
 				*this = tempTree;
@@ -161,7 +160,7 @@ namespace avl{
 			//*******************************************************
 			size_type size() const _NOEXCEPT
 			{	// return length of sequence
-			return _size;
+				return _size;
 			}
 			//*******************************************************
 			//AT
@@ -189,13 +188,11 @@ namespace avl{
 				{
 					std::pair<iterator,bool> inserted =  insert(value_type(key,mapped_type()));
 					itr = inserted.first;
-					
 				}
 				return itr->second;
 			}
 			Type& operator[]( Key&& key)
 			{
-				
 				iterator itr = find(key);
 				if(itr != end() && key == itr->first)
 				{
@@ -205,7 +202,6 @@ namespace avl{
 				{
 					std::pair<iterator,bool> inserted =  insert(value_type(std::move(key),mapped_type()));
 					itr = inserted.first;
-					
 				}
 				return itr->second;
 			}
@@ -330,22 +326,22 @@ namespace avl{
 				} // end while
 				return std::pair<iterator,bool>( iterator( newNode ), false ); // a nice little level 4 warning about not all code paths returning a value
 			}
-			
+
 			//*******************************************************
 			//INSERT
 			//*******************************************************
 			template<class InputIterator>
 			void insert(InputIterator first, InputIterator last)
-			{			
-			for (; first != last; ++first)
-				insert(*first);
-			}		
+			{
+				for (; first != last; ++first)
+					insert(*first);
+			}
 
 			//*******************************************************
 			//INSERT
 			//*******************************************************
 			iterator insert(iterator where, const value_type& value)
-			{	
+			{
 				if (find(value.first) != end()){
 					return find(value.first);
 				}
@@ -364,7 +360,7 @@ namespace avl{
 					--where;
 				}
 				while(where != end() && !_comparer(value.first, where->first) )
-				{	
+				{
 					++where;
 				}
 				//if we at the end move to last node
@@ -567,7 +563,7 @@ namespace avl{
 			//*******************************************************
 			//Find
 			//*******************************************************
-			const_iterator find( const key_type& key ) const {				
+			const_iterator find( const key_type& key ) const {
 				if( node::get_parent( _header ) ) {
 					node_ptr currentNode = node::get_parent( _header );
 
@@ -598,7 +594,7 @@ namespace avl{
 			//BOUNDS
 			//*******************************************************
 			iterator lower_bound(const key_type& key)
-			{	
+			{
 				iterator bound = this->find(key);
 				if (bound != end()) {
 					return bound;
@@ -614,7 +610,7 @@ namespace avl{
 			}
 
 			const_iterator lower_bound(const key_type& key) const
-			{	
+			{
 				const_iterator cbound = this->find(key);
 				if (cbound != end()) {
 					return cbound;
@@ -632,7 +628,7 @@ namespace avl{
 			}
 
 			iterator upper_bound(const key_type& key)
-			{	
+			{
 				iterator bound = this->find(key);
 				if (bound != end()) {
 					return ++bound;
@@ -648,7 +644,7 @@ namespace avl{
 			}
 
 			const_iterator upper_bound(const key_type& key) const
-			{	
+			{
 				const_iterator cbound = this->find(key);
 				if (cbound != cend()) {
 					const_iterator nextcbound = ++cbound;
@@ -679,7 +675,7 @@ namespace avl{
 			{
 				return std::pair<iterator, iterator>(lower_bound(key),upper_bound(key));
 			}
-			
+
 			//*******************************************************
 			//MAX_SIZE
 			//*******************************************************

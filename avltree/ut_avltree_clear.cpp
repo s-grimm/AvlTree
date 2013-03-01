@@ -15,7 +15,7 @@ using namespace avl;
 /**	void clear() */
 BOOST_AUTO_TEST_CASE( ut_clear )
 {
-	// std::cout << "NOT IMPLEMENTED: avltree<T>::clear()\n";
+	//std::cout << "NOT IMPLEMENTED: avltree<T>::clear()\n";
 	try {
 		avltree<char,int> myTree;
 		myTree.insert(std::pair<char,int>('a',100));
