@@ -370,13 +370,27 @@ namespace avl{
 			return rightLeft;
 		}
 
-		static void succeed( node_ptr target, node_ptr source ) {
-			target = std::move( source );
-			if ( node::get_left( target ) ) {
-				node::set_parent( node::get_left( target ), target );
+		static void succeed( node_ptr& predecessor, node_ptr& successor ) {
+			
+			node_ptr left = node::get_left( successor );
+			node_ptr right = node::get_right( successor );
+			node_ptr parent = node::get_parent( predecessor ); // if the node is the header we have to check to see if we are replacing the left or right node and update it
+
+			predecessor = successor;
+			node::set_parent( predecessor, parent );
+			if ( is_header( parent ) ) {
+				node::set_parent( parent, predecessor );
+			} 
+			/*node::set_value( successor, predecessor ); 
+			node::set_left( predecessor, left );
+			node::set_right( predecessor, right );*/
+
+			if ( left ) {
+				node::set_parent( left, predecessor );
 			}
-			if ( node::get_right( target ) ) {
-				node::set_parent( node::get_right( target ), target );
+			
+			if ( right ) {
+				node::set_parent( right, predecessor );
 			}
 		}
 

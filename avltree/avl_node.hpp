@@ -28,6 +28,7 @@ namespace avl{
 			original._parentNode = original._leftNode = original._rightNode = nullptr;
 			original._value = NULL;
 			original._balance = 0;
+			delete ( original );
 		}
 		//d'tors
 		~avl_node(){
@@ -100,6 +101,10 @@ namespace avl{
 
 		static void set_balance(const node_ptr & node, int balance) {
 			node->_balance = balance;
+		}
+
+		static void set_value( const node_ptr& from, const node_ptr& to ) {
+			to->_value = from->_value;
 		}
 
 		static node_ptr to_ptr ( const const_node_ptr & rhs ){
