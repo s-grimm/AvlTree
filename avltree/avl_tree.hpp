@@ -143,15 +143,16 @@ namespace avl{
 				}
 				return std::pair<iterator, bool> (newNode,false);
 			}
-
-			std::pair<iterator,bool> emplace_hint(const_iterator where, value_type&& value) {
+			std::pair<iterator, bool> emplace_hint (iterator where, value_type&& value) {
 				iterator newNode = find(value.first);
-				if(newNode == end())
-				{
-					return std::pair<iterator,bool>(insert(where, std::move(value)),true);
+				if (newNode == end()) {
+					return std::pair<iterator,bool>(insert(where,value), true);
 				}
-				return std::pair<iterator, bool>(newNode,false);
+				else {
+					return std::pair<iterator,bool>(newNode, false);
+				}
 			}
+
 			//*******************************************************
 			//Swap
 			//*******************************************************

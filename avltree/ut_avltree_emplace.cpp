@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE( ut_emplace_hint )
 	try {
 		avltree<char,int> myTree;
 		std::pair<char,int> pair('a',1);
-		myTree.emplace_hint(myTree.cbegin(), std::move(pair));
+		myTree.emplace_hint(myTree.begin(), std::move(pair));
 		BOOST_CHECK_EQUAL( myTree['a'], 1 );
 	}
 	catch( ... ) {
