@@ -25,6 +25,8 @@ BOOST_AUTO_TEST_CASE( ut_at_key )
 
 		myTree.at('a') = 10;
 		BOOST_CHECK_EQUAL( myTree.at('a'), 10 );
+
+		BOOST_REQUIRE_THROW( myTree.at('c'), std::out_of_range );
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::at( Key const& )\n" );
