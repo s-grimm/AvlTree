@@ -42,6 +42,8 @@ BOOST_AUTO_TEST_CASE( ut_typedef ) {
 	BOOST_CHECK( typeid( avltree<int,int>::pointer ).name() == typeid( std::pair<const int, int>* ).name() );
 	BOOST_CHECK( typeid( avltree<int,int>::pointer ).name() != typeid( std::pair<int, int>* ).name() );
 
+	BOOST_CHECK( typeid( avltree<int,int>::reference ).name() == typeid( std::allocator<std::pair<const int, int>>::reference ).name() );
+	BOOST_CHECK( typeid( avltree<std::string,double, std::greater<int>, std::allocator<int>>::reference ).name() == typeid( std::allocator<int>::reference ).name() );
 }
 
 
