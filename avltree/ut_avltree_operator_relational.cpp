@@ -21,13 +21,13 @@ BOOST_AUTO_TEST_CASE( ut_inequality ) {
 
 	avltree<int,int> m1, m2, m3;
 	int i;
-	typedef std::pair < int, int > Int_Pair;
+
 
 	for ( i = 0 ; i < 3 ; i++ )
 	{
-		m1.insert ( Int_Pair ( i, i ) );
-		m2.insert ( Int_Pair ( i, i * i ) );
-		m3.insert ( Int_Pair ( i, i ) );
+		m1.insert ( intPair ( i, i ) );
+		m2.insert ( intPair ( i, i * i ) );
+		m3.insert ( intPair ( i, i ) );
 	}
 
    BOOST_CHECK( m1 != m2 );    
@@ -41,13 +41,12 @@ BOOST_AUTO_TEST_CASE( ut_equality ) {
 
 	avltree<int,int> m1, m2, m3;
 	int i;
-	typedef std::pair < int, int > Int_Pair;
 
 	for ( i = 0 ; i < 3 ; i++ )
 	{
-		m1.insert ( Int_Pair ( i, i ) );
-		m2.insert ( Int_Pair ( i, i * i ) );
-		m3.insert ( Int_Pair ( i, i ) );
+		m1.insert ( intPair ( i, i ) );
+		m2.insert ( intPair ( i, i * i ) );
+		m3.insert ( intPair ( i, i ) );
 	}
 
    BOOST_CHECK( !(m1 == m2) );    
@@ -62,13 +61,13 @@ BOOST_AUTO_TEST_CASE( ut_less ) {
 
 	avltree<int,int> m1, m2, m3;
 	int i;
-	typedef std::pair < int, int > Int_Pair;
+
 
 	for ( i = 0 ; i < 3 ; i++ )
 	{
-		m1.insert ( Int_Pair ( i, i ) );
-		m2.insert ( Int_Pair ( i, i * i ) );
-		m3.insert ( Int_Pair ( i, i-1 ) );
+		m1.insert ( intPair ( i, i ) );
+		m2.insert ( intPair ( i, i * i ) );
+		m3.insert ( intPair ( i, i-1 ) );
 	}
 
    BOOST_CHECK( m1 < m2 );    
@@ -80,14 +79,14 @@ BOOST_AUTO_TEST_CASE( ut_less_equal ) {
 	//std::cout << "NOT IMPLEMENTED: operator <=\n";
    avltree<int,int> m1, m2, m3, m4;
    int i;
-   typedef std::pair <int, int> Int_Pair;
+   typedef std::pair <int, int> intPair;
 
    for ( i = 1 ; i < 3 ; i++ )
    {
-      m1.insert ( Int_Pair ( i, i ) );
-      m2.insert ( Int_Pair ( i, i * i ) );
-      m3.insert ( Int_Pair ( i, i - 1 ) );
-      m4.insert ( Int_Pair ( i, i ) );
+      m1.insert ( intPair ( i, i ) );
+      m2.insert ( intPair ( i, i * i ) );
+      m3.insert ( intPair ( i, i - 1 ) );
+      m4.insert ( intPair ( i, i ) );
    }
 
    BOOST_CHECK ( m1 <= m2 );
@@ -103,13 +102,13 @@ BOOST_AUTO_TEST_CASE( ut_greater ) {
 	//std::cout << "NOT IMPLEMENTED: operator >\n";
 	avltree<int,int>  m1, m2, m3;
 	int i;
-	typedef std::pair < int, int > Int_Pair;
+
 
 	for ( i = 0 ; i < 3 ; i++ )
 	{
-		m1.insert ( Int_Pair ( i, i ) );
-		m2.insert ( Int_Pair ( i, i * i ) );
-		m3.insert ( Int_Pair ( i, i - 1 ) );
+		m1.insert ( intPair ( i, i ) );
+		m2.insert ( intPair ( i, i * i ) );
+		m3.insert ( intPair ( i, i - 1 ) );
 	}
 
    BOOST_CHECK ( !(m1 > m2) );      
@@ -121,14 +120,14 @@ BOOST_AUTO_TEST_CASE( ut_greater_equal ) {
 	//std::cout << "NOT IMPLEMENTED: operator >=\n";
 	avltree<int,int> m1, m2, m3, m4;
 	int i;
-	typedef std::pair < int, int > Int_Pair;
+
 
 	for ( i = 1 ; i < 3 ; i++ )
 	{
-		m1.insert ( Int_Pair ( i, i ) );
-		m2.insert ( Int_Pair ( i, i * i ) );
-		m3.insert ( Int_Pair ( i, i - 1 ) );
-		m4.insert ( Int_Pair ( i, i ) );
+		m1.insert ( intPair ( i, i ) );
+		m2.insert ( intPair ( i, i * i ) );
+		m3.insert ( intPair ( i, i - 1 ) );
+		m4.insert ( intPair ( i, i ) );
 	}
 
    BOOST_CHECK ( !(m1 >= m2) );

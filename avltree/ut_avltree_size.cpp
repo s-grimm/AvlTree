@@ -11,17 +11,17 @@
 #include <boost/test/auto_unit_test.hpp>
 #include <iostream>
 #include "avl_tree.hpp"
-
+using namespace avl;
 /**	size_type max_size() const */
 BOOST_AUTO_TEST_CASE( ut_max_size ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::max_size() const\n";
 	try {
-		using namespace avl;
-		avltree<char,int> myTree;
-		BOOST_CHECK( myTree.max_size() > 10000 );
-		BOOST_CHECK( myTree.max_size() > 100000 );
-		BOOST_CHECK( myTree.max_size() > 1000000 );
-		BOOST_CHECK( myTree.max_size() > 10000000 );
+		
+		avltree<char,int> tree;
+		BOOST_CHECK( tree.max_size() > 10000 );
+		BOOST_CHECK( tree.max_size() > 100000 );
+		BOOST_CHECK( tree.max_size() > 1000000 );
+		BOOST_CHECK( tree.max_size() > 10000000 );
 	}
 	catch(...) {
 		BOOST_FAIL("FAILED: avltree<T>::max_size() const\n");
@@ -32,7 +32,6 @@ BOOST_AUTO_TEST_CASE( ut_max_size ) {
 BOOST_AUTO_TEST_CASE( ut_size ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::size() const\n";
 	try {
-		using namespace avl;
 		avltree<int,int> tree = avltree<int,int>();
 		tree.insert(std::pair<int,int>(1,10));
 		

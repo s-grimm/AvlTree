@@ -1,11 +1,24 @@
+// ***********************************************************************
+// Assembly         : avltree
+// Author           : Shane Grimminck
+// Created          : 02-21-2013
+//
+// Last Modified By : Shane Grimminck
+// Last Modified On : 03-01-2013
+// ***********************************************************************
+// <summary>The utilites for avl tree implementation</summary>
+// ***********************************************************************
+
 #if !defined (GUARD_GRIMMINCKavl_utilities_20130202_)
 #define GUARD_GRIMMINCKavl_utilities_20130202_
 
 namespace avl{
+	/// <summary>
+	/// Class avl_utilities
+	/// </summary>
 	template <class tree>
 	class avl_utilities{
 		typedef typename tree::key_type			key_type;
-		typedef typename tree::mapped_type		Type;
 		typedef typename tree::key_compare		compare;
 		typedef typename tree::value_type		value_type;
 
@@ -14,25 +27,39 @@ namespace avl{
 		typedef typename tree::const_node_ptr	const_node_ptr;
 
 	public:
+
+		/// <summary>
+		/// Initialize the specified header.
+		/// </summary>
+		/// <param name="header">The header.</param>
 		static void init_header( node_ptr& header ) {
 			header = new node();
 		}
 
-		static bool is_header( const const_node_ptr & p ) {
-			node_ptr p_left (node::get_left(p));
-			node_ptr p_right (node::get_right(p));
-			if(!node::get_parent(p) || //Header condition when empty tree
-				(p_left && p_right &&         //Header always has leftmost and rightmost
-				(p_left == p_right ||      //Header condition when only node
-				(node::get_parent(p_left)  != p ||
-				node::get_parent(p_right) != p ))
-				//When tree size > 1 headers can't be leftmost's
-				//and rightmost's parent
-				)) {
+		/// <summary>
+		/// Checks to see if node is header
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns>bool.</returns>
+		static bool is_header( const const_node_ptr & node ) {
+			node_ptr node_left (node::get_left(node));
+			node_ptr node_right (node::get_right(node));
+			if(!node::get_parent(node) ||			//Header will have no parent if it is the only node in the tree (tree is empty)
+				( node_left && node_right &&         //Header always has left and right nodes
+				( node_left == node_right ||			//Left and Right will be the same if the tree only has one node
+				( node::get_parent( node_left )  != node ||
+				node::get_parent( node_right ) != node ) ) ) ) { //When the tree is larger than 1 node, header can not be the left and right nodes parent
 					return true;
 			}
 			return false;
 		}
+		/// <summary>
+		/// Return the node with the specified key or header if no node has the key
+		/// Uses header as the starting point for the search
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="header">The header.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr get_node( const key_type& key, node_ptr& header) {
 			if( node::get_parent( header ) ) {
 				node_ptr currentNode = node::get_parent( header );
@@ -61,37 +88,48 @@ namespace avl{
 			return header; //represents end node
 		}
 
+		/// <summary>
+		/// Gets the header from the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr get_header(const node_ptr & node) {
-			node_ptr h = node;
-			if(node::get_parent(node)) {
-				h = node::get_parent(node);
-				while(!is_header(h)) {
-					h = node::get_parent(h);
+			node_ptr header = node;
+			if(node::get_parent(node)) {			//if we dont have a parent, we are the header in an empty tree.
+				header = node::get_parent(node);	//header is always the last parent node
+				while(!is_header(header)) {			//get the next parent if the node isn't the header
+					header = node::get_parent(header);
 				}
 			}
-			return h;
+			return header;
 		}
 
-		static node_ptr get_root( const node_ptr& node ) {
-			return ( node::get_parent( node::get_header ( node ) ) );
-		}
-
+		/// <summary>
+		/// Gets the next node from the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr next_node( const node_ptr & node ) {
-			node_ptr p_right( node::get_right( node ) );
-			if( p_right ) {
-				return minimum( p_right );
+			node_ptr node_right( node::get_right( node ) );
+			if( node_right ) {
+				return minimum( node_right );
 			}
 			else {
-				node_ptr p(node);
-				node_ptr x = node::get_parent(p);
-				while( p == node::get_right(x) ) {
-					p = x;
-					x = node::get_parent(x);
+				node_ptr old_node(node);
+				node_ptr parent_node = node::get_parent(old_node);
+				while( old_node == node::get_right(parent_node) ) { //while we are on the right branch, get the parent node
+					old_node = parent_node;
+					parent_node = node::get_parent(parent_node);
 				}
-				return node::get_right(p) != x ? x : p;
+				return node::get_right(old_node) != parent_node ? parent_node : old_node;
 			}
 		}
 
+		/// <summary>
+		/// gets the previous node from the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr prev_node( const node_ptr & node ) {
 			if( is_header( node ) ) {
 				return node::get_right(node);
@@ -100,25 +138,33 @@ namespace avl{
 				return maximum( node::get_left( node ) );
 			}
 			else {
-				node_ptr p(node);
-				node_ptr x = node::get_parent(p);
-				while(p == node::get_left(x)){
-					p = x;
-					x = node::get_parent(x);
+				node_ptr old_node(node);
+				node_ptr parent_node = node::get_parent(old_node);
+				while(old_node == node::get_left(parent_node)){
+					old_node = parent_node;
+					parent_node = node::get_parent(parent_node);
 				}
-				return x;
+				return parent_node;
 			}
 		}
 
+		/// <summary>
+		/// Gets the lowest node from the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr minimum ( node_ptr node ) {
-			for(node_ptr p_left = node::get_left(node)
-				;p_left
-				;p_left = node::get_left(node)) {
-					node = p_left;
+			for( node_ptr node_left = node::get_left( node ); node_left; node_left = node::get_left( node ) ) { //while we have a left node, go left
+				node = node_left;
 			}
 			return node;
 		}
 
+		/// <summary>
+		/// Gets the highest node from the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr maximum( node_ptr node ) {
 			for(node_ptr p_right = node::get_right(node)
 				;p_right
@@ -128,7 +174,12 @@ namespace avl{
 			return node;
 		}
 
-		// finds and returns a node matching a given key value if it exists in the tree
+		/// <summary>
+		/// Finds the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <param name="key">The key.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr find_node( node_ptr node, const key_type& key ) {
 			while ( node ) {
 				if ( key == node->_value.first ) {
@@ -154,6 +205,11 @@ namespace avl{
 			return NULL;
 		}
 
+		/// <summary>
+		/// Insert_balances the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <param name="balance">The balance.</param>
 		static void insert_balance( node_ptr node, int balance ) {
 			while ( node && !is_header( node ) ) {
 				node::set_balance( node, ( node::get_balance( node ) + balance ) );
@@ -185,6 +241,11 @@ namespace avl{
 			}
 		}
 
+		/// <summary>
+		/// Delete_balances the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <param name="balance">The balance.</param>
 		static void delete_balance( node_ptr node, int balance ) {
 			while ( node && !is_header( node ) ) {
 				node::set_balance( node, ( node::get_balance( node ) + balance ) );
@@ -220,6 +281,11 @@ namespace avl{
 			}
 		}
 
+		/// <summary>
+		/// Rotate_lefts the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr rotate_left( node_ptr node ) {
 			node_ptr right ( node::get_right( node ) );
 			node_ptr rightLeft ( node::get_left( right ) );
@@ -248,6 +314,11 @@ namespace avl{
 			return right;
 		}
 
+		/// <summary>
+		/// Rotate_rights the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr rotate_right( node_ptr node ) {
 			node_ptr left = node::get_left( node );
 			node_ptr leftRight = node::get_right( left );
@@ -276,6 +347,11 @@ namespace avl{
 			return left;
 		}
 
+		/// <summary>
+		/// Rotate_left_rights the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr rotate_left_right( node_ptr node ) {
 			node_ptr left = node::get_left( node );
 			node_ptr leftRight = node::get_right( left );
@@ -323,6 +399,11 @@ namespace avl{
 			return leftRight;
 		}
 
+		/// <summary>
+		/// Rotate_right_lefts the specified node.
+		/// </summary>
+		/// <param name="node">The node.</param>
+		/// <returns>node_ptr.</returns>
 		static node_ptr rotate_right_left( node_ptr node ) {
 			node_ptr right = node::get_right( node );
 			node_ptr rightLeft = node::get_left( right );
@@ -370,44 +451,44 @@ namespace avl{
 			return rightLeft;
 		}
 
-		static void succeed( node_ptr& predecessor, node_ptr& successor ) {
+		/// <summary>
+		/// Replaces the old node with the new node
+		/// </summary>
+		/// <param name="old_node">The old node.</param>
+		/// <param name="new_node">The new node.</param>
+		static void succeed( node_ptr& old_node, node_ptr& new_node ) {
 			//old					//new
-			node_ptr left = node::get_left( successor );
-			node_ptr right = node::get_right( successor );
-			node_ptr parent = node::get_parent( predecessor ); // if the node is the header we have to check to see if we are replacing the left or right node and update it
-
+			node_ptr left = node::get_left( new_node );
+			node_ptr right = node::get_right( new_node );
+			node_ptr parent = node::get_parent( old_node );
 			node_ptr header = get_header( parent );
-
 			bool isHeader = is_header( parent );
-			bool isFirstNode = node::get_left( header ) == predecessor;
-			bool isLastNode = node::get_right( header ) == predecessor;
-			delete( predecessor );
-			predecessor = successor;
-			node::set_parent( predecessor, parent );
+			bool isFirstNode = node::get_left( header ) == old_node;
+			bool isLastNode = node::get_right( header ) == old_node;
+			delete( old_node );
+			old_node = new_node;
+			node::set_parent( old_node, parent );
 			if ( isHeader ) {
-				node::set_parent( parent, predecessor );
+				node::set_parent( parent, old_node );
 			}
 			if( isFirstNode ){
-				node::set_left( parent, predecessor );
+				node::set_left( parent, old_node );
 			}
 			if( isLastNode ){
-				node::set_right( parent, predecessor );
+				node::set_right( parent, old_node );
 			}
-			/*node::set_value( successor, predecessor );
-			node::set_left( predecessor, left );
-			node::set_right( predecessor, right );*/
-
 			if ( left ) {
-				node::set_parent( left, predecessor );
+				node::set_parent( left, old_node );
 			}
-
 			if ( right ) {
-				node::set_parent( right, predecessor );
+				node::set_parent( right, old_node );
 			}
 		}
 
-		//Clears node and all children of node recursively
-		//param node - node from which to start
+		/// <summary>
+		/// Clears node and all children of node recursively
+		/// </summary>
+		/// <param name="node">The node.</param>
 		static void clear_tree ( node_ptr node ) {
 			if( node != NULL ){
 				node_ptr p_left (node::get_left(node));

@@ -11,45 +11,41 @@
 #include <boost/test/auto_unit_test.hpp>
 #include "avl_tree.hpp"
 #include <iostream>
-
+using namespace avl;
 /**	pair <iterator, iterator> equal_range ( Key const& ) */
 BOOST_AUTO_TEST_CASE( ut_equal_range )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::equal_range()\n";
 	try {
-		using namespace avl;
-		avltree<char,int> myTree;
-		myTree.insert(std::pair<char,int>('a',1));
-		myTree.insert(std::pair<char,int>('b',2));
-		myTree.insert(std::pair<char,int>('c',3));
-		BOOST_CHECK_EQUAL( myTree.equal_range('a').first->second, myTree.lower_bound('a')->second );
-		BOOST_CHECK_EQUAL( myTree.equal_range('a').second->second, myTree.upper_bound('a')->second );
+		avltree<char,int> tree;
+		tree.insert(std::pair<char,int>('a',1));
+		tree.insert(std::pair<char,int>('b',2));
+		tree.insert(std::pair<char,int>('c',3));
+		BOOST_CHECK_EQUAL( tree.equal_range('a').first->second, tree.lower_bound('a')->second );
+		BOOST_CHECK_EQUAL( tree.equal_range('a').second->second, tree.upper_bound('a')->second );
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::equal_range()\n" );
 	}
 }
 
-
 /**	pair <const_iterator, const_iterator> equal_range ( Key const& ) const */
 BOOST_AUTO_TEST_CASE( ut_equal_range_const )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::equal_range() const\n";
 	try {
-		using namespace avl;
-		avltree<char,int> myTree;
-		myTree.insert(std::pair<char,int>('a',1));
-		myTree.insert(std::pair<char,int>('b',2));
-		myTree.insert(std::pair<char,int>('c',3));
-		const avltree<char,int> myTree2(myTree);
-		BOOST_CHECK_EQUAL( myTree2.equal_range('a').first->second, myTree2.lower_bound('a')->second );
-		BOOST_CHECK_EQUAL( myTree2.equal_range('a').second->second, myTree2.upper_bound('a')->second );
+		avltree<char,int> tree;
+		tree.insert(std::pair<char,int>('a',1));
+		tree.insert(std::pair<char,int>('b',2));
+		tree.insert(std::pair<char,int>('c',3));
+		const avltree<char,int> tree2(tree);
+		BOOST_CHECK_EQUAL( tree2.equal_range('a').first->second, tree2.lower_bound('a')->second );
+		BOOST_CHECK_EQUAL( tree2.equal_range('a').second->second, tree2.upper_bound('a')->second );
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::equal_range() const\n" );
 	}
 }
-
 
 /*=============================================================
 

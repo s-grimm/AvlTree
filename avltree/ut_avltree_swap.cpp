@@ -1,36 +1,35 @@
 /**	@file: ut_avltree_swap.cpp
-	@author Garth Santor
-	@author gsantor@fanshaweonline.ca
-	@author http://www.gats.ca/
-	@date 2013-01-16
-	@version 0.0.0
-	@note Developed for C++ 11
-	@brief avltree<T>::swap() unit tests.
-	*/
+@author Garth Santor
+@author gsantor@fanshaweonline.ca
+@author http://www.gats.ca/
+@date 2013-01-16
+@version 0.0.0
+@note Developed for C++ 11
+@brief avltree<T>::swap() unit tests.
+*/
 
 #include <boost/test/auto_unit_test.hpp>
 #include "avl_tree.hpp"
 #include <iostream>
-
+using namespace avl;
 /** void swap( avltree<Key, Type, Traits, Allocator>& ) */
 BOOST_AUTO_TEST_CASE( ut_swap_method )
 {
 	//std::cout << "NOT IMPLEMENTED: avltree<T>::swap( avltree<T>& )\n";
 	try {
-		using namespace avl;
 		avltree<int,int> tree;
 		tree.insert(std::pair<int,int>(1,10));
 
 		avltree<int,int> tree2;
 		tree2.insert(std::pair<int,int>(5,7));
-		
+
 		tree.swap(tree2);
-		
+
 		BOOST_CHECK(tree[5] == 7);
 		BOOST_CHECK(tree2[1] == 10);
-		
+
 		tree.swap(tree2);
-		
+
 		BOOST_CHECK(tree[1] == 10);
 		BOOST_CHECK(tree2[5] == 7);
 	}
@@ -64,9 +63,6 @@ BOOST_AUTO_TEST_CASE( ut_swap_function ) {
 		BOOST_FAIL("FAILED: swap( avltree<T>&, avltree<T>& )\n");
 	}
 }
-
-
-
 
 /*=============================================================
 

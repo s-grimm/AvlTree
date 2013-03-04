@@ -1,44 +1,39 @@
 /**	@file: ut_avltree_operator_assignment.cpp
-	@author Garth Santor
-	@author gsantor@fanshaweonline.ca
-	@author http://www.gats.ca/
-	@date 2013-01-16
-	@version 0.0.0
-	@note Developed for C++ 11
-	@brief avltree<T> assignment operator unit tests.
-	*/
+@author Garth Santor
+@author gsantor@fanshaweonline.ca
+@author http://www.gats.ca/
+@date 2013-01-16
+@version 0.0.0
+@note Developed for C++ 11
+@brief avltree<T> assignment operator unit tests.
+*/
 
 #include <boost/test/auto_unit_test.hpp>
+#include <iostream>
 #include "avl_tree.hpp"
 using namespace avl;
-#include <iostream>
-
-
 
 /**	avltree& operator=( avltree const& ) */
 BOOST_AUTO_TEST_CASE( ut_operator_assign_copy )
 {
 	// std::cout << "NOT IMPLEMENTED: operator =(&)\n";
-	avltree<char,int> myTree;
-	myTree.insert( std::pair<char,int>('a',1) );
-	avltree<char,int> myTree2 = myTree;
-	BOOST_CHECK_EQUAL( myTree2.find('a')->second, 1 );
-	BOOST_CHECK_EQUAL( myTree.find('a')->second, 1 );
+	avltree<char,int> tree;
+	tree.insert( std::pair<char,int>('a',1) );
+	avltree<char,int> tree2 = tree;
+	BOOST_CHECK_EQUAL( tree2.find('a')->second, 1 );
+	BOOST_CHECK_EQUAL( tree.find('a')->second, 1 );
 }
-
-
 
 /**	avltree& operator=( avltree && ) */
 BOOST_AUTO_TEST_CASE( ut_operator_assign_move )
 {
 	// std::cout << "NOT IMPLEMENTED: operator =(&&)\n";
-	avltree<char,int> myTree;
-	myTree.insert( std::pair<char,int>('a',1) );
-	avltree<char,int> myTree2 = std::move(myTree);
-	BOOST_CHECK_EQUAL( myTree2.find('a')->second, 1 );
-	BOOST_CHECK_NO_THROW( myTree.find('a') );
+	avltree<char,int> tree;
+	tree.insert( std::pair<char,int>('a',1) );
+	avltree<char,int> tree2 = std::move(tree);
+	BOOST_CHECK_EQUAL( tree2.find('a')->second, 1 );
+	BOOST_CHECK_NO_THROW( tree.find('a') );
 }
-
 
 /*=============================================================
 

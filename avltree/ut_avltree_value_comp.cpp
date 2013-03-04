@@ -16,8 +16,7 @@ using namespace avl;
 /**	value_compare value_comp() const */
 BOOST_AUTO_TEST_CASE( ut_value_comp ) {
 	//std::cout << "NOT IMPLEMENTED: avltree<T>::value_comp() const\n";
-	try
-	{
+	try	{
 		avltree<int,int> tree;
 		avltree<int,int>::value_compare vc = tree.value_comp();
 
@@ -28,9 +27,7 @@ BOOST_AUTO_TEST_CASE( ut_value_comp ) {
 
 		BOOST_CHECK( vc( *hr1.first, *hr2.first ) );
 
-	}
-	catch(...)
-	{
+	} catch(...) {
 		BOOST_FAIL("FAILED: avltree<T>::value_comp() const\n");
 	}
 }

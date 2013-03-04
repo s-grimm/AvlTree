@@ -1,15 +1,15 @@
 /**	@file: ut_avltree_emplace.cpp
-	@author Garth Santor
-	@author gsantor@fanshaweonline.ca
-	@author http://www.gats.ca/
-	@date 2013-01-16
-	@version 0.0.0
-	@note Developed for C++ 11
-	@brief avltree<T>::emplace() unit tests.
-	*/
+@author Garth Santor
+@author gsantor@fanshaweonline.ca
+@author http://www.gats.ca/
+@date 2013-01-16
+@version 0.0.0
+@note Developed for C++ 11
+@brief avltree<T>::emplace() unit tests.
+*/
 
 #include <boost/test/auto_unit_test.hpp>
-#include "avl_tree.hpp" 
+#include "avl_tree.hpp"
 #include <iostream>
 using namespace avl;
 
@@ -17,34 +17,31 @@ using namespace avl;
 BOOST_AUTO_TEST_CASE( ut_emplace )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::emplace(&&)\n";
-
 	try {
-		avltree<char,int> myTree;
+		avltree<char,int> tree;
 		std::pair<char,int> pair('a',1);
-		myTree.emplace(move(pair));
-		BOOST_CHECK_EQUAL( myTree['a'], 1 );
+		tree.emplace(move(pair));
+		BOOST_CHECK_EQUAL( tree['a'], 1 );
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::emplace(&&)\n" );
 	}
 }
 
-
 /**	template <class ValTy> pair<iterator,bool> emplace_hint( const_iterator, ValTy&& ) */
 BOOST_AUTO_TEST_CASE( ut_emplace_hint )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::emplace(iterator,&&)\n";
 	try {
-		avltree<char,int> myTree;
+		avltree<char,int> tree;
 		std::pair<char,int> pair('a',1);
-		myTree.emplace_hint(myTree.begin(), std::move(pair));
-		BOOST_CHECK_EQUAL( myTree['a'], 1 );
+		tree.emplace_hint(tree.begin(), std::move(pair));
+		BOOST_CHECK_EQUAL( tree['a'], 1 );
 	}
 	catch( ... ) {
 		BOOST_FAIL( "FAILED: avltree<T>::emplace(iterator,&&)\n" );
 	}
 }
-
 
 /*=============================================================
 

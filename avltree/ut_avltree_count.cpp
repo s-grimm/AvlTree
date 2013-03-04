@@ -17,12 +17,12 @@ BOOST_AUTO_TEST_CASE( ut_count )
 {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::count()\n";
 	try {
-		avltree<char,int> myTree;
-		myTree.insert(std::pair<char,int>('a',100));
+		avltree<char,int> tree;
+		tree.insert(std::pair<char,int>('a',100));
 		
-		int i = myTree.count('a');
+		int i = tree.count('a');
 		BOOST_CHECK_EQUAL( i, 1 );
-		i = myTree.count('b');
+		i = tree.count('b');
 		BOOST_CHECK_EQUAL( i, 0 );
 	}
 	catch( ... ) {

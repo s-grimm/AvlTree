@@ -13,21 +13,18 @@
 #include <iostream>
 using namespace avl;
 
-
-
 /**	key_compare key_comp() const */
 BOOST_AUTO_TEST_CASE( ut_key_comp ) {
 	// std::cout << "NOT IMPLEMENTED: avltree<T>::key_comp() const\n";
 	try {
-		avltree<int,int,std::less<int>> myTree;
-		avltree<int,int,std::less<int>>::key_compare keyComp = myTree.key_comp();
+		avltree<int,int,std::less<int>> tree;
+		avltree<int,int,std::less<int>>::key_compare keyComp = tree.key_comp();
 		BOOST_CHECK( keyComp(2,3) == true );
 	}
 	catch(...) {
 		BOOST_FAIL( "FAILED: avltree<T>::key_comp() const\n" );
 	}
 }
-
 
 /*=============================================================
 
